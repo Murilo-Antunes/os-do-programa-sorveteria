@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./src/css/style.css">
-    <script type="module" src="./src/js/main.js" defer></script>
     <title>Sorvetudos</title>
     <link rel="shortcut icon" href="src/img/sorvetudos-logo2 1.ico" type="image/x-icon">
     <script src="https://kit.fontawesome.com/4acd459722.js" crossorigin="anonymous"></script>
+
+    <!-- IMPORT FONTE -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <!-- IMPORT CSS -->
+    <link rel="stylesheet" href="./src/css/variables.css">
+    <link rel="stylesheet" href="./src/css/reset.css">
+    <link rel="stylesheet" href="./src/css/aside.css">
+    <link rel="stylesheet" href="./src/css/home.css">
+
+    <!-- IMPORT JAVASCRIPT -->
+    <script type="module" src="./src/js/main.js" defer></script>
 
 </head>
 <body>
@@ -16,23 +28,23 @@
             <div class="sorvetudos-header-container">
                 <figure class="identificador">
                     <img src="src/img/sorvetudos-logo-site.png" alt="logo-sorvetudos" class="logo">
-                    <figcaption class="logo-paragrafo">Sorvetudos</figcaption>
+                    <figcaption class="logo-paragrafo">Sorvetudos.</figcaption>
                 </figure>
             </div>
         </header>
 
         <div class="search-header-container">
-            <input id="search-header" class="search-header" type="search">
+            <input id="search-header" class="search-header" type="search" placeholder="Buscar sabor…">
         </div>
 
         <nav>
             <h2>navegar</h2>
             <ul>
-                <li><figure><img class="home-icon"  src="src/img/aside_icons/home.png" alt="home-icon"> <figcaption>Home</figcaption></figure></li>
-                <li><figure><img class="destaque-icon"  src="src/img/aside_icons/destaques.png" alt="destaque-icon"> <figcaption>Destaque</figcaption></figure></li>
-                <li><figure><img class="sabores-icon"  src="src/img/aside_icons/sabores.png" alt="sabores-icon"> <figcaption>Sabores</figcaption></figure></li>
-                <li><figure><img class="milkshakes-icon"  src="src/img/aside_icons/milkshakes.png" alt="milkshakes-icon"> <figcaption>Milkshakes</figcaption></figure></li>
-                <li><figure><img class="contato-icon"  src="src/img/aside_icons/contato.svg" alt="contato-icon"> <figcaption>Contato</figcaption></figure></li>
+                <li><figure id="home-figure"><img class="home-icon"  src="src/img/aside_icons/home.png" alt="home-icon"> <figcaption>Home</figcaption></figure></li>
+                <li><figure id="destaque-figure"><img class="destaque-icon"  src="src/img/aside_icons/destaques.png" alt="destaque-icon"> <figcaption>Destaque</figcaption></figure></li>
+                <li><figure id="sabores-figure"><img class="sabores-icon"  src="src/img/aside_icons/sabores.png" alt="sabores-icon"> <figcaption>Sabores</figcaption></figure></li>
+                <li><figure id="milkshakes-figure"><img class="milkshakes-icon"  src="src/img/aside_icons/milkshakes.png" alt="milkshakes-icon"> <figcaption>Milkshakes</figcaption></figure></li>
+                <li><figure id="contato-figure"><img class="contato-icon"  src="src/img/aside_icons/contato.svg" alt="contato-icon"> <figcaption>Contato</figcaption></figure></li>
             </ul>
         </nav>
         <hr>
@@ -177,7 +189,7 @@
                 <div class="lista-sabores">
             
                     <article class="sabor-card">
-                        <img src="src/img/chocolate-supremo.png" alt="">
+                        <img src="https://png.pngtree.com/thumb_back/fh260/background/20250615/pngtree-creamy-chocolate-soft-serve-ice-cream-cone-on-solid-background-image_17430598.jpg" alt="">
                         <div class="info">
                             <span class="categoria">Cremosos</span>
                             <h3>Chocolate Supremo</h3>
@@ -187,7 +199,7 @@
                     </article>
             
                     <article class="sabor-card">
-                        <img src="src/img/morango-nevado.png" alt="">
+                        <img src="https://png.pngtree.com/thumb_back/fh260/background/20250615/pngtree-creamy-chocolate-soft-serve-ice-cream-cone-on-solid-background-image_17430598.jpg" alt="">
                         <div class="info">
                             <span class="categoria">Frutas</span>
                             <h3>Morango Nevado</h3>
@@ -197,7 +209,7 @@
                     </article>
             
                     <article class="sabor-card">
-                        <img src="src/img/pistache-premium.png" alt="">
+                        <img src="https://png.pngtree.com/thumb_back/fh260/background/20250615/pngtree-creamy-chocolate-soft-serve-ice-cream-cone-on-solid-background-image_17430598.jpg" alt="">
                         <div class="info">
                             <span class="categoria">Nuts</span>
                             <h3>Pistache Premium</h3>
@@ -207,7 +219,7 @@
                     </article>
             
                     <article class="sabor-card">
-                        <img src="src/img/baunilha-cream.png" alt="">
+                        <img src="https://png.pngtree.com/thumb_back/fh260/background/20250615/pngtree-creamy-chocolate-soft-serve-ice-cream-cone-on-solid-background-image_17430598.jpg" alt="">
                         <div class="info">
                             <span class="categoria">Clássicos</span>
                             <h3>Baunilha Cream</h3>
@@ -217,7 +229,7 @@
                     </article>
             
                     <article class="sabor-card">
-                        <img src="src/img/cookies-cream.png" alt="">
+                        <img src="https://png.pngtree.com/thumb_back/fh260/background/20250615/pngtree-creamy-chocolate-soft-serve-ice-cream-cone-on-solid-background-image_17430598.jpg" alt="">
                         <div class="info">
                             <span class="categoria">Cremosos</span>
                             <h3>Cookies & Cream</h3>
@@ -227,7 +239,7 @@
                     </article>
             
                     <article class="sabor-card">
-                        <img src="src/img/milkshake-ovomaltine.png" alt="">
+                        <img src="https://png.pngtree.com/thumb_back/fh260/background/20250615/pngtree-creamy-chocolate-soft-serve-ice-cream-cone-on-solid-background-image_17430598.jpg" alt="">
                         <div class="info">
                             <span class="categoria">Milkshakes</span>
                             <h3>Milkshake de Ovomaltine</h3>
