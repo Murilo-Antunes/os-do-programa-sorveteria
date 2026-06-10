@@ -60,29 +60,24 @@ const selectAllProduto = async function() {
     }
  }
 
- const selectByProdutoNome = async function(nomeProduto) {
-    try {
-        let sql = `select * from tbl_produto where nome= ${nomeProduto}`
-        
-        let result = await knexConex.raw(sql)
-
-        if(Array.isArray(result)){
-            return result[0]
-        }else{
-            return false
-        }
-
-
-    } catch (error) {
-        return false
-    }
- }
 
 
  const selectbyFiltro = async function(filtro) {
     try {
-        let sql = `call filtro(${filtro.idProduto},${filtro.idCategoria},${filtro.idSabor},${filtro.idPromocao},${filtro.idTamanho},${filtro.idLote},${filtro.idIngrediente}, ${filtro.idTag}) `
-        
+
+        let sql = `
+            call filtro(
+                ${filtro.idProduto ?? 'null'},
+                ${filtro.idCategoria ?? 'null'},
+                ${filtro.idSabor ?? 'null'},
+                ${filtro.idPromocao ?? 'null'},
+                ${filtro.idTamanho ?? 'null'},
+                ${filtro.idLote ?? 'null'},
+                ${filtro.idIngrediente ?? 'null'},
+                ${filtro.idTag ?? 'null'}
+            )
+        `
+
         let result = await knexConex.raw(sql)
 
         if(Array.isArray(result)){
@@ -91,12 +86,11 @@ const selectAllProduto = async function() {
             return false
         }
 
-
     } catch (error) {
+        console.log(error)
         return false
     }
- }
-
+}
 
 //call filtro(3,3,3,3,3,3,3,3);
 
@@ -105,6 +99,5 @@ const selectAllProduto = async function() {
 
     selectAllProduto,
     selectByIdProduto,
-    selectByProdutoNome,
     selectbyFiltro
  }

@@ -78,44 +78,82 @@ const buscarProduto = async function(id){
     }
 }
 
-// Buscar produto por Nome 
-const buscarProdutoNome = async function(nomeProduto){
+
+// const buscarProdutoNome = async function(nomeProduto){
     
     
+//     let message = JSON.parse(JSON.stringify(config_message))
+    
+//     try {
+//         //Validaçção para garantir que o ID seja válido
+//         if(nomeProduto == undefined || nomeProduto == '' ||  typeof nomeProduto == 'string' ){
+//             message.ERROR_BAD_REQUEST.field = '[ID] INVÁLIDO'
+//             return message.ERROR_BAD_REQUEST //400
+//         }else{
+//             let result = await produtoDAO.selectByProdutoNome(nomeProduto)
+
+//             if(result){
+//                 if(typeof result == 'string'){
+//                     message.DEFAULT_MESSAGE.status = message.SUCCESS_RESPONSE.status
+//                     message.DEFAULT_MESSAGE.status_code = message.SUCCESS_RESPONSE.status_code
+//                     message.DEFAULT_MESSAGE.response.produto = result
+
+//                     return message.DEFAULT_MESSAGE //200
+//                 }else{
+//                     return message.ERROR_NOT_FOUND //404
+//                 }
+//             }else{
+//                 return message.ERROR_INTERNAL_SERVER_MODEL //500 (Model)
+//             }
+//         }
+//     } catch (error) {
+//         return message.ERROR_INTERNAL_SERVER_CONTROLLER //500
+//     }
+// }
+
+const filtrarProduto = async function(filtro) {
+
     let message = JSON.parse(JSON.stringify(config_message))
-    
+
     try {
-        //Validaçção para garantir que o ID seja válido
-        if(nomeProduto == undefined || nomeProduto == '' ||  typeof nomeProduto == 'string' ){
-            message.ERROR_BAD_REQUEST.field = '[ID] INVÁLIDO'
-            return message.ERROR_BAD_REQUEST //400
-        }else{
-            let result = await produtoDAO.selectByProdutoNome(nomeProduto)
 
-            if(result){
-                if(typeof result == 'string'){
-                    message.DEFAULT_MESSAGE.status = message.SUCCESS_RESPONSE.status
-                    message.DEFAULT_MESSAGE.status_code = message.SUCCESS_RESPONSE.status_code
-                    message.DEFAULT_MESSAGE.response.produto = result
-
-                    return message.DEFAULT_MESSAGE //200
-                }else{
-                    return message.ERROR_NOT_FOUND //404
-                }
-            }else{
-                return message.ERROR_INTERNAL_SERVER_MODEL //500 (Model)
-            }
+        // Validação básica
+        if (!filtro || typeof filtro != 'object') {
+            message.ERROR_BAD_REQUEST.field = '[FILTRO] INVÁLIDO'
+            return message.ERROR_BAD_REQUEST
         }
+
+        let result = await produtoDAO.selectbyFiltro(filtro)
+
+        if(result){
+
+            if(result.length > 0){
+
+                message.DEFAULT_MESSAGE.status = message.SUCCESS_RESPONSE.status
+                message.DEFAULT_MESSAGE.status_code = message.SUCCESS_RESPONSE.status_code
+                message.DEFAULT_MESSAGE.response.count = result.length
+                message.DEFAULT_MESSAGE.response.produto = result
+
+                return message.DEFAULT_MESSAGE
+
+            }else{
+                return message.ERROR_NOT_FOUND
+            }
+
+        }else{
+            return message.ERROR_INTERNAL_SERVER_MODEL
+        }
+
     } catch (error) {
-        return message.ERROR_INTERNAL_SERVER_CONTROLLER //500
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
 
 
 
  module.exports = {
-    buscarProdutoNome,
     listarProduto,
     buscarProduto,
+    filtrarProduto
     
 }
