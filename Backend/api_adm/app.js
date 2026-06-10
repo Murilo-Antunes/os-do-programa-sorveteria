@@ -63,6 +63,7 @@ const saborRouter = require('./routes/sabor.routes.js')
 const tagRouter = require('./routes/tag.routes.js')
 const usuarioRouter = require('./routes/usuario.routes.js')
 const authRouter = require('./routes/auth.routes.js')
+const tamanhoRouter = require('./routes/tamanho.routes.js')
 
 // categoria
 app.use('/v1/sorvetudos/admin/categorias', cors(), verifyJWT, categoriaRouter)
@@ -87,6 +88,9 @@ app.use('/v1/sorvetudos/admin/tags', cors(), verifyJWT, tagRouter)
 
 // usuario
 app.use('/v1/sorvetudos/admin/usuarios', cors(), verifyJWT, usuarioRouter)
+
+// tamanho
+app.use('/v1/sorvetudos/admin/tamanhos', cors(),  verifyJWT, tamanhoRouter)
 
 // auth
 app.use('/v1/sorvetudos/admin/auth', cors(), authRouter)
