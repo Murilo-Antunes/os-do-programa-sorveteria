@@ -24,7 +24,7 @@ aside header div.sorvetudos-header-container figure.identificador{
 
 aside header div.sorvetudos-header-container figure.identificador img{
     width: 2vw;
-    filter: drop-shadow(0px 0px 12px #0d7ed4);
+    filter: drop-shadow(0px 0px 12px #0d7ed4d8);
 }
 
 aside header div.sorvetudos-header-container figure.identificador figcaption{
@@ -33,7 +33,7 @@ aside header div.sorvetudos-header-container figure.identificador figcaption{
     font-family: var(--Fraunces);
     margin-left: 8px;
     color: #011B35;
-    text-shadow: 0px 0px 30px #0d7ed4b0;
+    text-shadow: 0px 0px 30px #0d7ed48e;
 }
 
 aside div.search-header-container{
@@ -44,7 +44,7 @@ aside div.search-header-container{
 
 aside div.search-header-container input.search-header{
     width: 12vw;
-    height: 3.5vh;
+    height: 4.5vh;
     border: 1px solid #C4C4C4;
     border-radius: 80px;
     padding-left: 14px;
