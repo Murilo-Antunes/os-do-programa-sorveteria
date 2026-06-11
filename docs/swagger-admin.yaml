@@ -38,24 +38,6 @@ paths:
         '500':
           description: Error Internal Server (Model or Controller)
 
-  /v1/sorvetudos/admin/auth/validate:
-    get:
-      tags:
-        - auth
-      summary: Valida a sessão do usuário
-      description: Verifica a validade e integridade do token atual
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Auth'
-        '404':
-          description: Not Found
-        '500':
-          description: Error Internal Server (Model or Controller)
-
   /v1/sorvetudos/admin/usuarios:
     post:
       tags:
@@ -193,9 +175,9 @@ paths:
       summary: Adiciona um novo produto
       description: Adiciona um novo produto no banco de dados
       requestBody:
-        description: JSON contendo os dados do novo produto a ser inserido no sistema
+        description: Form-Data contendo os dados do novo produto a ser inserido no sistema
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/Produto'
         required: true
@@ -203,7 +185,7 @@ paths:
         '201':
           description: Successful operation
           content:
-            application/json:
+            multipart/form-data:
               schema:
                 $ref: '#/components/schemas/Produto'
         '400':
@@ -257,10 +239,11 @@ paths:
         '404':
           description: Not Found
     put:
+      post:
       tags:
         - produtos
-      summary: Update an existing produto
-      description: Update an existing produto by Id
+      summary: Atualiza um produto
+      description: Adiciona um novo produto no banco de dados
       parameters:
         - name: id
           in: path
@@ -270,23 +253,23 @@ paths:
             type: integer
             format: int64
       requestBody:
-        description: Update an existent produto in the store
+        description: Form-Data contendo os dados do produto a ser atualizado no sistema
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/Produto'
         required: true
       responses:
-        '200':
+        '201':
           description: Successful operation
           content:
-            application/json:
+            multipart/form-data:
               schema:
                 $ref: '#/components/schemas/Produto'
         '400':
-          description: Invalid ID supplied
-        '404':
-          description: Not Found
+          description: Invalid input
+        '415':
+          description: Error Content type
         '500':
           description: Error Internal Server (Model or Controller)
     delete:
@@ -1097,29 +1080,242 @@ paths:
         '500':
           description: Error Internal Server (Model or Controller)
 
+  /v1/sorvetudos/admin/tamanhos:
+    post:
+      tags:
+        - tamanhos
+      summary: Adiciona um novo tamanho
+      description: Adiciona um novo tamanho no banco de dados
+      requestBody:
+        description: JSON contendo os dados do novo tamanho a ser inserido no sistema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tamanho'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tamanho'
+        '400':
+          description: Invalid input
+        '415':
+          description: Error Content type
+        '500':
+          description: Error Internal Server (Model or Controller)
+    get:
+      tags:
+        - tamanhos
+      summary: Lista todos os tamanhos
+      description: Listagem de todos os tamanhos registrados no sistema
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tamanho'
+        '404':
+          description: Not Found
+        '500':
+          description: Error Internal Server (Model or Controller)
+
+  /v1/sorvetudos/admin/tamanhos/{id}:
+    get:
+      tags:
+        - tamanhos
+      summary: Busca um tamanho pelo ID
+      description: Retorna um tamanho pelo ID
+      parameters:
+        - name: id
+          in: path
+          description: ID do tamanho
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tamanho'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - tamanhos
+      summary: Update an existing tamanho
+      description: Update an existing tamanho by Id
+      parameters:
+        - name: id
+          in: path
+          description: ID do tamanho
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent tamanho in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tamanho'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tamanho'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Not Found
+        '500':
+          description: Error Internal Server (Model or Controller)
+    delete:
+      tags:
+        - tamanhos
+      summary: Delete tamanho
+      description: Excluir um tamanho
+      parameters:
+        - name: id
+          in: path
+          description: ID do tamanho
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tamanho'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Not Found
+        '500':
+          description: Error Internal Server (Model or Controller)
+
+  /v1/sorvetudos/admin/produtos/pesquisa:
+    get:
+      tags:
+        - produtos
+      summary: Pesquisa produtos por nome
+      description: Retorna uma lista de produtos cujo nome corresponde ao termo pesquisado
+      parameters:
+        - name: nome
+          in: query
+          description: Termo de pesquisa para o nome do produto
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Produto'
+        '400':
+          description: Invalid query parameter supplied
+        '404':
+          description: Not Found
+        '500':
+          description: Error Internal Server (Model or Controller)
+
+  /v1/sorvetudos/admin/produtos/filtro:
+    get:
+      tags:
+        - produtos
+      summary: Filtra produtos por múltiplos critérios
+      description: Retorna uma lista de produtos filtrados por categoria, sabor, ingrediente, tag, promoção, tamanho e faixa de preço
+      parameters:
+        - name: categoria
+          in: query
+          description: ID da categoria
+          required: false
+          schema:
+            type: integer
+        - name: sabor
+          in: query
+          description: ID do sabor
+          required: false
+          schema:
+            type: integer
+        - name: ingrediente
+          in: query
+          description: ID do ingrediente
+          required: false
+          schema:
+            type: integer
+        - name: tag
+          in: query
+          description: ID da tag
+          required: false
+          schema:
+            type: integer
+        - name: promocao
+          in: query
+          description: ID da promocao
+          required: false
+          schema:
+            type: integer
+        - name: tamanho
+          in: query
+          description: Tamanho do produto
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Produto'
+        '400':
+          description: Invalid query parameter supplied
+        '404':
+          description: Not Found
+        '500':
+          description: Error Internal Server (Model or Controller)
+
 components:
   schemas:
     Login:
       required:
+        - nome
         - email
         - senha
+        - nivel_de_acesso
       type: object
       properties:
+        nome:
+          type: string
         email:
           type: string
         senha:
           type: string
-
-    Auth:
-      required:
-        - token
-        - usuario
-      type: object
-      properties:
-        token:
+        nivel_de_acesso:
           type: string
-        usuario:
-          $ref: '#/components/schemas/Usuario'
 
     Usuario:
       required:
@@ -1147,6 +1343,14 @@ components:
         - preco
         - status
         - tamanho
+        - img
+        - categorias
+        - sabores
+        - ingredientes
+        - tags
+        - promocoes
+        - lote
+        - tamanhos
       type: object
       properties:
         id:
@@ -1162,7 +1366,7 @@ components:
         tamanho:
           type: string
         img:
-          type: string
+          type: file
         categorias:
           type: array
           items:
@@ -1183,7 +1387,11 @@ components:
           type: array
           items:
             type: integer
-        lotes:
+        lote:
+          type: array
+          items:
+            type: integer
+        tamanhos:
           type: array
           items:
             type: integer
@@ -1259,3 +1467,13 @@ components:
           type: string
         quantidade:
           type: integer
+        
+    Tamanho:
+      required:
+        - tamanho
+      type: object
+      properties:
+        id:
+          type: integer
+        tamanho:
+          type: string
