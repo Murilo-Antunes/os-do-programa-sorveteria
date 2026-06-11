@@ -37,9 +37,6 @@
   //função que retorna a lista de menus de navegação colocando o index como ativo (corrigir depois para que ele identifique os outros menus como ativo também)
   function navList() {
     return NAV.map(n => {
-        console.log(path)
-        console.log(!n.anchor)
-        console.log(n.href)
       const active = !n.anchor && './'+path === n.href ? "active" : "";
       return `<a href="${n.href}" class="${active}"><span>${n.icon}</span>${n.label}</a>`;
     }).join("");

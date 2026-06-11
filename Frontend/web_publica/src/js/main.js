@@ -1,12 +1,33 @@
+
 // get/allcategorias
-window.CATEGORIES = [
-  "Cremosos", 
-  "Frutas", 
-  "Nuts", 
-  "Milkshakes", 
-  "Sundaes", 
-  "Clássicos"
+window.categorias = [
+    {
+        "id": 0,
+        "categoria": "Cremosos"
+    }, 
+    {
+        "id": 0,
+        "categoria": "Frutas"
+    },
+    {
+        "id": 0,
+        "categoria": "Nuts"
+    },
+    {
+        "id": 0,
+        "categoria": "Milkshakes"
+    },
+    {
+        "id": 0,
+        "categoria": "Sundaes"
+    },
+    {
+        "id": 0,
+        "categoria": "Clássicos"
+    }
 ];
+
+
 
 // get/alltamanhos
 window.SIZES = ["P", "M", "G"];
@@ -14,197 +35,372 @@ window.SIZES = ["P", "M", "G"];
 
 // get/allingredientes
 window.INGREDIENT_OPTIONS = [
-  "Leite integral", "Creme de leite", "Chocolate belga", "Baunilha de Madagascar",
-  "Morango fresco", "Pistache siciliano", "Avelã torrada", "Cookies",
-  "Caramelo salgado", "Doce de leite", "Frutas vermelhas", "Açaí",
-  "Menta fresca", "Granola crocante", "Chantilly", "Açúcar orgânico"
+    {
+        "id": 0,
+        "ingrediente": "Leite integral"
+    },
+    {
+        "id": 1,
+        "ingrediente": "Creme de leite"
+    },
+    {
+        "id": 2,
+        "ingrediente": "Chocolate belga"
+    },
+    {
+        "id": 3,
+        "ingrediente": "Baunilha de Madagascar"
+    },
+    {
+        "id": 4,
+        "ingrediente": "Pistache siciliano"
+    },
+    {
+        "id": 5,
+        "ingrediente": "Cookies"
+    },
+    {
+        "id": 6,
+        "ingrediente": "Caramelo salgado"
+    },
+    {
+        "id": 7,
+        "ingrediente": "Doce de leite"
+    },
+    {
+        "id": 8,
+        "ingrediente": "Frutas vermelhas"
+    },
+    {
+        "id": 9,
+        "ingrediente": "Açaí"
+    },
+    {
+        "id": 10,
+        "ingrediente": "Menta fresca"
+    },
+    {
+        "id": 11,
+        "ingrediente": "Granola crocante"
+    },
+    {
+        "id": 12,
+        "ingrediente": "Chantilly"
+    },
+    {
+        "id": 13,
+        "ingrediente": "Açúcar orgânico"
+    }
 ];
 
+window.SABORES = [
+    {
+        id: 0,
+        sabor: "chocolate"
+    },
+    {
+        id: 1,
+        sabor: "morango"
+    },
+    {
+        id: 2,
+        sabor: "pistache"
+    },
+    {
+        id: 3,
+        sabor: "chocolate branco"
+    },
+    {
+        id: 4,
+        sabor: "milho"
+    },
+    {
+        id: 5,
+        sabor: "abacate"
+    }
+]
+
+window.TAG = [
+    {
+        id: 0,
+        sabor: "Em Alta"
+    },
+    {
+        id: 1,
+        sabor: "Mais vendido"
+    },
+    {
+        id: 2,
+        sabor: "Sucesso"
+    },
+    {
+        id: 3,
+        sabor: "Midia"
+    },
+    {
+        id: 4,
+        sabor: "67"
+    },
+    {
+        id: 5,
+        sabor: "Insano"
+    }
+]
+
 // get/allprodutos
-window.PRODUCTS = [
-  {
-    id: "chocolate-supremo",
-    name: "Chocolate Supremo",
-    flavor: "Chocolate belga 70%",
-    category: "Cremosos",
-    price: 18.9,
-    rating: 4.9,
-    image: "/img/assets/ice-chocolate.jpg",
-    description: "Um sorvete intensamente cremoso feito com chocolate belga 70% cacau, leite fresco e um toque de baunilha de Madagascar. Cada colherada derrete devagar, liberando notas profundas e levemente amargas.",
-    ingredients: ["Chocolate belga 70%", "Leite integral", "Creme de leite fresco", "Açúcar orgânico", "Baunilha de Madagascar"],
-    tag: "Em Alta"
+window.PRODUTOS = [
+ {
+    "id": 1,
+    "nome": "Milkshake de Chocolate Belga Supremo",
+    "descricao": "Cremoso milkshake batido com autêntico chocolate belga e finalizado com uma generosa camada de chantilly.",
+    "preco": 24.90,
+    "status": true,
+    "tamanho": "M",
+    "img": "/img/assets/ice-acai.jpg",
+    "categorias": [
+      { "id": 3, "nome": "Milkshakes" },
+      { "id": 0, "nome": "Cremosos" }
+    ],
+    "sabores": [
+      { "id": 0, "sabor": "chocolate" }
+    ],
+    "ingredientes": [
+      { "id": 0, "ingrediente": "Leite integral" },
+      { "id": 2, "ingrediente": "Chocolate belga" },
+      { "id": 12, "ingrediente": "Chantilly" }
+    ],
+    "tags": [
+      { "id": 1, "sabor": "Mais vendido" }
+    ]
   },
   {
-    id: "morango-nevado",
-    name: "Morango Nevado",
-    flavor: "Morango fresco",
-    category: "Frutas",
-    price: 16.5,
-    rating: 4.8,
-    image: "/img/assets/ice-strawberry.jpg",
-    description: "Sorvete artesanal de morango com pedaços reais da fruta selecionada. Refrescante, leve e levemente azedinho — perfeito para os dias quentes.",
-    ingredients: ["Morangos frescos", "Creme de leite", "Leite integral", "Açúcar demerara", "Limão siciliano"],
-    tag: "Novo"
+    "id": 2,
+    "nome": "Gelato de Pistache Siciliano Premium",
+    "descricao": "Gelato artesanal feito com pistache importado da Sicília, textura aveludada e sabor marcante.",
+    "preco": 18.50,
+    "status": true,
+    "tamanho": "P",
+    "img": "/img/assets/ice-chocolate.jpg",
+    "categorias": [
+      { "id": 2, "nome": "Nuts" },
+      { "id": 0, "nome": "Cremosos" }
+    ],
+    "sabores": [
+      { "id": 2, "sabor": "pistache" }
+    ],
+    "ingredientes": [
+      { "id": 1, "ingrediente": "Creme de leite" },
+      { "id": 4, "ingrediente": "Pistache siciliano" }
+    ],
+    "tags": [
+      { "id": 0, "sabor": "Em Alta" },
+      { "id": 2, "sabor": "Sucesso" }
+    ]
   },
   {
-    id: "pistache-premium",
-    name: "Pistache Premium",
-    flavor: "Pistache siciliano",
-    category: "Nuts",
-    price: 22.0,
-    rating: 4.9,
-    image: "/img/assets/ice-pistachio.jpg",
-    description: "Receita italiana com pistaches sicilianos torrados e moídos artesanalmente. Textura sedosa e sabor sofisticado em cada colherada.",
-    ingredients: ["Pasta de pistache siciliano", "Leite", "Creme fresco", "Açúcar", "Pistaches crocantes"]
+    "id": 3,
+    "nome": "Grand Sundae Frutas Vermelhas",
+    "descricao": "Taça grande de sundae com base de baunilha, calda artesanal de morango e frutas vermelhas frescas.",
+    "preco": 29.90,
+    "status": true,
+    "tamanho": "G",
+    "img": "/img/assets/ice-cookies.jpg",
+    "categorias": [
+      { "id": 4, "nome": "Sundaes" },
+      { "id": 1, "nome": "Frutas" }
+    ],
+    "sabores": [
+      { "id": 1, "sabor": "morango" }
+    ],
+    "ingredientes": [
+      { "id": 0, "ingrediente": "Leite integral" },
+      { "id": 3, "ingrediente": "Baunilha de Madagascar" },
+      { "id": 8, "ingrediente": "Frutas vermelhas" },
+      { "id": 12, "ingrediente": "Chantilly" }
+    ],
+    "tags": [
+      { "id": 2, "sabor": "Sucesso" }
+    ]
   },
   {
-    id: "baunilha-cream",
-    name: "Baunilha Cream",
-    flavor: "Baunilha de Madagascar",
-    category: "Clássicos",
-    price: 15.9,
-    rating: 4.7,
-    image: "/img/assets/ice-vanilla.jpg",
-    description: "A clássica baunilha reinventada. Favas de Madagascar infusionadas lentamente em creme fresco para uma experiência delicada e perfumada.",
-    ingredients: ["Favas de baunilha de Madagascar", "Creme de leite fresco", "Leite", "Gema de ovo", "Açúcar"]
+    "id": 4,
+    "nome": "Taça Insana de Doce de Leite e Cookies",
+    "descricao": "Uma explosão de sabores combinando gelato de chocolate, doce de leite premium e pedaços crocantes de cookies.",
+    "preco": 34.00,
+    "status": true,
+    "tamanho": "G",
+    "img": "/img/assets/ice-milkshake.jpg",
+    "categorias": [
+      { "id": 0, "nome": "Cremosos" },
+      { "id": 5, "nome": "Clássicos" }
+    ],
+    "sabores": [
+      { "id": 0, "sabor": "chocolate" }
+    ],
+    "ingredientes": [
+      { "id": 1, "ingrediente": "Creme de leite" },
+      { "id": 5, "ingrediente": "Cookies" },
+      { "id": 7, "ingrediente": "Doce de leite" }
+    ],
+    "tags": [
+      { "id": 5, "sabor": "Insano" },
+      { "id": 3, "sabor": "Mídia" }
+    ]
   },
   {
-    id: "cookies-cream",
-    name: "Cookies & Cream",
-    flavor: "Biscoito chocolate",
-    category: "Cremosos",
-    price: 17.5,
-    rating: 4.8,
-    image: "/img/assets/ice-cookies.jpg",
-    description: "Sorvete de creme com generosos pedaços de cookies de chocolate. O equilíbrio perfeito entre crocante e cremoso.",
-    ingredients: ["Creme de leite", "Cookies de chocolate", "Leite", "Açúcar", "Baunilha"]
+    "id": 5,
+    "nome": "Milkshake de Baunilha com Caramelo Salgado",
+    "descricao": "Milkshake clássico de Baunilha de Madagascar contrastado perfeitamente com nossa calda de caramelo salgado.",
+    "preco": 22.90,
+    "status": true,
+    "tamanho": "M",
+    "img": "/img/assets/ice-pistachio.jpg",
+    "categorias": [
+      { "id": 3, "nome": "Milkshakes" }
+    ],
+    "sabores": [
+      { "id": 3, "sabor": "chocolate branco" }
+    ],
+    "ingredientes": [
+      { "id": 0, "ingrediente": "Leite integral" },
+      { "id": 3, "ingrediente": "Baunilha de Madagascar" },
+      { "id": 6, "ingrediente": "Caramelo salgado" }
+    ],
+    "tags": [
+      { "id": 0, "sabor": "Em Alta" }
+    ]
   },
   {
-    id: "milkshake-ovomaltine",
-    name: "Milkshake de Ovomaltine",
-    flavor: "Ovomaltine crocante",
-    category: "Milkshakes",
-    price: 24.9,
-    rating: 5.0,
-    image: "/img/assets/ice-milkshake.jpg",
-    description: "Milkshake encorpado batido na hora com sorvete de creme e flocos crocantes de Ovomaltine. Servido com chantilly e calda.",
-    ingredients: ["Sorvete de creme", "Leite gelado", "Ovomaltine flocos", "Chantilly", "Calda de chocolate"],
-    tag: "Mais pedido"
+    "id": 6,
+    "nome": "Super Açaí Bowl com Granola Orgânica",
+    "descricao": "Açaí puro batido na hora, adoçado com açúcar orgânico e servido com uma camada super crocante de granola.",
+    "preco": 26.00,
+    "status": true,
+    "tamanho": "G",
+    "img": "/img/assets/ice-strawberry.jpg",
+    "categorias": [
+      { "id": 1, "nome": "Frutas" }
+    ],
+    "sabores": [
+      { "id": 1, "sabor": "morango" }
+    ],
+    "ingredientes": [
+      { "id": 9, "ingrediente": "Açaí" },
+      { "id": 11, "ingrediente": "Granola crocante" },
+      { "id": 13, "ingrediente": "Açúcar orgânico" }
+    ],
+    "tags": [
+      { "id": 1, "sabor": "Mais vendido" }
+    ]
   },
   {
-    id: "acai-tropical",
-    name: "Açaí Tropical",
-    flavor: "Açaí com frutas",
-    category: "Frutas",
-    price: 21.0,
-    rating: 4.6,
-    image: "/img/assets/ice-acai.jpg",
-    description: "Polpa pura de açaí amazônico batida com banana e finalizada com granola, frutas frescas e mel orgânico.",
-    ingredients: ["Polpa de açaí", "Banana", "Granola crocante", "Mel orgânico", "Frutas frescas"]
+    "id": 7,
+    "nome": "Gelato de Abacate Cremoso Fit",
+    "descricao": "Opção leve e extremamente cremosa feita com abacate fresco e açúcar orgânico.",
+    "preco": 14.00,
+    "status": true,
+    "tamanho": "P",
+    "img": "/img/assets/ice-sundae.jpg",
+    "categorias": [
+      { "id": 1, "nome": "Frutas" },
+      { "id": 0, "nome": "Cremosos" }
+    ],
+    "sabores": [
+      { "id": 5, "sabor": "abacate" }
+    ],
+    "ingredientes": [
+      { "id": 1, "ingrediente": "Creme de leite" },
+      { "id": 13, "ingrediente": "Açúcar orgânico" }
+    ],
+    "tags": [
+      { "id": 4, "sabor": "67" }
+    ]
   },
   {
-    id: "sundae-caramelo",
-    name: "Sundae Caramelo",
-    flavor: "Caramelo salgado",
-    category: "Sundaes",
-    price: 23.5,
-    rating: 4.9,
-    image: "/img/assets/ice-sundae.jpg",
-    description: "Sundae com sorvete de creme, calda artesanal de caramelo salgado, amêndoas torradas e chantilly fresco.",
-    ingredients: ["Sorvete de creme", "Caramelo salgado", "Amêndoas torradas", "Chantilly", "Flor de sal"]
+    "id": 8,
+    "nome": "Gelato Clássico de Milho Verde",
+    "descricao": "Sabor tradicional do interior com o toque gourmet do creme de leite fresco e leite integral selecionado.",
+    "preco": 16.50,
+    "status": true,
+    "tamanho": "M",
+    "img": "/img/assets/ice-vanilla.jpg",
+    "categorias": [
+      { "id": 5, "nome": "Clássicos" }
+    ],
+    "sabores": [
+      { "id": 4, "sabor": "milho" }
+    ],
+    "ingredientes": [
+      { "id": 0, "ingrediente": "Leite integral" },
+      { "id": 1, "ingrediente": "Creme de leite" }
+    ],
+    "tags": [
+      { "id": 2, "sabor": "Sucesso" }
+    ]
   },
   {
-    id: "menta-glacial",
-    name: "Menta Glacial",
-    flavor: "Menta com chocolate",
-    category: "Cremosos",
-    price: 17.9,
-    rating: 4.7,
-    image: "/img/assets/ice-vanilla.jpg",
-    description: "Refrescância intensa de menta fresca com lascas de chocolate amargo. Sensação gelada em cada colherada.",
-    ingredients: ["Menta fresca", "Chocolate amargo", "Creme de leite", "Leite", "Açúcar"]
+    "id": 9,
+    "nome": "Sundae Menta Choc Refresh",
+    "descricao": "Refrescante gelato de menta fresca mesclado com pedaços picados de chocolate belga.",
+    "preco": 19.90,
+    "status": true,
+    "tamanho": "P",
+    "img": "/img/assets/ice-acai.jpg",
+    "categorias": [
+      { "id": 4, "nome": "Sundaes" }
+    ],
+    "sabores": [
+      { "id": 0, "sabor": "chocolate" }
+    ],
+    "ingredientes": [
+      { "id": 1, "ingrediente": "Creme de leite" },
+      { "id": 2, "ingrediente": "Chocolate belga" },
+      { "id": 10, "ingrediente": "Menta fresca" }
+    ],
+    "tags": [
+      { "id": 3, "sabor": "Mídia" }
+    ]
   },
   {
-    id: "frutas-vermelhas",
-    name: "Frutas Vermelhas",
-    flavor: "Mix de berries",
-    category: "Frutas",
-    price: 19.5,
-    rating: 4.8,
-    image: "/img/assets/ice-strawberry.jpg",
-    description: "Mix de framboesa, amora e mirtilo com creme suave. Sabor intenso e cor vibrante.",
-    ingredients: ["Framboesa", "Amora", "Mirtilo", "Creme de leite", "Açúcar"]
-  },
-  {
-    id: "avela-italiana",
-    name: "Avelã Italiana",
-    flavor: "Avelã torrada",
-    category: "Nuts",
-    price: 22.5,
-    rating: 4.9,
-    image: "/img/assets/ice-pistachio.jpg",
-    description: "Avelãs italianas torradas e moídas com creme aveludado. Sofisticação em cada colher.",
-    ingredients: ["Pasta de avelã", "Leite", "Creme fresco", "Açúcar mascavo", "Avelãs torradas"]
-  },
-  {
-    id: "doce-de-leite",
-    name: "Doce de Leite",
-    flavor: "Doce de leite argentino",
-    category: "Clássicos",
-    price: 18.5,
-    rating: 4.8,
-    image: "/img/assets/ice-sundae.jpg",
-    description: "Sorvete cremoso com doce de leite argentino artesanal e raspas de chocolate.",
-    ingredients: ["Doce de leite", "Creme de leite", "Leite", "Chocolate", "Açúcar"]
-  },
-  {
-    id: "milkshake-morango",
-    name: "Milkshake de Morango",
-    flavor: "Morango fresco",
-    category: "Milkshakes",
-    price: 23.9,
-    rating: 4.7,
-    image: "/img/assets/ice-milkshake.jpg",
-    description: "Milkshake aveludado de morango fresco com chantilly e calda da casa.",
-    ingredients: ["Sorvete de morango", "Leite gelado", "Morangos frescos", "Chantilly", "Calda"]
-  },
-  {
-    id: "banana-split",
-    name: "Banana Split",
-    flavor: "Banana caramelizada",
-    category: "Sundaes",
-    price: 24.5,
-    rating: 4.9,
-    image: "/img/assets/ice-sundae.jpg",
-    description: "Banana caramelizada, três bolas de sorvete, calda quente de chocolate e nozes.",
-    ingredients: ["Banana", "Sorvete de creme", "Chocolate quente", "Nozes", "Chantilly"]
-  },
-  {
-    id: "cookies-duplo",
-    name: "Cookies Duplo",
-    flavor: "Cookies & brownie",
-    category: "Cremosos",
-    price: 19.9,
-    rating: 4.9,
-    image: "/img/assets/ice-cookies.jpg",
-    description: "Sorvete cremoso com pedaços de cookies e brownie em dose dupla.",
-    ingredients: ["Cookies", "Brownie", "Creme de leite", "Chocolate", "Açúcar"]
-  },
-  {
-    id: "manga-tropical",
-    name: "Manga Tropical",
-    flavor: "Manga madura",
-    category: "Frutas",
-    price: 18.0,
-    rating: 4.6,
-    image: "/img/assets/ice-acai.jpg",
-    description: "Manga madura selecionada com toque de maracujá. Refrescante e tropical.",
-    ingredients: ["Manga", "Maracujá", "Creme de leite", "Açúcar", "Limão"]
+    "id": 10,
+    "nome": "Mega Milkshake Chocolate Branco e Cookies",
+    "descricao": "Deliciosa combinação de chocolate branco artesanal batido com cookies crocantes e base de leite integral.",
+    "preco": 27.90,
+    "status": true,
+    "tamanho": "G",
+    "img": "/img/assets/ice-cookies.jpg",
+    "categorias": [
+      { "id": 3, "nome": "Milkshakes" },
+      { "id": 0, "nome": "Cremosos" }
+    ],
+    "sabores": [
+      { "id": 3, "sabor": "chocolate branco" }
+    ],
+    "ingredientes": [
+      { "id": 0, "ingrediente": "Leite integral" },
+      { "id": 5, "ingrediente": "Cookies" },
+      { "id": 12, "ingrediente": "Chantilly" }
+    ],
+    "tags": [
+      { "id": 5, "sabor": "Insano" }
+    ]
   }
 ];
 
+// {
+//     id: "manga-tropical",
+//     name: "Manga Tropical",
+//     flavor: "Manga madura",
+//     category: "Frutas",
+//     price: 18.0,
+//     rating: 4.6,
+//     image: "/img/assets/ice-acai.jpg",
+//     description: "Manga madura selecionada com toque de maracujá. Refrescante e tropical.",
+//     ingredients: ["Manga", "Maracujá", "Creme de leite", "Açúcar", "Limão"]
+//   }
+
 // Funções utilitárias e manipulações do array
-window.PRODUCTS.forEach((p, i) => {
+window.PRODUTOS.forEach((p, i) => {
   p.sizes = ["P", "M", "G"];
   if (i % 3 === 0) {
     p.oldPrice = Math.round(p.price * 1.25 * 10) / 10;
@@ -212,7 +408,8 @@ window.PRODUCTS.forEach((p, i) => {
 });
 
 //substituir pelo search de nome depois
-window.getProduct = (id) => window.PRODUCTS.find((p) => p.id === id);
+window.getProduct = (id) => window.PRODUTOS.find((p) => p.id === id);
+
 
 window.formatarPreco = (n) => "R$ " + n.toFixed(2).replace(".", ",");
 

@@ -2,13 +2,13 @@
   //guarda a quantidade de cards por "pagina"
   const PAGE_SIZE = 6;
   //guarda as categorias registradas
-  const CATS = ["Todos", ...window.CATEGORIES];
+  const CATEGORIAS = ["Todos", ...window.categorias];
   //guarda o preço de cada produto
-  const prices = window.PRODUCTS.map(p => p.price);
+  const precos = window.PRODUTOS.map(p => p.preco);
   //guarda o o menos preço dentre todos os produtos
-  const PRICE_MIN = Math.floor(Math.min(...prices));
+  const PRICE_MIN = Math.floor(Math.min(...precos));
   //guarda o preço maximo de todos os produtos
-  const PRICE_MAX = Math.ceil(Math.max(...prices));
+  const PRICE_MAX = Math.ceil(Math.max(...precos));
 
   //guarda o estado atual de todos os atributos que podem modificar conforme o usuário altere os filtros 
   const state = {
@@ -22,28 +22,30 @@
   function productCardHtml(produto, i) {
     return `<a href="./src/pages/product.html?id=${produto.id}" class="product-card" style="animation-delay:${i*50}ms">
       <div class="product-img">
-        <img src="${'./src' + produto.image}" alt="${escapeHtml(produto.name)}" loading="lazy">
-        ${produto.tag ? `<span class="product-tag">${escapeHtml(produto.tag)}</span>` : ""}
+        <img src="${'./src' + produto.img}" alt="${escapeHtml(produto.nome)}" loading="lazy">
+        ${produto.tags.forEach((tag) =>{
+            tag ? `<span class="product-tag">${escapeHtml(tag)}</span>` : ""
+        })}
       </div>
       <div class="product-info">
-        <div class="meta"><span>${escapeHtml(produto.category)}</span></div>
-        <h3>${escapeHtml(produto.name)}</h3>
-        <p>${escapeHtml(produto.flavor)}</p>
+        <div class="meta"><span>${escapeHtml(produto.categorias[0].nome)}</span></div>
+        <h3>${escapeHtml(produto.nome)}</h3>
+        <p>${escapeHtml(produto.sabores[0].sabor)}</p>
       </div>
       <div class="product-price">
-        <span>${formatarPreco(produto.price)}</span>
+        <span>${formatarPreco(produto.preco)}</span>
       </div>
-      <div class="product-price-mobile">${formatarPreco(produto.price)}</div>
+      <div class="product-price-mobile">${formatarPreco(produto.preco)}</div>
     </a>`;
   }
 
   function render() {
     //renderiza as categorias 
-    document.getElementById("categoria-catalogo").innerHTML = CATS.map(categoria =>
-      `<button class="cat-pill ${state.cat===categoria?"active":""}" data-cat="${categoria}">${categoria}</button>`
+    document.getElementById("categoria-catalogo").innerHTML = CATEGORIAS.map(categoria =>
+      `<button class="cat-pill ${state.cat===categoria.categoria?"active":""}" data-cat="${categoria.categoria}">${categoria.categoria}</button>`
     ).join("");
 
-    const produtos = window.PRODUCTS
+    const produtos = window.PRODUTOS
 
     //mostra os produtos no grid de id = "catalog-grid"
       //a variavel show é responsavel por pegar os produtos que estão entre o indice 0 até o número do page-size, nesse caso 6
