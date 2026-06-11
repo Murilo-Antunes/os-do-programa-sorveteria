@@ -1,6 +1,144 @@
-/* RESET */
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+  --color-sidebar-bg: #1e1e1e;
+  --color-sidebar-text: #c8c8c8;
+  --color-sidebar-active-bg: #3a3a3a;
+  --color-sidebar-active-text: #ffffff;
+
+  --color-page-bg: #f0f0f0;
+  --color-card-bg: #ffffff;
+  --color-border: #d5d5d5;
+  --color-input-bg: #ffffff;
+  --color-placeholder: #aaaaaa;
+
+  --color-text-heading: #1a1a1a;
+  --color-text-label: #444444;
+  --color-text-body: #555555;
+
+  --color-chip-default-bg: #ffffff;
+  --color-chip-default-border: #d0d0d0;
+  --color-chip-active-bg: #1e1e1e;
+  --color-chip-active-text: #ffffff;
+
+  --color-btn-bg: #1e1e1e;
+  --color-btn-text: #ffffff;
+  --color-btn-hover: #3a3a3a;
+
+  --color-action-add: #1e1e1e;
+  --color-action-remove: #d94040;
+  --color-action-edit: #555555;
+
+  --color-upload-bg: #f8f8f8;
+  --color-upload-border: #c0c0c0;
+  --color-upload-icon: #aaaaaa;
+
+  --font-main: 'Segoe UI', system-ui, Arial, sans-serif;
+  --font-size-base: 14px;
+
+  --sidebar-width: 180px;
+  --content-max-width: 860px;   /* largura do formulário em telas grandes */
+  --radius-input: 6px;
+  --radius-chip: 20px;
+  --radius-btn: 6px;
 }
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  font-size: var(--font-size-base);
+  background: var(--color-page-bg);
+  color: var(--color-text-body);
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  min-height: 100vh;
+  background: var(--color-sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 24px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.sidebar-titulo {
+  padding: 22px 20px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-sidebar-active-text);
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-sorvetudos {
+  display: flex;
+  padding: left 0px; ;
+}
+.sidebar-nave {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 10px;
+}
+
+.sidebar-nave a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--color-sidebar-text);
+  font-size: 13px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sidebar-nave a:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.sidebar-nave li.active a {
+  background: var(--color-sidebar-active-bg);
+  color: var(--color-sidebar-active-text);
+  font-weight: 600;
+}
+
+.nave-icone {
+  font-style: normal;
+  width: 16px;
+  text-align: center;
+}
+
+.sidebar-space {
+  flex: 1;
+}
+
+.sidebar-exit a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 22px;
+  text-decoration: none;
+  color: var(--color-sidebar-text);
+  font-size: 13px;
+}
+
+.sidebar-exit a:hover {
+  color: #fff;
+}
+
