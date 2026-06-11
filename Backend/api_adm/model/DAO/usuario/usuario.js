@@ -15,12 +15,14 @@ const insertUsuario = async (usuario) => {
                                         nome,
                                         email,
                                         senha,
-                                        nivel_de_acesso
+                                        nivel_de_acesso,
+                                        token
                                         )
                VALUES ('${usuario.nome}',
                        '${usuario.email}',
                        '${usuario.senha}',
-                       ${usuario.nivel_de_acesso}
+                       ${usuario.nivel_de_acesso},
+                       '${usuario.token}'
                         )`
 
     try {

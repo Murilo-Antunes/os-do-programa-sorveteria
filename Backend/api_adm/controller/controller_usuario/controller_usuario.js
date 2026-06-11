@@ -7,6 +7,8 @@
 
 const config_message = require('../module/configMessages.js')
 const usuarioDAO = require('../../model/DAO/usuario/usuario.js')
+const bcrypt = require('../../services/bcrypt.js')
+const jwt = require('../../middleware/middlewareJWT.js')
 
 // inserir nova usuario
 const inserirNovoUsuario = async (usuario, contentType) => {
@@ -15,6 +17,12 @@ const inserirNovoUsuario = async (usuario, contentType) => {
         let validar = await validarDados(usuario, contentType)
         if(validar) return validar // 400 ou 415
 
+        let hash = await bcrypt.criarHash(usuario.senha)
+        if(hash) usuario.senha = hash
+
+        let token = await jwt.createJWT(usuario.id)
+        if(token) usuario.token = token
+        
         let result = await usuarioDAO.insertUsuario(usuario)
 
         if(!result) return message.ERROR_INTERNAL_SERVER_MODEL

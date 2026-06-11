@@ -37,6 +37,8 @@ const ERROR_CONTENT_TYPE = { "status": false, "status_code": 415, "message": "N�
 
 const ERROR_NOT_FOUND = { "status": false, "status_code": 404, "message": "Não foi possivel encontrar nenhum registro."}
 
+const ERROR_UNAUTHORIZED = { "status": false, "status_code": 401, "message": "Não foi possivel validar usuario. email ou senha incorretos."}
+
 
 module.exports = {
     DEFAULT_MESSAGE,
@@ -49,5 +51,6 @@ module.exports = {
     SUCESS_RESPONSE,
     SUCESS_UPDATE_ITEM,
     SUCESS_DELETE_ITEM,
-    SUCESS_CREATED_ITEM_WARNING
+    SUCESS_CREATED_ITEM_WARNING,
+    ERROR_UNAUTHORIZED
 }

@@ -14,6 +14,7 @@
         npm install knex --save
         npm install multer --save
         npm install node-fetch --save
+        npm install bcrypt --save
  **************************************/
 
 // IMPORT das dependências para criar a API
@@ -32,12 +33,18 @@ const corsOptions = {
     methods: 'GET, POST, PUT, DELETE, OPTIONS',
     allowedHeaders: ['Content-type', 'Autorization']
 }
+// import das menssagens padronizadas
+const config_message = require('./controller/module/configMessages.js')
 
 // Configura as permissões da API através do CORS
 app.use(cors(corsOptions))
 
 // Recebe o token encaminhado nas requisições e solicitar as validações
 const verifyJWT = async (req, res, next) => {
+    let message = JSON.parse(JSON.stringify(config_message))
+    let mensagem = message.ERROR_UNAUTHORIZED
+    mensagem.message = "Token inválido."
+
     // import da biblioteca para validação dos tokens
     const jwt = require('./middleware/middlewareJWT.js')
 
@@ -51,7 +58,7 @@ const verifyJWT = async (req, res, next) => {
     if(autenticidadeToken) 
         next()
     else
-        return res.status(401).end()
+        return res.status(mensagem.status_code).json(mensagem).end()
 }
 
 // ****** ROTAS *******
@@ -89,13 +96,13 @@ app.use('/v1/sorvetudos/admin/sabores', cors(), verifyJWT, saborRouter)
 app.use('/v1/sorvetudos/admin/tags', cors(), verifyJWT, tagRouter)
 
 // usuario
-app.use('/v1/sorvetudos/admin/usuarios', cors(), verifyJWT, usuarioRouter)
+app.use('/v1/sorvetudos/admin/usuarios', cors(), usuarioRouter)
 
 // tamanho
 app.use('/v1/sorvetudos/admin/tamanhos', cors(),  verifyJWT, tamanhoRouter)
 
-// auth
-app.use('/v1/sorvetudos/admin/auth', cors(), authRouter)
+// auth login
+app.use('/v1/sorvetudos/admin/auth/login', cors(), authRouter)
 
 // Iniciando o Servidor
 app.listen(port, () => {

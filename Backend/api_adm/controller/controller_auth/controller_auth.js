@@ -8,6 +8,7 @@
 const config_message = require('../module/configMessages.js')
 const authDAO = require('../../model/DAO/auth/auth.js')
 const jwt = require('../../middleware/middlewareJWT.js')
+const bcrypt = require('../../services/bcrypt.js')
 
 // autenticar usuário
 const autenticarUsuario = async (usuario, contentType) => {
@@ -18,21 +19,24 @@ const autenticarUsuario = async (usuario, contentType) => {
         const validarUsuario = await validarDados(usuario, contentType)
         if(validarUsuario) return validarUsuario
         
-        const dadosAluno = await authDAO.selectAuth(usuario)
+        const dadosUsuario = await authDAO.selectAuth(usuario)
 
-        if (!dadosAluno || dadosAluno.length < 1)
+        if (!dadosUsuario || dadosUsuario.length < 1)
             return message.ERROR_NOT_FOUND
 
+        const validarSenha = await bcrypt.validarSenha(usuario.senha, dadosUsuario[0].senha)
+        if(!validarSenha) return message.ERROR_UNAUTHORIZED
+
         // gera token JWT
-        let tokenUser = await jwt.createJWT(dadosAluno.id)
+        let tokenUser = await jwt.createJWT(dadosUsuario.id)
         
         // adiciona token no json
-        dadosAluno[0].token = tokenUser
+        dadosUsuario[0].token = tokenUser
 
         return await montarMensagem(
             message,
             message.SUCESS_RESPONSE,
-            dadosAluno
+            dadosUsuario
         )
 
     } catch (error) {
@@ -60,11 +64,6 @@ const validarDados = async (usuario, contentType) => {
 
     if(usuario.senha == undefined || usuario.senha == null || usuario.senha == '' || usuario.senha.length > 30 || typeof(usuario.senha) != 'string'){
         message.ERROR_BAD_REQUEST.field = '[SENHA] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST // 400
-    }
-
-    if(usuario.nivel_de_acesso == undefined || usuario.nivel_de_acesso == null || usuario.nivel_de_acesso == '' || usuario.nivel_de_acesso.length > 1 || typeof(usuario.nivel_de_acesso) != 'number'){
-        message.ERROR_BAD_REQUEST.field = '[NIVEL DE ACESSO] INVÁLIDO'
         return message.ERROR_BAD_REQUEST // 400
     }
 

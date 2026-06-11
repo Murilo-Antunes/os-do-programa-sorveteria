@@ -22,7 +22,6 @@ const {
 
 // endpoint para autenticar usuario
 router.post('/', bodyParserJSON, async (req,res) => {
-
     let dados = req.body
     let contentType = req.headers['content-type']
 
