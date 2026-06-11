@@ -16,14 +16,12 @@ const insertProduto = async (produto) => {
                                         descricao,
                                         preco,
                                         status,
-                                        tamanho,
                                         img
                                         )
                VALUES ('${produto.nome}',
                        '${produto.descricao}',
                        ${produto.preco},
                        ${produto.status},
-                       '${produto.tamanho}',
                        '${produto.img}'
                         )`
 
@@ -32,7 +30,7 @@ const insertProduto = async (produto) => {
 
         if(response) return response[0].insertId 
 
-    } catch (error) {}
+    } catch (error) {console.log(error)}
 
     return false
 }

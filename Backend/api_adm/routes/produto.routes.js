@@ -41,7 +41,7 @@ const formatarJson = async (dados) => {
         descricao   : dados.descricao,
         preco       : Number(dados.preco),
         status      : Number(dados.status),
-        tamanho     : dados.tamanho,
+        tamanho     : JSON.parse(dados.tamanho),
         categoria   : JSON.parse(dados.categoria),
         sabor       : JSON.parse(dados.sabor),
         tag         : JSON.parse(dados.tag),

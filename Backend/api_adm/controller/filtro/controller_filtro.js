@@ -7,6 +7,7 @@
 
 const config_message = require('../module/configMessages.js')
 const filtroDAO = require('../../model/DAO/filtro/filtro.js')
+const controllerProduto = require('../controller_produto/controller_produto.js')
 
 // filtrar produtos
 const filtrarProdutos = async (filtro) => {
@@ -14,13 +15,19 @@ const filtrarProdutos = async (filtro) => {
 
     try {
         let result = await filtroDAO.selectByFiltro(filtro)
+        let produtos = []
 
         if(!result) return message.ERROR_INTERNAL_SERVER_MODEL // 500
 
         // verfica se o array é vazio
         if(result.length <= 0) return message.ERROR_NOT_FOUND // status_code 404
 
-        let filtrarProdutosMessage = await montarMensagem(message, message.SUCESS_RESPONSE, result)
+        for(let idProduto of result){
+            let produto = await controllerProduto.buscarProduto(idProduto.id_produto)
+            produtos.push(produto.response)
+        }
+
+        let filtrarProdutosMessage = await montarMensagem(message, message.SUCESS_RESPONSE, produtos)
         message.DEFAULT_MESSAGE.response.count = result.length
 
         return filtrarProdutosMessage // status_code 200

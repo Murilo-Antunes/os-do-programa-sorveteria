@@ -20,8 +20,8 @@ const inserirNovoUsuario = async (usuario, contentType) => {
         let hash = await bcrypt.criarHash(usuario.senha)
         if(hash) usuario.senha = hash
 
-        let token = await jwt.createJWT(usuario.id)
-        if(token) usuario.token = token
+        // let token = await jwt.createJWT(usuario.id)
+        // if(token) usuario.token = token
         
         let result = await usuarioDAO.insertUsuario(usuario)
 

@@ -4,7 +4,6 @@
  * Autor: Julio Augusto
  * Versão: 1.0.5.26
  * *******************************************************************************************************/
-
 const config_message = require('../module/configMessages.js')
 const produtoDAO = require('../../model/DAO/produto/produto.js')
 const UPLOAD = require('../upload/controller_upload_azure.js')
@@ -16,6 +15,7 @@ const controllerProdutoLote = require('./controller_produto_lote.js')
 const controllerProdutoPromocao = require('./controller_produto_promocao.js')
 const controllerProdutoSabor = require('./controller_produto_sabor.js')
 const controllerProdutoTag = require('./controller_produto_tag.js')
+const controllerProdutoTamanho = require('./controller_produto_tamanho.js')
 
 // inserir nova produto
 const inserirNovoProduto = async (produto, foto) => {
@@ -89,6 +89,15 @@ const inserirNovoProduto = async (produto, foto) => {
             let resultInsertTag = await controllerProdutoTag.inserirNovoProdutoTag(produtoTag, 'application/json')
 
             if(!resultInsertTag.status)  return message.SUCESS_CREATED_ITEM_WARNING // 201
+        }
+
+        // Manipulação de dados para inserir as tags no produto
+        for(tamanho of produto.tamanho){
+            let produtoTamanho = { "id_produto": produto.id, "id_tamanho": tamanho.id}
+
+            let resultInsertTamanho = await controllerProdutoTamanho.inserirNovoProdutoTamanho(produtoTamanho, 'application/json')
+
+            if(!resultInsertTamanho.status)  return message.SUCESS_CREATED_ITEM_WARNING // 201
         }
 
         return await montarMensagem(message, message.SUCESS_CREATED_ITEM, produto)
@@ -191,6 +200,20 @@ const atualizarProduto = async (produto, id, contentType) => {
             }
         }
 
+         // Exclui e recria tamanhos
+         let resultDeleteTamanho = await controllerProdutoTamanho.excluirTamanhosIdProduto(produto.id)
+
+         if(resultDeleteTamanho.status){
+             for(tamanho of produto.tamanho){
+                 let produtoTamanho = { "id_produto": produto.id, "id_tamanho": tamanho.id}
+ 
+                 let resultInsertTamanho = await controllerProdutoTamanho.inserirNovoProdutoTamanho(produtoTamanho, contentType)
+ 
+                 if(!resultInsertTamanho.status)  return message.SUCESS_CREATED_ITEM_WARNING
+             }
+         }
+ 
+
         return await montarMensagem(message, message.SUCESS_UPDATE_ITEM, produto)
 
     } catch (error) {console.log(error)}
@@ -238,6 +261,11 @@ const listarProduto = async () => {
             let tag = await controllerProdutoTag.buscarTagsIdProduto(produto.id)
             if(tag.status){
                 produto.tag = tag.response.produtoTag
+            }
+
+            let tamanho = await controllerProdutoTamanho.buscarTamanhosIdProduto(produto.id)
+            if(tamanho.status){
+                produto.tamanho = tamanho.response.produtoTamanho
             }
         }
 
@@ -295,6 +323,11 @@ const buscarProduto = async (id) => {
             if(tag.status){
                 produto.tag = tag.response.produtoTag
             }
+
+            let tamanho = await controllerProdutoTamanho.buscarTamanhosIdProduto(produto.id)
+            if(tamanho.status){
+                produto.tamanho = tamanho.response.produtoTamanho
+            }
         }
 
         return await montarMensagem(message, message.SUCESS_RESPONSE, result)
@@ -345,11 +378,11 @@ const validarDados = async (produto, contentType) => {
         return message.ERROR_BAD_REQUEST // 400
     }
 
-    if(produto.tamanho == undefined || produto.tamanho == null || produto.tamanho == '' || produto.tamanho.length > 10 || typeof(produto.tamanho) != 'string'){
+    if(!Array.isArray(produto.tamanho)){
         message.ERROR_BAD_REQUEST.field = '[TAMANHO] INVÁLIDO'
         return message.ERROR_BAD_REQUEST // 400
     }
-
+    
     if(!Array.isArray(produto.categoria)){
         message.ERROR_BAD_REQUEST.field = '[CATEGORIA] INVÁLIDA'
         return message.ERROR_BAD_REQUEST // 400
