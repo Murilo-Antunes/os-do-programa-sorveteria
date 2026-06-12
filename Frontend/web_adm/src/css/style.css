@@ -1,5 +1,6 @@
 :root {
-  --color-sidebar-bg: #1e1e1e;
+  --serif:"Fraunces", Georgia, serif;
+  --color-sidebar-bg: #2A2F32;
   --color-sidebar-text: #c8c8c8;
   --color-sidebar-active-bg: #3a3a3a;
   --color-sidebar-active-text: #ffffff;
@@ -71,28 +72,29 @@ body {
 }
 
 .sidebar-titulo {
-  padding: 22px 20px 18px;
-  font-size: 13px;
+  padding: 22px 15px 14px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--color-sidebar-active-text);
-  text-transform: uppercase;
+
   border-bottom: 1px solid rgba(255,255,255,0.07);
   margin-bottom: 8px;
   display: flex;
   align-items: center;
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.45px;
+  font-variant-caps:titling-caps;
 }
 
-.logo-sorvetudos {
-  display: flex;
-  padding: left 0px; ;
-}
 .sidebar-nave {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 2px;
   padding: 0 10px;
+  font-family: "Inter", sans-serif;
 }
 
 .sidebar-nave a {
