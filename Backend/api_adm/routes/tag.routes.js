@@ -22,7 +22,7 @@ const {
     listarTag,
     buscarTag,
     excluirTag
-} = require('../controller/controller_tag/controller_tag.js')
+} = require('../controller/tag/controller_tag.js')
 
 // Tags
 router.post('/', bodyParserJSON, async (req,res) => {

@@ -22,7 +22,7 @@ const {
     listarPromocao,
     buscarPromocao,
     excluirPromocao
-} = require('../controller/controller_promocao/controller_promocao.js')
+} = require('../controller/promocao/controller_promocao.js')
 
 // Promoções
 router.post('/', bodyParserJSON, async (req,res) => {

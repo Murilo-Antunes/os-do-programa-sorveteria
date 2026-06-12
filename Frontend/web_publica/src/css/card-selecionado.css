@@ -1,0 +1,182 @@
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 40px 24px;
+  }
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted-fg);
+  margin-bottom: 24px;
+}
+
+.back:hover {
+  color: var(--fg);
+}
+
+.pd-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .pd-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+}
+
+.pd-img {
+  position: relative;
+}
+
+.pd-img img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 32px;
+  box-shadow: var(--shadow-float);
+}
+
+.pd-info .cat {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-fg);
+}
+
+.pd-info h1 {
+  font-size: clamp(36px, 5vw, 48px);
+  margin-top: 8px;
+  line-height: 1.1;
+}
+
+.pd-info .flavor {
+  color: var(--muted-fg);
+  margin-top: 4px;
+}
+
+.pd-info .rating {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.pd-info .rating .stars {
+  color: var(--primary);
+}
+
+.pd-info .rating .stars .empty {
+  color: var(--border);
+}
+
+.pd-info .rating .count {
+  font-size: 12px;
+  color: var(--muted-fg);
+}
+
+.pd-info .desc {
+  margin-top: 24px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.pd-info .ing-l {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-fg);
+  margin-top: 28px;
+  margin-bottom: 12px;
+}
+
+.pd-ings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pd-ings span {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 1px solid var(--border);
+}
+
+.pd-price {
+  margin-top: 32px;
+}
+
+.pd-price .l {
+  font-size: 12px;
+  color: var(--muted-fg);
+}
+
+.pd-price .v {
+  font-family: var(--serif);
+  font-size: 36px;
+  margin-top: 4px;
+}
+
+.pd-buy {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.pd-buy button.main {
+  flex: 1;
+  height: 56px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, oklch(0.7 0.15 245), oklch(0.55 0.18 260));
+  color: var(--primary-fg);
+  font-weight: 500;
+  box-shadow: var(--shadow-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.pd-buy button.main:hover {
+  box-shadow: var(--shadow-float);
+  transform: scale(1.02);
+}
+
+.pd-buy button.heart {
+  height: 56px;
+  width: 56px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  transition: background 0.2s;
+}
+
+.pd-buy button.heart:hover {
+  background: var(--accent);
+}
+
+.related {
+  margin-top: 96px;
+}
+
+.related h2 {
+  font-size: 30px;
+  margin-bottom: 24px;
+}

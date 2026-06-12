@@ -7,7 +7,7 @@
 
 // Padronização de cabeçalho para retorno dos endpoints da API
 const DEFAULT_MESSAGE = {
-    "api_description":  "API para gerenciar o controle de filmes.",
+    "api_description":  "API para gerenciar o controle da empresa Sorvetudos.",
     "developer"      :  "Julio Augusto.",
     "version"        :  "1.0.4.26",
     "status"         :  Boolean,
@@ -37,6 +37,11 @@ const ERROR_CONTENT_TYPE = { "status": false, "status_code": 415, "message": "N�
 
 const ERROR_NOT_FOUND = { "status": false, "status_code": 404, "message": "Não foi possivel encontrar nenhum registro."}
 
+const ERROR_UNAUTHORIZED = { "status": false, "status_code": 401, "message": "Não foi possivel validar usuario. email ou senha incorretos."}
+
+const ERROR_CONFLICT = { "status": false, "status_code": 409, "message": "Não foi possivel inserir usuario. usuario ou email já cadastrado."}
+
+
 
 module.exports = {
     DEFAULT_MESSAGE,
@@ -49,5 +54,7 @@ module.exports = {
     SUCESS_RESPONSE,
     SUCESS_UPDATE_ITEM,
     SUCESS_DELETE_ITEM,
-    SUCESS_CREATED_ITEM_WARNING
+    SUCESS_CREATED_ITEM_WARNING,
+    ERROR_UNAUTHORIZED,
+    ERROR_CONFLICT
 }

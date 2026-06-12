@@ -22,7 +22,7 @@ const {
     listarIngrediente,
     buscarIngrediente,
     excluirIngrediente
-} = require('../controller/controller_ingrediente/controller_ingrediente.js')
+} = require('../controller/ingrediente/controller_ingrediente.js')
 
 // Ingredientes
 router.post('/', bodyParserJSON, async (req,res) => {

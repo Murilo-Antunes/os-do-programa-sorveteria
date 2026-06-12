@@ -22,7 +22,7 @@ const {
     listarUsuario,
     buscarUsuario,
     excluirUsuario
-} = require('../controller/controller_usuario/controller_usuario.js')
+} = require('../controller/usuario/controller_usuario.js')
 
 // Usuarios
 router.post('/', bodyParserJSON, async (req,res) => {

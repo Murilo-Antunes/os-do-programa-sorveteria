@@ -22,7 +22,7 @@ const {
     listarLote,
     buscarLote,
     excluirLote
-} = require('../controller/controller_lote/controller_lote.js')
+} = require('../controller/lote/controller_lote.js')
 
 // Lotes
 router.post('/', bodyParserJSON, async (req,res) => {

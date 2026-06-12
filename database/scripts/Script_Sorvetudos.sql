@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS tbl_produto (
     descricao VARCHAR(255) NOT NULL,
     preco DECIMAL(5,2) NOT NULL,
     status TINYINT NOT NULL,
-    tamanho VARCHAR(10) NOT NULL,
     img VARCHAR(255) NOT NULL
 );
 
@@ -20,9 +19,10 @@ CREATE TABLE IF NOT EXISTS tbl_produto (
 CREATE TABLE IF NOT EXISTS tbl_usuario (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    senha VARCHAR(30) NOT NULL,
-    nivel_de_acesso TINYINT NOT NULL
+    email VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    nivel_de_acesso TINYINT NOT NULL,
+    token TEXT DEFAULT NULL
 );
 
 # ------------------- CATEGORIA --------------------
@@ -46,6 +46,13 @@ CREATE TABLE IF NOT EXISTS tbl_promocao (
     valor_atual DECIMAL(5,2) NOT NULL,
     valor_promocao DECIMAL(5,2) NOT NULL,
     status TINYINT NOT NULL
+);
+
+# ------------------- TAMANHO --------------------
+# cria tabela tbl_tamanho
+CREATE TABLE IF NOT EXISTS tbl_tamanho (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tamanho VARCHAR(10) NOT NULL
 );
 
 # ------------------- LOTE --------------------
@@ -126,6 +133,25 @@ CREATE TABLE IF NOT EXISTS tbl_produto_promocao (
     ON DELETE CASCADE
 );
 
+# ------------------- PRODUTO TAMANHO --------------------
+# cria tabela tbl_produto_tamanho
+CREATE TABLE IF NOT EXISTS tbl_produto_tamanho (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id_tamanho INT NOT NULL,
+    id_produto INT NOT NULL,
+
+    CONSTRAINT FK_TAMANHO_PRODUTOTAMANHO
+    FOREIGN KEY (id_tamanho)
+    REFERENCES tbl_tamanho (id)
+    ON DELETE CASCADE,
+
+    CONSTRAINT FK_PRODUTO_PRODUTOTAMANHO
+    FOREIGN KEY (id_produto)
+    REFERENCES tbl_produto (id)
+    ON DELETE CASCADE
+);
+
+
 # ------------------- PRODUTO LOTE --------------------
 # cria tabela tbl_produto_lote
 CREATE TABLE IF NOT EXISTS tbl_produto_lote (
@@ -190,7 +216,7 @@ SELECT *
 FROM tbl_produto_lote;
 
 SELECT *
-FROM tbl_produto_categoria;
+FROM tbl_produto_tamanho;
 
 SELECT *
 FROM tbl_produto_promocao;
@@ -199,13 +225,19 @@ SELECT *
 FROM tbl_produto_sabor;
 
 SELECT *
+FROM tbl_produto_categoria;
+
+SELECT *
 FROM tbl_tag;
+
+SELECT *
+FROM tbl_ingrediente;
 
 SELECT *
 FROM tbl_lote;
 
 SELECT *
-FROM tbl_ingrediente;
+FROM tbl_tamanho;
 
 SELECT *
 FROM tbl_promocao;

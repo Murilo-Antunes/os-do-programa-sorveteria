@@ -22,7 +22,7 @@ const {
     listarCategoria,
     buscarCategoria,
     excluirCategoria
-} = require('../controller/controller_categoria/controller_categoria.js')
+} = require('../controller/categoria/controller_categoria.js')
 
 // categorias
 router.post('/', bodyParserJSON, async (req,res) => {

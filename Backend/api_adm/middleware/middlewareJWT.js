@@ -9,7 +9,7 @@
 // import da biblioteca JWT (Jason Web Token)
     const jwt = require('jsonwebtoken')
     const SECRET = 'a1b2c3' // senha secreta para o token
-    const EXPIRES = 30 // segundos
+    const EXPIRES = '50m' // segundos
     
     // Cria um Token do JWT (retorna um Token)
     const createJWT = async (payload) => {
@@ -23,13 +23,18 @@
     
     // Valida a autenticidade do Token do JWT
     const validateJWT = async (token) => {
-        let status = false
+        let response = {
+            status: true
+        }
         // valida a autenticidade
         jwt.verify(token, SECRET, async (err, decode) => {
-            if (!err) status = true
+            if (err) {
+                response.status = false
+                response.error = err
+            }
         })
-    
-        return status
+        
+        return response
     }
     
     module.exports = {

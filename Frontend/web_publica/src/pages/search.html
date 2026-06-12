@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buscar — Sorvetudos</title>
+  <link rel="icon" href="assets/sorvetudos-logo.png">
+
+  <!--FONTE-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..800&family=Inter:wght@400;500;600;700&display=swap">
+
+  <!--css-->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/animacoes.css">
+  <link rel="stylesheet" href="../css/aside.css">
+  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="../css/search.css">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!--JAVASCRIPT-->
+  <script src="../js/main.js" defer></script>
+  <script src="../js/header.js" defer></script>
+  <script src="../js/footer.js" defer></script>
+  <script src="../js/search.js" defer></script> <!--esse arquivo vai ser futuramente criado para renderizar o search corretamente-->
+</head>
+<body>
+  <div id="header-container"></div>
+  <main class="main">
+    <section class="search-hero">
+      <a href="../../index.html" class="back" style="margin-bottom:16px">← Voltar</a>
+      <h1 id="search-title">Buscar sabores</h1>
+      <p class="sub" id="search-sub"></p>
+      <form id="search-form" class="search-form">
+        <input id="search-input" placeholder="Digite um sabor, ingrediente ou categoria…" autofocus>
+        <button type="submit" class="submit">Buscar</button>
+      </form>
+      <div id="search-cats" class="search-cats"></div>
+    </section>
+    <section class="search-body" id="search-results"></section>
+    <div id="footer-container"></div>
+  </main>
+
+</body>
+</html>

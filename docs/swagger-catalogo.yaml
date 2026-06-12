@@ -60,7 +60,7 @@ paths:
         '500':
           description: Error Internal Server (Model or Controller)
 
-  /v1/sorvetudos/catalogo/produtos/filtros:
+  /v1/sorvetudos/catalogo/produtos/filtro:
     get:
       tags:
         - produtos
@@ -103,18 +103,6 @@ paths:
           required: false
           schema:
             type: string
-        - name: preco_min
-          in: query
-          description: Preço mínimo do produto
-          required: false
-          schema:
-            type: number
-        - name: preco_max
-          in: query
-          description: Preço máximo do produto
-          required: false
-          schema:
-            type: number
       responses:
         '200':
           description: successful operation
@@ -387,9 +375,88 @@ paths:
         '404':
           description: Promotion not found
 
+  /v1/sorvetudos/catalogo/tamanhos:
+    get:
+      tags:
+        - tamanhos
+      summary: Lista todas as promoções
+      description: Listagem de todas as promoções disponíveis no catálogo
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/tamanhos'
+        '404':
+          description: Not Found
+        '500':
+          description: Error Internal Server (Model or Controller)
+
+  /v1/sorvetudos/catalogo/tamanhos/{id}:
+    get:
+      tags:
+        - tamanhos
+      summary: Busca uma promoção pelo ID
+      description: Retorna uma promoção específica baseada no seu ID
+      parameters:
+        - name: id
+          in: path
+          description: ID da promoção a ser retornada
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tamanhos'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Promotion not found
+
 components:
   schemas:
+    Usuario:
+      required:
+        - nome
+        - email
+        - senha
+        - nivel_de_acesso
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        nivel_de_acesso:
+          type: boolean
+
     Produto:
+      required:
+        - nome
+        - descricao
+        - preco
+        - status
+        - tamanho
+        - img
+        - categorias
+        - sabores
+        - ingredientes
+        - tags
+        - promocoes
+        - lote
+        - tamanhos
       type: object
       properties:
         id:
@@ -426,7 +493,11 @@ components:
           type: array
           items:
             type: integer
-        lotes:
+        lote:
+          type: array
+          items:
+            type: integer
+        tamanhos:
           type: array
           items:
             type: integer

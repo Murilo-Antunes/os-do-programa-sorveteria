@@ -22,7 +22,7 @@ const {
     listarSabor,
     buscarSabor,
     excluirSabor
-} = require('../controller/controller_sabor/controller_sabor.js')
+} = require('../controller/sabor/controller_sabor.js')
 
 // Sabores
 router.post('/', bodyParserJSON, async (req,res) => {

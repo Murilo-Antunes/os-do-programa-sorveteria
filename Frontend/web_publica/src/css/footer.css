@@ -1,0 +1,125 @@
+footer {
+  margin-top: 128px;
+  border-top: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+footer .grid {
+  padding: 64px 24px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+
+@media (min-width: 768px) {
+  footer .grid {
+    grid-template-columns: 5fr 3fr 4fr;
+    padding: 64px 40px;
+  }
+}
+
+footer h3 {
+  font-size: clamp(36px, 4vw, 48px);
+  margin-top: 12px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+footer h3 em {
+  font-style: italic;
+  color: var(--primary);
+}
+
+footer .desc {
+  margin-top: 20px;
+  color: var(--muted-fg);
+  max-width: 28rem;
+  line-height: 1.6;
+}
+
+footer .socials {
+  display: flex;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+footer .socials a {
+  height: 44px;
+  width: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  transition: all 0.2s;
+  font-size: 16px;
+}
+
+footer .socials a:hover {
+  background: var(--primary);
+  color: var(--primary-fg);
+  border-color: var(--primary);
+}
+
+footer ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+footer ul a:hover,
+footer ul li:hover {
+  color: var(--primary);
+}
+
+footer .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--muted-fg);
+  margin-bottom: 20px;
+}
+
+footer .contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 0;
+}
+
+footer .contact-list li {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+}
+
+footer .contact-list .ic {
+  color: var(--primary);
+  margin-top: 2px;
+}
+
+footer .copy {
+  border-top: 1px solid var(--border);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted-fg);
+}
+
+@media (min-width: 640px) {
+  footer .copy {
+    flex-direction: row;
+    padding: 24px 40px;
+  }
+}
+
+footer .copy .heart {
+  color: var(--primary);
+}
