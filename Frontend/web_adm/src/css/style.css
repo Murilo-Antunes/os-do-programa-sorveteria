@@ -42,22 +42,8 @@
   --radius-btn: 6px;
 }
 
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-body {
-  font-family: var(--font-main);
-  font-size: var(--font-size-base);
-  background: var(--color-page-bg);
-  color: var(--color-text-body);
-  display: flex;
-  min-height: 100vh;
-}
-
-.sidebar {
+.aside {
   width: var(--sidebar-width);
   min-height: 100vh;
   background: var(--color-sidebar-bg);

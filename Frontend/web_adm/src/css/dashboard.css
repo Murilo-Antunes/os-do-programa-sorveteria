@@ -1,6 +1,4 @@
-/* ============================================================
-   TOKENS & RESET
-   ============================================================ */
+/*TOKENS & RESET */
 *{
   box-sizing: border-box;
   margin: 0;
@@ -22,7 +20,7 @@
   --font-display: 'Fraunces', serif;
 
   /* Espacamento */
-  --aside-width: 210px; 
+  --aside-width: 180px; 
 }
 
 html, body {
