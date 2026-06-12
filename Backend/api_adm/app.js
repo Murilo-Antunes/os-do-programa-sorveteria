@@ -29,7 +29,7 @@ const port = 8080
 
 // Conjuntos de Permissões a serem aplicadas no CORS da API
 const corsOptions = {
-    origin: ['*'],
+    origin: '*',
     methods: 'GET, POST, PUT, DELETE, OPTIONS',
     allowedHeaders: ['Content-type', 'Autorization']
 }
