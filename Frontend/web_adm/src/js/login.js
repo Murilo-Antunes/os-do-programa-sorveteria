@@ -12,8 +12,6 @@ const login = async (nome, email, senha, nivel_acesso) => {
         },
         body: JSON.stringify({ nome, email, senha, nivel_acesso })
     }
-
-    console.log('OPTIONS', OPTIONS)
     const response = await fetch("http://localhost:8080/v1/sorvetudos/admin/auth/login", OPTIONS);
     const data = await response.json()
 
@@ -25,6 +23,11 @@ const login = async (nome, email, senha, nivel_acesso) => {
 const fazerLogin = async () => {
     const response = await login(nome.value, email.value, senha.value, nivel_acesso);
     console.log(response)
+
+    if(response.ok){
+        const dashboardLink = document.getElementById("dashboard");
+        dashboardLink.href = "dashboard_modelo.html";
+    }
 }
 
 entrar.addEventListener("click", fazerLogin)
