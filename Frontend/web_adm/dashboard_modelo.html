@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorvetudos — Dashboard</title>
+
+  <!--FONTES-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
+  
+  <!--CSS-->
+  <link rel="stylesheet" href="src/css/dashboard.css" />
+
+  <!--JAVASCRIPT-->
+  <script src="src/js/dashboard.js" defer></script>
+</head>
+<body>
+
+  <!--O ASIDE VEM AQUI-->
+  <div class="aside"></div>
+
+  <main class="main" id="main-content">
+
+    <header class="page-header">
+      <h1 class="page-title">Dashboard</h1>
+    </header>
+
+    <!-- Cards de resumo -->
+    <section class="summary-cards" aria-label="Resumo">
+
+      <div class="summary-card" id="card-produtos">
+        <span class="card-label">Produtos</span>
+        <span class="card-value" id="total-produtos"></span>
+      </div>
+
+      <div class="summary-card" id="card-categorias">
+        <span class="card-label">Categorias</span>
+        <span class="card-value" id="total-categorias"></span>
+      </div>
+
+      <div class="summary-card" id="card-ingredientes">
+        <span class="card-label">Ingredientes</span>
+        <span class="card-value" id="total-ingredientes"></span>
+      </div>
+    </section>
+
+    <!-- Tabela de produtos -->
+    <section class="products-section">
+      <div class="products-header">
+
+        <h2 class="section-title">Produtos Cadastrados</h2>
+        <div class="search-wrapper">
+
+          <!--svg do icone de pesquisa, trocar para um arquivo depois-->
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+
+          <input type="text" id="search-input" class="search-input" placeholder="Buscar produto..."/>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="products-table" id="products-table">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Categoria</th>
+              <th>Preço</th>
+              <th>Quantidade</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="products-tbody">
+            <!-- Preenchido dinamicamente via main.js -->
+          </tbody>
+        </table>
+
+        <div class="empty-state" id="empty-state" hidden>
+          <p>Nenhum produto encontrado.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
