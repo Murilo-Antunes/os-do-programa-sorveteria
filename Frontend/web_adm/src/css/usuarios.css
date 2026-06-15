@@ -1,0 +1,205 @@
+/*TOKENS & RESET */
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-bg:                 #f0f0ed;
+  --color-preenchimento:      #ffffff;
+  --color-borda:              #e2e2de;
+  --color-texto:              #1a1a1a;
+  --color-texto-light:        #6b6b6b;
+  --color-titulo:             #1a2e3b;   /* azul-escuro do título */
+  --color-ativado:            #2a7d4f;   /* verde "Ativo" */
+  --color-desativado:         #c0392b;   /* vermelho "Inativo" */
+
+  /* Fontes */
+  --font-body:    'DM Sans', sans-serif;
+  --font-display: 'Fraunces', serif;
+
+  /* Espacamento */
+  --aside-width: 180px; 
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-texto);
+  line-height: 1.5;
+  display: grid;
+  grid-template-columns: var(--aside-width) 1fr;
+  grid-template-rows: 1fr;
+  min-height: 100vh;
+}
+
+.main {
+  grid-column: 2 / -1; 
+  padding: 2.5rem;
+  max-width: 1400px;
+  width: 100%;
+}
+
+/*header*/
+.page-header {
+  margin-bottom: 1.75rem;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--color-texto);
+  letter-spacing: -0.02em;
+}
+
+/*usuários*/
+.users-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.users-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-titulo);
+  letter-spacing: -0.01em;
+}
+
+
+/*busca*/
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: var(--color-texto-light);
+}
+
+.search-input {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-texto);
+  background: var(--color-preenchimento);
+  border: 1px solid var(--color-borda);
+  border-radius: 8px;
+  padding: 0.55rem 1rem 0.55rem 2.25rem;
+  width: 220px;
+}
+
+.search-input::placeholder {
+  color: var(--color-texto-light);
+}
+
+/*Tabela*/
+.table-wrapper {
+  background: var(--color-preenchimento);
+  border: 1px solid var(--color-borda);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+}
+
+/* Cabeçalho */
+.users-table thead tr {
+  border-bottom: 1.5px solid var(--color-borda);
+}
+
+.users-table th {
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-texto);
+  padding: 0.9rem 1.25rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* Linhas */
+.users-table tbody tr {
+  border-bottom: 1px solid var(--color-borda);
+}
+
+.users-table tbody tr:hover {
+  background: #f7f7f5;
+}
+
+.users-table td {
+  padding: 0.85rem 1.25rem;
+  font-size: 0.9rem;
+  color: var(--color-texto);
+  vertical-align: middle;
+}
+
+/* Botão insert */
+.btn-insert {
+  background: #D9D9D9;
+  width: max-content;
+  border: 1px solid var(--color-texto);
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--color-texto);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s, background 0.2s;
+}
+
+/* Botões de ação */
+.button-container{
+  display: flex;
+  gap: 10px;
+}
+
+.button-container button{
+  width: 80px;
+  border: 1px solid var(--color-texto);
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--color-texto);
+  border-radius: 6px;
+  text-align: center;
+  transition: color 0.2s, background 0.2s;
+}
+
+.btn-remover{
+  background-color: var(--color-desativado);
+}
+
+.btn-editar{
+  background-color: var(--color-ativado);
+}
+
+/* EMPTY STATE */
+
+.empty-state {
+  padding: 2.5rem;
+  text-align: center;
+  color: var(--color-texto-light);
+  font-size: 0.9rem;
+}
