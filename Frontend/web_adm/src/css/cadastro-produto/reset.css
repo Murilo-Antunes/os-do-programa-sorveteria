@@ -1,0 +1,57 @@
+/* ============================================================
+   reset.css
+   Reset e variáveis CSS globais
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Paleta */
+  --cor-fundo:          #f4f4f4;
+  --cor-superficie:     #FFFFFF;
+  --cor-aside:          #1E1E2A;
+  --cor-texto:          #1A1A2E;
+  --cor-texto-leve:     #6B7280;
+  --cor-borda:          #D1D5DB;
+  --cor-chip-ativo:     #1A1A2E;
+  --cor-perigo:         #8B1A1A;
+  --cor-confirmar:      #1E1E2A;
+  --cor-secundario:     #4B5563;
+
+  /* Layout */
+  --largura-aside: 180px;
+
+  /* Radii */
+  --raio-sm:   6px;
+  --raio-md:   10px;
+  --raio-lg:   14px;
+  --raio-full: 9999px;
+
+  /* Tipografia */
+  --fonte-corpo:   'DM Sans', system-ui, sans-serif;
+  --fonte-display: 'Playfair Display', Georgia, serif;
+
+  /* Sombras */
+  --sombra-sm: 0 1px 3px rgba(0,0,0,.08);
+  --sombra-md: 0 4px 16px rgba(0,0,0,.12);
+  --sombra-lg: 0 8px 32px rgba(0,0,0,.18);
+
+  /* Transição padrão */
+  --transicao: .18s ease;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--fonte-corpo);
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: var(--fonte-corpo); }

@@ -31,7 +31,7 @@ const port = 8080
 const corsOptions = {
     origin: '*',
     methods: 'GET, POST, PUT, DELETE, OPTIONS',
-    allowedHeaders: ['Content-type', 'Autorization']
+    allowedHeaders: ['Content-type', 'x-access-token']
 }
 // import das menssagens padronizadas
 const config_message = require('./controller/module/configMessages.js')
