@@ -42,7 +42,6 @@ const updateProduto = async (produto) => {
                     descricao = '${produto.descricao}',
                     preco = ${produto.preco},
                     status = ${produto.status},
-                    tamanho = '${produto.tamanho}',
                     img = '${produto.img}'
                WHERE id = ${produto.id}`
     try {
@@ -51,7 +50,7 @@ const updateProduto = async (produto) => {
 
         if(response) return response
 
-    } catch (error) {}
+    } catch (error) {console.log(error)}
 
     return false
 }

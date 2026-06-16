@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sorvetudos — Usuários</title>
+
+    <!--FONTES-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
+    
+    <!--CSS-->
+    <link rel="stylesheet" href="src/css/usuarios.css" />
+    <link rel="stylesheet" href="src/css/style.css">
+
+    <!--JAVASCRIPT-->
+    <script src="src/js/usuarios/main.js" defer type="module"></script>
+</head>
+<body>
+
+  <!--O ASIDE VEM AQUI-->
+  <aside class="aside">
+    <div class="sidebar-titulo"> <img class="logo-sorvetudos" src="./src/img/Sorvetudos.png" alt=""> Sorvetudos</div>
+        <ul class="sidebar-nave">
+            <li><a href="dashboard_modelo.html"><i class="nave-icone"><img class="logo-dashboard" src="./src/img/Dashboard.png" alt=""></i> Dashboard</a></li>
+            <li class="active"><a href="usuarios.html"><i class="nave-icone"><img class="logo-novo-produto" src="./src/img/Novo Produto.png" alt=""></i> Usuários</a></li>
+            <li><a href="cadastro-produto.html"><i class="nave-icone"><img class="logo-novo-produto" src="./src/img/Novo Produto.png" alt=""></i> Novo Produto</a></li>
+            <li><a href="#"><i class="nave-icone"><img class="logo-promocoes" src="./src/img/Promoções.png" alt=""></i> Promoções</a></li>
+            <li><a href="#"><i class="nave-icone"><img class="logo-lotes" src="./src/img/Lotes.png" alt=""></i> Lotes</a></li>
+        </ul>
+        <div class="sidebar-space"></div>
+        <div class="sidebar-exit">
+        <a href="login.html"><i class="nave-icone"><img class="logo-sair" src="./src/img/Sair.png" alt=""></i> Sair</a>
+    </div>
+  </aside>
+
+  <main class="main" id="main-content">
+
+    <header class="page-header">
+      <h1 class="page-title">Usuários</h1>
+    </header>
+
+    <!-- Tabela de Usuarios -->
+    <section class="users-section">
+
+        <button class="btn-insert">+ Inserir novo Usuário</button>
+
+        <div class="table-wrapper">
+
+            <table class="users-table" id="users-table">
+                <thead>
+                    <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Nivel de Acesso</th>
+                    <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="users-tbody">
+                    <!-- Preenchido dinamicamente via main.js -->
+                </tbody>
+            </table>
+
+            <div class="empty-state" id="empty-state" hidden>
+                <p>Nenhum Usuário encontrado.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+  </main>
+
+</body>
+</html>

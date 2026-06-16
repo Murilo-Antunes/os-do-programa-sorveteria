@@ -43,6 +43,8 @@ const formatarJson = async (dados) => {
         ingrediente : JSON.parse(dados.ingrediente)
     }
 
+    console.log(produto)
+
     return produto
 }
 

@@ -129,8 +129,8 @@ const atualizarProduto = async (produto, id, contentType) => {
             for(categoria of produto.categoria){
                 let produtoCategoria = { "id_produto": produto.id, "id_categoria": categoria.id}
 
-                let resultInsertCategoria = await controllerProdutoCategoria.inserirNovoProdutoCategoria(produtoCategoria, contentType)
-
+                let resultInsertCategoria = await controllerProdutoCategoria.inserirNovoProdutoCategoria(produtoCategoria, 'application/json')
+                
                 if(!resultInsertCategoria.status)  return message.SUCESS_CREATED_ITEM_WARNING
             }
         }
@@ -142,8 +142,8 @@ const atualizarProduto = async (produto, id, contentType) => {
             for(ingrediente of produto.ingrediente){
                 let produtoIngrediente = { "id_produto": produto.id, "id_ingrediente": ingrediente.id}
 
-                let resultInsertIngrediente = await controllerProdutoIngrediente.inserirNovoProdutoIngrediente(produtoIngrediente, contentType)
-
+                let resultInsertIngrediente = await controllerProdutoIngrediente.inserirNovoProdutoIngrediente(produtoIngrediente, 'application/json')
+                
                 if(!resultInsertIngrediente.status)  return message.SUCESS_CREATED_ITEM_WARNING
             }
         }
@@ -155,8 +155,8 @@ const atualizarProduto = async (produto, id, contentType) => {
             for(lote of produto.lote){
                 let produtoLote = { "id_produto": produto.id, "id_lote": lote.id}
 
-                let resultInsertLote = await controllerProdutoLote.inserirNovoProdutoLote(produtoLote, contentType)
-
+                let resultInsertLote = await controllerProdutoLote.inserirNovoProdutoLote(produtoLote, 'application/json')
+                
                 if(!resultInsertLote.status)  return message.SUCESS_CREATED_ITEM_WARNING
             }
         }
@@ -168,8 +168,8 @@ const atualizarProduto = async (produto, id, contentType) => {
             for(promocao of produto.promocao){
                 let produtoPromocao = { "id_produto": produto.id, "id_promocao": promocao.id}
 
-                let resultInsertPromocao = await controllerProdutoPromocao.inserirNovoProdutoPromocao(produtoPromocao, contentType)
-
+                let resultInsertPromocao = await controllerProdutoPromocao.inserirNovoProdutoPromocao(produtoPromocao, 'application/json')
+                
                 if(!resultInsertPromocao.status)  return message.SUCESS_CREATED_ITEM_WARNING
             }
         }
@@ -181,8 +181,8 @@ const atualizarProduto = async (produto, id, contentType) => {
             for(sabor of produto.sabor){
                 let produtoSabor = { "id_produto": produto.id, "id_sabor": sabor.id}
 
-                let resultInsertSabor = await controllerProdutoSabor.inserirNovoProdutoSabor(produtoSabor, contentType)
-
+                let resultInsertSabor = await controllerProdutoSabor.inserirNovoProdutoSabor(produtoSabor, 'application/json')
+                
                 if(!resultInsertSabor.status)  return message.SUCESS_CREATED_ITEM_WARNING
             }
         }
@@ -194,8 +194,8 @@ const atualizarProduto = async (produto, id, contentType) => {
             for(tag of produto.tag){
                 let produtoTag = { "id_produto": produto.id, "id_tag": tag.id}
 
-                let resultInsertTag = await controllerProdutoTag.inserirNovoProdutoTag(produtoTag, contentType)
-
+                let resultInsertTag = await controllerProdutoTag.inserirNovoProdutoTag(produtoTag, 'application/json')
+                
                 if(!resultInsertTag.status)  return message.SUCESS_CREATED_ITEM_WARNING
             }
         }
@@ -207,8 +207,8 @@ const atualizarProduto = async (produto, id, contentType) => {
              for(tamanho of produto.tamanho){
                  let produtoTamanho = { "id_produto": produto.id, "id_tamanho": tamanho.id}
  
-                 let resultInsertTamanho = await controllerProdutoTamanho.inserirNovoProdutoTamanho(produtoTamanho, contentType)
- 
+                 let resultInsertTamanho = await controllerProdutoTamanho.inserirNovoProdutoTamanho(produtoTamanho, 'application/json')
+                
                  if(!resultInsertTamanho.status)  return message.SUCESS_CREATED_ITEM_WARNING
              }
          }
@@ -373,7 +373,7 @@ const validarDados = async (produto, contentType) => {
         return message.ERROR_BAD_REQUEST // 400
     }
 
-    if(produto.status == undefined || produto.status == null || produto.status == '' || isNaN(produto.status) || (Number(produto.status) != 0 && Number(produto.status) != 1)){
+    if(produto.status == undefined || produto.status == null || String(produto.status) == '' || isNaN(produto.status)){
         message.ERROR_BAD_REQUEST.field = '[STATUS] INVÁLIDO'
         return message.ERROR_BAD_REQUEST // 400
     }

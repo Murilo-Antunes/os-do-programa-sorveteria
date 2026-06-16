@@ -85,7 +85,7 @@ const selectByIdUsuario = async (id) => {
 
         if(response) return response[0]
         
-    } catch (error) {}
+    } catch (error) {console.log(error)}
 
     return false
 }
