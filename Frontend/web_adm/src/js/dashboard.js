@@ -31,13 +31,11 @@ function preencherCards(produtos, categorias, ingredientes) {
 
 
 function criarCategorias(categorias) {
-  console.log(categorias)
   if (!categorias || categorias.length === 0) return '—';
   return categorias.map(c => `<span class="categoria">${c.categoria}</span>`).join('');
 }
 
 function criarTags(tags) {
-  console.log(tags)
   if (!tags || tags.length === 0) return '—';
   return tags.map(t => `<span class="categoria">${t.tag}</span>`).join('');
 }
@@ -50,7 +48,6 @@ function criarLinhaProdutos(produto) {
   const statusLabel = produto.status ? 'Ativo' : 'Inativo';
   const statusClass = produto.status ? 'ativo' : 'inativo';
 
-  console.log(produto)
 
   tr.innerHTML = `
     <td>
@@ -78,7 +75,6 @@ function criarLinhaProdutos(produto) {
 function renderizarTabela(lista) {
   const tbody      = document.getElementById('products-tbody');
   const emptyState = document.getElementById('empty-state');
-  console.log(lista)
 
   tbody.innerHTML = '';
 
@@ -98,16 +94,28 @@ async function toggleStatus(id, lista) {
   const produto = lista.find(p => p.id === id);
   if (!produto) return;
 
-  const novoStatus = !produto.status;
+  let novoStatus = 1
+
+  if (produto.status === 1)
+    novoStatus = 0
 
   try {
-    const formData = new FormData();
-    formData.append('status', novoStatus);
+    let formData = criarFormData(produto, novoStatus)
+    
 
-    await fetch(`${BASE_URL}/produtos/${id}`, {
+    const OPTIONS = {
       method: 'PUT',
-      body: formData
-    });
+      headers: {
+        'x-access-token': token,
+        },
+      body: formData,
+    }
+
+    console.log(formData.get('status'))
+
+    let res = await fetch(`${BASE_URL}/produtos/${id}`, OPTIONS);
+    let data = await res.json()
+    console.log(data)
 
     // Atualiza localmente sem re-buscar tudo
     produto.status = novoStatus;
@@ -121,6 +129,28 @@ async function toggleStatus(id, lista) {
   } catch (err) {
     console.error('Erro ao alterar status:', err);
   }
+}
+
+const criarFormData = (produto, novoStatus) =>{
+  const formData = new FormData();
+  let preco = produto.preco
+  console.log(produto)
+
+  formData.append("nome",      produto.nome);
+  formData.append("descricao", produto.descricao);
+  formData.append("preco",     Number(preco));
+  formData.append("img",       produto.img);
+  formData.append('status', novoStatus);
+
+  formData.append("categoria",   JSON.stringify(produto.categoria.map(id => ( id.id ))));
+  formData.append("sabor",       JSON.stringify(produto.sabor.map(id => ({ id }))));
+  formData.append("ingrediente", JSON.stringify(produto.ingrediente.map(id => ({ id }))));
+  formData.append("tag",         JSON.stringify(produto.tag.map(id => ({ id }))));
+  formData.append("tamanho",     JSON.stringify(produto.tamanho.map(id => ({ id }))));
+  formData.append("promocao",    JSON.stringify([{ id: 1 }]));
+  formData.append("lote",        JSON.stringify([{ id: 1 }]));
+
+  return formData
 }
 
 
@@ -151,7 +181,6 @@ async function pegarCategorias() {
   }
   const res = await fetch(`${BASE_URL}/categorias`, OPTIONS);
   let data = await res.json()
-  console.log(data)
   if (!res.ok) throw new Error('Erro ao buscar categorias');
   return data.response.categoria;
 }
@@ -164,7 +193,6 @@ async function pegarIngredientes() {
   }
   const res = await fetch(`${BASE_URL}/ingredientes`, OPTIONS);
   let data = await res.json()
-  console.log(data)
   if (!res.ok) throw new Error('Erro ao buscar ingredientes');
   return data.response.ingrediente;
 }
@@ -212,7 +240,6 @@ async function init() {
       pegarCategorias(),
       pegarIngredientes()
     ]);
-    console.log(produtos)
 
     preencherCards(produtos, categorias, ingredientes);
     renderizarTabela(produtos);
