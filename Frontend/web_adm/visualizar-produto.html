@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorvetudos — Produto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="src/css/style.css" />
+  <link rel="stylesheet" href="src/css/dashboard.css" />
+  <link rel="stylesheet" href="src/css/produto.css" />
+
+  <script src="src/js/visualizar-produto.js" defer></script>
+</head>
+<body>
+
+  <!-- ASIDE (mesma estrutura do dashboard) -->
+  <aside class="aside">
+    <div class="sidebar-titulo">
+      <img class="logo-sorvetudos" src="./src/img/Sorvetudos.png" alt="Sorvetudos" />
+      Sorvetudos
+    </div>
+    <ul class="sidebar-nave">
+      <li class="active">
+        <a href="dashboard_modelo.html">
+          <i class="nave-icone"><img class="logo-dashboard" src="./src/img/Dashboard.png" alt="" /></i>
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="cadastro-produto.html">
+          <i class="nave-icone"><img class="logo-novo-produto" src="./src/img/Novo Produto.png" alt="" /></i>
+          Novo Produto
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="nave-icone"><img class="logo-promocoes" src="./src/img/Promoções.png" alt="" /></i>
+          Promoções
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="nave-icone"><img class="logo-lotes" src="./src/img/Lotes.png" alt="" /></i>
+          Lotes
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-space"></div>
+    <div class="sidebar-exit">
+      <a href="login.html">
+        <i class="nave-icone"><img class="logo-sair" src="./src/img/Sair.png" alt="" /></i>
+        Sair
+      </a>
+    </div>
+  </aside>
+
+  <main class="main" id="main-content">
+
+    <header class="page-header">
+      <h1 class="page-title pagina-titulo">Carregando…</h1>
+    </header>
+
+    <!-- IMAGEM -->
+    <section class="secao">
+      <span class="secao-label">Imagem</span>
+      <div class="imagem-wrapper">
+        <div id="imagem-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF"
+               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </div>
+        <img id="produto-imagem" class="produto-img" alt="Imagem do produto" style="display:none" />
+      </div>
+    </section>
+
+    <!-- NOME + SABOR -->
+    <div class="campos-linha">
+      <div class="campo-grupo">
+        <label class="campo-label">Nome do Produto</label>
+        <input id="campo-nome" class="campo-input" type="text" readonly />
+      </div>
+      <div class="campo-grupo">
+        <label class="campo-label">Sabor</label>
+        <input id="campo-sabor" class="campo-input" type="text" readonly />
+      </div>
+    </div>
+
+    <!-- PREÇO + TAG -->
+    <div class="campos-linha">
+      <div class="campo-grupo">
+        <label class="campo-label">Preço &lt;R$&gt;</label>
+        <div class="campo-preco-wrapper">
+          <input id="campo-preco" class="campo-input" type="text" readonly />
+          <span class="link-promocao">Adicionar Promoção</span>
+        </div>
+      </div>
+      <div class="campo-grupo">
+        <label class="campo-label">Tag &lt;opcional&gt;</label>
+        <input id="campo-tag" class="campo-input" type="text" readonly />
+      </div>
+    </div>
+
+    <!-- CATEGORIAS -->
+    <div class="secao">
+      <span class="secao-label">Categorias</span>
+      <div class="chips-leitura" id="categorias-lista"></div>
+    </div>
+
+    <!-- INGREDIENTES -->
+    <div class="secao">
+      <span class="secao-label">Ingredientes</span>
+      <div class="chips-leitura" id="ingredientes-lista"></div>
+    </div>
+
+    <!-- DESCRIÇÃO -->
+    <div class="secao secao-descricao">
+      <div class="campo-grupo">
+        <label class="campo-label">Descrição</label>
+        <textarea id="campo-descricao" class="campo-textarea" rows="5" readonly></textarea>
+      </div>
+    </div>
+
+    <!-- AÇÕES -->
+    <div class="produto-acoes">
+      <button id="btn-deletar" class="btn-produto btn-deletar-produto">deletar produto</button>
+      <button id="btn-editar"  class="btn-produto btn-editar-produto">editar produto</button>
+    </div>
+
+  </main>
+
+  <!-- MODAL DELETAR -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-caixa">
+      <button class="modal-fechar" id="modal-fechar" aria-label="Fechar">✕</button>
+      <h2 class="modal-titulo" id="modal-titulo">Deletar Produto</h2>
+      <div class="modal-corpo">
+        <p class="modal-mensagem" id="modal-mensagem"></p>
+      </div>
+      <div class="modal-rodape">
+        <button class="btn-modal btn-modal-deletar" id="modal-btn-deletar">deletar</button>
+        <button class="btn-modal btn-modal-voltar"  id="modal-btn-voltar">voltar</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

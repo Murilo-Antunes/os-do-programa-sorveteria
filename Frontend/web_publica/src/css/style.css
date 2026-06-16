@@ -684,18 +684,20 @@
 .size-btns {
   margin-top: 16px;
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
 .size-btn {
-  height: 44px;
-  width: 44px;
+  height: 40px;
+  width: fit-content;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--bg);
   font-size: 14px;
   font-weight: 600;
   transition: all 0.2s;
+  padding: 10px;
 }
 
 .size-btn.active {

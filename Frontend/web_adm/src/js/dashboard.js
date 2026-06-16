@@ -1,175 +1,16 @@
-const PRODUTOS = [
-  {
-    "id": 1,
-    "nome": "Milkshake de Chocolate Belga Supremo",
-    "descricao": "Cremoso milkshake batido com autêntico chocolate belga e finalizado com uma generosa camada de chantilly.",
-    "preco": 24.90,
-    "status": true,
-    "quantidade": 10,
-    "tamanho": "M",
-    "img": "/img/assets/ice-acai.jpg",
-    "categorias": [
-      { "id": 3, "nome": "Milkshakes" },
-      { "id": 0, "nome": "Cremosos" }
-    ],
-    "sabores": [
-      { "id": 0, "sabor": "chocolate" }
-    ],
-    "ingredientes": [
-      { "id": 0, "ingrediente": "Leite integral" },
-      { "id": 2, "ingrediente": "Chocolate belga" },
-      { "id": 12, "ingrediente": "Chantilly" }
-    ],
-    "tags": [
-      { "id": 1, "sabor": "Mais vendido" }
-    ]
-  },
-  {
-    "id": 2,
-    "nome": "Gelato de Pistache Siciliano Premium",
-    "descricao": "Gelato artesanal feito com pistache importado da Sicília, textura aveludada e sabor marcante.",
-    "preco": 18.50,
-    "status": true,
-    "quantidade": 25,
-    "tamanho": "P",
-    "img": "/img/assets/ice-chocolate.jpg",
-    "categorias": [
-      { "id": 2, "nome": "Nuts" },
-      { "id": 0, "nome": "Cremosos" }
-    ],
-    "sabores": [
-      { "id": 2, "sabor": "pistache" }
-    ],
-    "ingredientes": [
-      { "id": 1, "ingrediente": "Creme de leite" },
-      { "id": 4, "ingrediente": "Pistache siciliano" }
-    ],
-    "tags": [
-      { "id": 0, "sabor": "Em Alta" },
-      { "id": 2, "sabor": "Sucesso" }
-    ]
-  },
-  {
-    "id": 3,
-    "nome": "Sorvete de Morango Silvestre",
-    "descricao": "Sorvete refrescante feito com morangos silvestres colhidos na estação, sem corantes artificiais.",
-    "preco": 12.90,
-    "status": true,
-    "quantidade": 10,
-    "tamanho": "P",
-    "img": "/img/assets/ice-morango.jpg",
-    "categorias": [
-      { "id": 1, "nome": "Frutas" }
-    ],
-    "sabores": [
-      { "id": 3, "sabor": "morango" }
-    ],
-    "ingredientes": [
-      { "id": 8, "ingrediente": "Frutas vermelhas" },
-      { "id": 13, "ingrediente": "Açúcar orgânico" }
-    ],
-    "tags": []
-  },
-  {
-    "id": 4,
-    "nome": "Sorvete de Chocolate ao Leite",
-    "descricao": "Clássico sorvete cremoso de chocolate ao leite, perfeito para qualquer ocasião.",
-    "preco": 13.90,
-    "status": true,
-    "quantidade": 25,
-    "tamanho": "M",
-    "img": "/img/assets/ice-chocolate.jpg",
-    "categorias": [
-      { "id": 5, "nome": "Clássicos" }
-    ],
-    "sabores": [
-      { "id": 0, "sabor": "chocolate" }
-    ],
-    "ingredientes": [
-      { "id": 0, "ingrediente": "Leite integral" },
-      { "id": 2, "ingrediente": "Chocolate belga" }
-    ],
-    "tags": []
-  },
-  {
-    "id": 5,
-    "nome": "Sorvete de Pistache Importado",
-    "descricao": "Sorvete artesanal de pistache com textura refinada e sabor intenso.",
-    "preco": 16.90,
-    "status": false,
-    "quantidade": 2,
-    "tamanho": "P",
-    "img": "/img/assets/ice-pistache.jpg",
-    "categorias": [
-      { "id": 2, "nome": "Nuts" }
-    ],
-    "sabores": [
-      { "id": 2, "sabor": "pistache" }
-    ],
-    "ingredientes": [
-      { "id": 1, "ingrediente": "Creme de leite" },
-      { "id": 4, "ingrediente": "Pistache siciliano" }
-    ],
-    "tags": []
-  },
-  {
-    "id": 6,
-    "nome": "Açaí com Granola Crocante",
-    "descricao": "Bowl de açaí puro com granola artesanal crocante e um fio de mel.",
-    "preco": 19.90,
-    "status": false,
-    "quantidade": 0,
-    "tamanho": "G",
-    "img": "/img/assets/ice-acai.jpg",
-    "categorias": [
-      { "id": 1, "nome": "Frutas" }
-    ],
-    "sabores": [
-      { "id": 4, "sabor": "açaí" }
-    ],
-    "ingredientes": [
-      { "id": 9, "ingrediente": "Açaí" },
-      { "id": 11, "ingrediente": "Granola crocante" }
-    ],
-    "tags": []
-  }
-];
 
-const CATEGORIAS = [
-  { "id": 0, "categoria": "Cremosos" },
-  { "id": 1, "categoria": "Frutas" },
-  { "id": 2, "categoria": "Nuts" },
-  { "id": 3, "categoria": "Milkshakes" },
-  { "id": 4, "categoria": "Sundaes" },
-  { "id": 5, "categoria": "Clássicos" }
-];
+const BASE_URL = 'http://localhost:8080/v1/sorvetudos/admin';
+let token = localStorage.getItem('token')
 
-const INGREDIENTES = [
-  { "id": 0,  "ingrediente": "Leite integral" },
-  { "id": 1,  "ingrediente": "Creme de leite" },
-  { "id": 2,  "ingrediente": "Chocolate belga" },
-  { "id": 3,  "ingrediente": "Baunilha de Madagascar" },
-  { "id": 4,  "ingrediente": "Pistache siciliano" },
-  { "id": 5,  "ingrediente": "Cookies" },
-  { "id": 6,  "ingrediente": "Caramelo salgado" },
-  { "id": 7,  "ingrediente": "Doce de leite" },
-  { "id": 8,  "ingrediente": "Frutas vermelhas" },
-  { "id": 9,  "ingrediente": "Açaí" },
-  { "id": 10, "ingrediente": "Menta fresca" },
-  { "id": 11, "ingrediente": "Granola crocante" },
-  { "id": 12, "ingrediente": "Chantilly" },
-  { "id": 13, "ingrediente": "Açúcar orgânico" }
-];
 
-//Formata o preço para o padrão brasileiro
 function formatarBRL(valor) {
-  return valor.toLocaleString('pt-BR', {
+  return Number(valor).toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL'
   });
 }
 
-//cria o svg de mudar status
+
 function criarIconeTrocar() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -182,34 +23,39 @@ function criarIconeTrocar() {
   </svg>`;
 }
 
-
-//Atualiza os três cards de resumo no topo do dashboard.
-function preencherCards() {
-  document.getElementById('total-produtos').textContent   = PRODUTOS.length;
-  document.getElementById('total-categorias').textContent = CATEGORIAS.length;
-  document.getElementById('total-ingredientes').textContent  = INGREDIENTES.length;
+function preencherCards(produtos, categorias, ingredientes) {
+  document.getElementById('total-produtos').textContent    = produtos.length;
+  document.getElementById('total-categorias').textContent  = categorias.length;
+  document.getElementById('total-ingredientes').textContent = ingredientes.length;
 }
 
-//Retorna um span contendo uma categoria
+
 function criarCategorias(categorias) {
   if (!categorias || categorias.length === 0) return '—';
-  return categorias.map(c => `<span class="categoria">${c.nome}</span>`).join('');
+  return categorias.map(c => `<span class="categoria">${c.categoria}</span>`).join('');
 }
 
-//Cria uma linha para a tabela
+function criarTags(tags) {
+  if (!tags || tags.length === 0) return '—';
+  return tags.map(t => `<span class="categoria">${t.tag}</span>`).join('');
+}
+
+
 function criarLinhaProdutos(produto) {
   const tr = document.createElement('tr');
-  //o dataset coloca um id na tr com o mesmo id do produto para que seja possivel identifica-lo depois
   tr.dataset.id = produto.id;
 
   const statusLabel = produto.status ? 'Ativo' : 'Inativo';
   const statusClass = produto.status ? 'ativo' : 'inativo';
 
+
   tr.innerHTML = `
-    <td>${produto.nome}</td>
-    <td>${criarCategorias(produto.categorias)}</td>
+    <td>
+      <span class="produto-nome-link" data-id="${produto.id}">${produto.nome}</span>
+    </td>
+    <td>${criarCategorias(produto.categoria) }</td>
     <td>${formatarBRL(produto.preco)}</td>
-    <td class="col-qty">${produto.quantidade}</td>
+    <td>${ criarTags(produto.tag )}</td>
     <td>
       <div class="status-cell">
         <span class="status-badge ${statusClass}">${statusLabel}</span>
@@ -225,61 +71,184 @@ function criarLinhaProdutos(produto) {
   return tr;
 }
 
-function renderTable(lista) {
+
+function renderizarTabela(lista) {
   const tbody      = document.getElementById('products-tbody');
   const emptyState = document.getElementById('empty-state');
 
   tbody.innerHTML = '';
+
   if (lista.length === 0) {
     emptyState.hidden = false;
     return;
   }
 
   emptyState.hidden = true;
+  lista.forEach(p => tbody.appendChild(criarLinhaProdutos(p)));
+}
 
-  lista.forEach(produto => {
-    const tr = criarLinhaProdutos(produto);
-    tbody.appendChild(tr);
+// ------------------------------------------------------------
+//  Toggle de status — PUT na API
+// ------------------------------------------------------------
+async function toggleStatus(id, lista) {
+  const produto = lista.find(p => p.id === id);
+  if (!produto) return;
+
+  let novoStatus = 1
+
+  if (produto.status === 1)
+    novoStatus = '0'
+
+  try {
+    let formData = criarFormData(produto, novoStatus)
+    
+
+    const OPTIONS = {
+      method: 'PUT',
+      headers: {
+        'x-access-token': token,
+        },
+      body: formData,
+    }
+
+    console.log(formData.get('status'))
+
+    let res = await fetch(`${BASE_URL}/produtos/${id}`, OPTIONS);
+    let data = await res.json()
+    console.log(data)
+
+    // Atualiza localmente sem re-buscar tudo
+    produto.status = novoStatus;
+
+    const tr    = document.querySelector(`tr[data-id="${id}"]`);
+    const badge = tr?.querySelector('.status-badge');
+    if (badge) {
+      badge.textContent = novoStatus ? 'Ativo' : 'Inativo';
+      badge.className   = `status-badge ${novoStatus ? 'ativo' : 'inativo'}`;
+    }
+  } catch (err) {
+    console.error('Erro ao alterar status:', err);
+  }
+}
+
+const criarFormData = (produto, novoStatus) =>{
+  const formData = new FormData();
+  let preco = produto.preco
+  console.log(produto)
+
+  formData.append("nome",      produto.nome);
+  formData.append("descricao", produto.descricao);
+  formData.append("preco",     Number(preco));
+  formData.append("img",       produto.img);
+  formData.append('status', novoStatus);
+
+  formData.append("categoria",   JSON.stringify(produto.categoria.map(id => ( id.id ))));
+  formData.append("sabor",       JSON.stringify(produto.sabor.map(id => ({ id }))));
+  formData.append("ingrediente", JSON.stringify(produto.ingrediente.map(id => ({ id }))));
+  formData.append("tag",         JSON.stringify(produto.tag.map(id => ({ id }))));
+  formData.append("tamanho",     JSON.stringify(produto.tamanho.map(id => ({ id }))));
+  formData.append("promocao",    JSON.stringify([{ id: 1 }]));
+  formData.append("lote",        JSON.stringify([{ id: 1 }]));
+
+  return formData
+}
+
+
+function navegarParaProduto(id) {
+  window.location.href = `visualizar-produto.html?id=${id}`;
+}
+
+
+async function pegarProdutos() {
+
+  const OPTIONS = {
+    headers: {
+      'x-access-token': token,
+    },
+  }
+
+  const res = await fetch(`${BASE_URL}/produtos`, OPTIONS);
+  let data = await res.json()
+  if (!res.ok) throw new Error('Erro ao buscar produtos');
+  return data.response.produto;
+}
+
+async function pegarCategorias() {
+  const OPTIONS = {
+    headers: {
+      'x-access-token': token,
+    },
+  }
+  const res = await fetch(`${BASE_URL}/categorias`, OPTIONS);
+  let data = await res.json()
+  if (!res.ok) throw new Error('Erro ao buscar categorias');
+  return data.response.categoria;
+}
+
+async function pegarIngredientes() {
+  const OPTIONS = {
+    headers: {
+      'x-access-token': token,
+    },
+  }
+  const res = await fetch(`${BASE_URL}/ingredientes`, OPTIONS);
+  let data = await res.json()
+  if (!res.ok) throw new Error('Erro ao buscar ingredientes');
+  return data.response.ingrediente;
+}
+
+function bindBusca(lista) {
+  const input = document.getElementById('search-input');
+  if (!input) return;
+
+  input.addEventListener('input', () => {
+    const termo = input.value.toLowerCase().trim();
+    const filtrado = lista.filter(p =>
+      p.nome.toLowerCase().includes(termo)
+    );
+    renderizarTabela(filtrado);
+    // rebinda eventos após re-render
+    bindEventosTabela(lista);
   });
 }
 
 
-// TOGGLE DE STATUS
-function toggleStatus(id) {
-  const produto = PRODUTOS.find(p => p.id === id);
-  if (!produto) return;
-
-  produto.status = !produto.status;
-
-  // Atualiza apenas a célula de status da linha correspondente
-  const tr = document.querySelector(`tr[data-id="${id}"]`);
-  if (!tr) return;
-
-  const badge  = tr.querySelector('.status-badge');
-  const label  = produto.status ? 'Ativo' : 'Inativo';
-  const classe    = produto.status ? 'ativo' : 'inativo';
-
-  badge.textContent = label;
-  badge.className   = `status-badge ${classe}`;
-}
-
-// EVENTOS
-function bindToggleButtons() {
+function bindEventosTabela(lista) {
   const tbody = document.getElementById('products-tbody');
 
   tbody.addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-toggle');
-    if (!btn) return;
-    const id = Number(btn.dataset.id);
-    toggleStatus(id);
+    // Clique no toggle de status
+    const btnToggle = e.target.closest('.btn-toggle');
+    if (btnToggle) {
+      toggleStatus(Number(btnToggle.dataset.id), lista);
+      return;
+    }
+
+    // Clique no nome do produto → visualizar
+    const linkNome = e.target.closest('.produto-nome-link');
+    if (linkNome) {
+      navegarParaProduto(Number(linkNome.dataset.id));
+    }
   });
 }
 
-// INICIALIZAÇÃO
-function init() {
-  preencherCards();
-  renderTable(PRODUTOS);
-  bindToggleButtons();
+
+async function init() {
+  try {
+    const [produtos, categorias, ingredientes] = await Promise.all([
+      pegarProdutos(),
+      pegarCategorias(),
+      pegarIngredientes()
+    ]);
+
+    preencherCards(produtos, categorias, ingredientes);
+    renderizarTabela(produtos);
+    bindBusca(produtos);
+    bindEventosTabela(produtos);
+
+  } catch (err) {
+    console.error('Erro ao inicializar dashboard:', err);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);

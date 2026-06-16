@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorvetudos — Editar Produto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="src/css/style.css" />
+  <link rel="stylesheet" href="src/css/dashboard.css" />
+  <link rel="stylesheet" href="src/css/produto.css" />
+
+  <script src="src/js/editar-produto.js" defer></script>
+</head>
+<body>
+
+  <!-- ASIDE -->
+  <aside class="aside">
+    <div class="sidebar-titulo">
+      <img class="logo-sorvetudos" src="./src/img/Sorvetudos.png" alt="Sorvetudos" />
+      Sorvetudos
+    </div>
+    <ul class="sidebar-nave">
+      <li>
+        <a href="dashboard_modelo.html">
+          <i class="nave-icone"><img class="logo-dashboard" src="./src/img/Dashboard.png" alt="" /></i>
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="cadastro-produto.html">
+          <i class="nave-icone"><img class="logo-novo-produto" src="./src/img/Novo Produto.png" alt="" /></i>
+          Novo Produto
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="nave-icone"><img class="logo-promocoes" src="./src/img/Promoções.png" alt="" /></i>
+          Promoções
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="nave-icone"><img class="logo-lotes" src="./src/img/Lotes.png" alt="" /></i>
+          Lotes
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-space"></div>
+    <div class="sidebar-exit">
+      <a href="login.html">
+        <i class="nave-icone"><img class="logo-sair" src="./src/img/Sair.png" alt="" /></i>
+        Sair
+      </a>
+    </div>
+  </aside>
+
+  <main class="main" id="main-content">
+
+    <header class="page-header">
+      <h1 class="page-title pagina-titulo">Carregando…</h1>
+    </header>
+
+    <!-- IMAGEM (dropzone com preview da imagem atual) -->
+    <section class="secao">
+      <span class="secao-label">Imagem</span>
+      <div class="imagem-wrapper">
+        <div class="dropzone" id="dropzone" title="Clique ou arraste para trocar a imagem">
+          <input type="file" id="input-arquivo" accept="image/*" style="display:none" />
+          <div class="upload-placeholder" id="upload-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <span>Carregue a imagem aqui</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOME + SABOR -->
+    <div class="campos-linha">
+      <div class="campo-grupo">
+        <label class="campo-label" for="campo-nome">Nome do Produto</label>
+        <input id="campo-nome" class="campo-input" type="text" placeholder="EX: Sorvete de Chocolate" />
+      </div>
+      <div class="campo-grupo">
+        <label class="campo-label" for="campo-sabor">Sabor</label>
+        <input id="campo-sabor" class="campo-input" type="text" placeholder="EX: Chocolate Belga 70%" />
+      </div>
+    </div>
+
+    <!-- PREÇO + TAG -->
+    <div class="campos-linha">
+      <div class="campo-grupo">
+        <label class="campo-label" for="campo-preco">Preço &lt;R$&gt;</label>
+        <input id="campo-preco" class="campo-input" type="number" min="0" step="0.01" placeholder="EX: 18.90" />
+      </div>
+      <div class="campo-grupo">
+        <label class="campo-label" for="campo-tag">Tag &lt;opcional&gt;</label>
+        <input id="campo-tag" class="campo-input" type="text" placeholder="EX: Mais Vendido" />
+      </div>
+    </div>
+
+    <!-- CATEGORIAS -->
+    <div class="secao">
+      <span class="secao-label">Categorias</span>
+      <!-- chips injetados pelo editar-produto.js com pré-seleção -->
+      <div class="chips-wrapper" id="categorias-chips"></div>
+      <div class="chips-acoes">
+        <button class="btn-acao-chip btn-acao-chip--deletar" title="Deletar categorias selecionadas" aria-label="Deletar categoria">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+          </svg>
+        </button>
+        <button class="btn-acao-chip btn-acao-chip--adicionar" title="Adicionar categoria" aria-label="Adicionar categoria">+</button>
+        <button class="btn-acao-chip btn-acao-chip--editar" title="Editar categoria selecionada" aria-label="Editar categoria">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- INGREDIENTES -->
+    <div class="secao">
+      <span class="secao-label">Ingredientes</span>
+      <div class="chips-wrapper chips-wrapper--grade" id="ingredientes-chips"></div>
+      <div class="chips-acoes">
+        <button class="btn-acao-chip btn-acao-chip--deletar" title="Deletar ingredientes selecionados" aria-label="Deletar ingrediente">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+          </svg>
+        </button>
+        <button class="btn-acao-chip btn-acao-chip--adicionar" title="Adicionar ingrediente" aria-label="Adicionar ingrediente">+</button>
+        <button class="btn-acao-chip btn-acao-chip--editar" title="Editar ingrediente selecionado" aria-label="Editar ingrediente">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- DESCRIÇÃO -->
+    <div class="secao secao-descricao">
+      <div class="campo-grupo">
+        <label class="campo-label" for="campo-descricao">Descrição</label>
+        <textarea id="campo-descricao" class="campo-textarea" rows="5"
+                  placeholder="Conte a história desse sabor..."></textarea>
+      </div>
+    </div>
+
+    <!-- CONFIRMAR EDIÇÃO -->
+    <button id="btn-confirmar" class="btn-confirmar-edicao">Confirmar Edição</button>
+
+  </main>
+</body>
+</html>

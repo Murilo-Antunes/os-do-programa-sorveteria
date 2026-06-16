@@ -1,138 +1,134 @@
-(function () {
-  //guarda a quantidade de cards por "pagina"
-  const PAGE_SIZE = 6;
-  //guarda as categorias registradas
-  const CATEGORIAS = ["Todos", ...window.categorias];
-  //guarda o preço de cada produto
-  const precos = window.PRODUTOS.map(p => p.preco);
-  //guarda o o menos preço dentre todos os produtos
-  const PRICE_MIN = Math.floor(Math.min(...precos));
-  //guarda o preço maximo de todos os produtos
-  const PRICE_MAX = Math.ceil(Math.max(...precos));
+const BASE_URL = 'http://localhost:8080/v1/sorvetudos/catalogo';
+const PAGE_SIZE = 6;
 
-  //guarda o estado atual de todos os atributos que podem modificar conforme o usuário altere os filtros 
-  const state = {
-    cat: "Todos", query: "", priceMax: PRICE_MAX,
-    sizes: [], onlyPromo: false, visible: PAGE_SIZE, showFilters: false
-  };
+const state = {
+  cat: "Todos",
+  query: "",
+  size: null,    
+  sabor: null,    
+  tag: null,      
+  visible: PAGE_SIZE,
+  showFilters: false
+};
 
-  //cria o card de um produto
-    //a variavel "i" é o indice do array do produto a ser renderizado, esse indice é utilizado no delay da animação para 
-    //dar o movimento em cadeia da animação
-  function productCardHtml(produto, i) {
-    return `<a href="./src/pages/product.html?id=${produto.id}" class="product-card" style="animation-delay:${i*50}ms">
-      <div class="product-img">
-        <img src="${'./src' + produto.img}" alt="${escapeHtml(produto.nome)}" loading="lazy">
-        ${produto.tags.forEach((tag) =>{
-            tag ? `<span class="product-tag">${escapeHtml(tag)}</span>` : ""
-        })}
-      </div>
-      <div class="product-info">
-        <div class="meta"><span>${escapeHtml(produto.categorias[0].nome)}</span></div>
-        <h3>${escapeHtml(produto.nome)}</h3>
-        <p>${escapeHtml(produto.sabores[0].sabor)}</p>
-      </div>
-      <div class="product-price">
-        <span>${formatarPreco(produto.preco)}</span>
-      </div>
-      <div class="product-price-mobile">${formatarPreco(produto.preco)}</div>
-    </a>`;
+// ─── Card HTML ────────────────────────────────────────────────────────────────
+
+function productCardHtml(produto, i) {
+  const nome      = produto.nome                          ?? "Sem nome";
+  const img       = produto.img 
+    ? (produto.img.startsWith("http") ? produto.img : "./src" + produto.img)
+    : "/src/img/placeholder.jpg";
+  const preco     = produto.preco                         ?? "—";
+  const categoria = produto.categoria?.[0]?.categoria     ?? "Sem categoria";
+  const sabor     = produto.sabor?.[0]?.sabor             ?? "Sem sabor";
+  const tags      = produto.tag?.length
+    ? produto.tag.map(tag => `<span class="product-tag">${escapeHtml(tag.tag)}</span>`).join("")
+    : "";
+
+  return `<a href="./src/pages/product.html?id=${produto.id}" class="product-card" style="animation-delay:${i * 50}ms">
+  <div class="product-img">
+    <img src="${img}" alt="${escapeHtml(nome)}" loading="lazy">
+    ${tags}
+  </div>
+  <div class="product-info">
+    <div class="meta"><span>${escapeHtml(categoria)}</span></div>
+    <h3>${escapeHtml(nome)}</h3>
+    <p>${escapeHtml(sabor)}</p>
+  </div>
+  <div class="product-price">
+    <span>${preco}</span>
+  </div>
+  <div class="product-price-mobile">${preco}</div>
+</a>`;
+}
+
+// ─── Chamada de filtro/pesquisa na API ───────────────────────────────────────
+
+async function fetchProdutosFiltrados() {
+  try {
+    // Se há query de texto, usa o endpoint de pesquisa
+    if (state.query.trim()) {
+      const res = await fetch(
+        `${BASE_URL}/produtos/pesquisa?nome=${encodeURIComponent(state.query.trim())}`
+      );
+      const data = await res.json();
+      return data.response.produto ?? [];
+    }
+
+    // Monta os query params para o endpoint de filtro
+    const params = new URLSearchParams();
+
+    if (state.cat !== "Todos")  params.append("id_categoria", state.cat);
+    if (state.size !== null)    params.append("id_tamanho", state.size);
+    if (state.sabor !== null)   params.append("id_sabor", state.sabor);
+    if (state.tag !== null)     params.append("id_tag", state.tag);
+
+    // Se não há nenhum filtro ativo, usa /produtos direto (evita 500 no /filtro?)
+    if (params.toString() === "") {
+      return window.PRODUTOS;
+    }
+    console.log(params.toString())
+
+    const res = await fetch(`${BASE_URL}/produtos/filtro?${params.toString()}`);
+
+    
+
+    if (!res.ok) {
+      console.error(`Erro ${res.status} no filtro — mostrando todos os produtos`);
+      return window.PRODUTOS;
+    }
+
+    const data = await res.json();
+    const produtos = data.response.filtro.map(item => item.produto[0]);
+
+    console.log(produtos)
+    
+    return produtos
+
+  } catch (err) {
+    console.error("Erro ao buscar produtos:", err);
+    return window.PRODUTOS;
   }
+}
 
-  function render() {
-    //renderiza as categorias 
-    document.getElementById("categoria-catalogo").innerHTML = CATEGORIAS.map(categoria =>
-      `<button class="cat-pill ${state.cat===categoria.categoria?"active":""}" data-cat="${categoria.categoria}">${categoria.categoria}</button>`
-    ).join("");
+// ─── Render ───────────────────────────────────────────────────────────────────
 
-    const produtos = window.PRODUTOS
+export const render = async () => {
+  // 1. Categorias — data-cat guarda o id (exceto "Todos" que é sentinela)
+  document.getElementById("categoria-catalogo").innerHTML = [
+    `<button class="cat-pill ${state.cat === "Todos" ? "active" : ""}" data-cat="Todos">Todos</button>`,
+    ...window.categorias.map(categoria =>
+      `<button class="cat-pill ${state.cat === String(categoria.id) ? "active" : ""}" data-cat="${categoria.id}">${categoria.categoria}</button>`
+    )
+  ].join("");
 
-    //mostra os produtos no grid de id = "catalog-grid"
-      //a variavel show é responsavel por pegar os produtos que estão entre o indice 0 até o número do page-size, nesse caso 6
-    const shown = produtos.slice(0, state.visible);
-    const grid = document.getElementById("catalog-grid");
-
-    //se o shown não achar nenhum produto aparece "Nenhum sabor encontrado" 
-      //se o shown achar um produto ele manda o produto e o indice dele no array
-        //o join transforma tudo em uma string unica
-    grid.innerHTML = shown.length === 0
-      ? `<div class="empty" style="grid-column:1/-1"><div class="icon">🍨</div><p>Nenhum sabor encontrado.</p></div>`
-      : shown.map((produto, i) => productCardHtml(produto, i)).join("");
-
-    //Controla a visibilidade do botão de ver mais, se o state.visable for menor do que o tamanho do array de produtos, o display
-    //do botão de ver mais e flex, se não, é none
-    const seeMore = document.getElementById("see-more");
-    seeMore.style.display = state.visible < produtos.length ? "flex" : "none";
-
-    //Controla a visibilidade do painel de filtros
-    const panel = document.getElementById("filters-panel");
-    panel.classList.toggle("open", state.showFilters);
-
-    //essa variavel identifica quantos filtros estão sendo utilizados
-      //se a categoria for igual a "Todos", então nenhum filtro de categoria está sendo usado, se for "Cremosos" então 1 está sendo usado
-        //ele faz isso para todos os filtros e soma todos
-    const activeCount =
-      (state.cat !== "Todos" ? 1 : 0) +
-      (state.query ? 1 : 0) +
-      (state.priceMax < PRICE_MAX ? 1 : 0) +
-      (state.sizes.length > 0 ? 1 : 0) +
-      (state.onlyPromo ? 1 : 0);
-
-
-    const btnFiltro = document.getElementById("filters-btn");
-
-    //o toggle funciona basicamente como:
-    //   if (state.showFilters) {
-    //   fb.classList.add("active");
-    // } else {
-    //   fb.classList.remove("active");
-    // }
-    btnFiltro.classList.toggle("active", state.showFilters);
-
-    //coloca o número de filtros sendo utilizado no contador de filtro dentro do html
-    document.getElementById("filters-badge").innerHTML = activeCount > 0 ? activeCount : "";
-    //muda o display do contator de filtros do html de acordo com o activeCount
-    document.getElementById("filters-badge").style.display = activeCount > 0 ? "inline-grid" : "none";
-
-
-    document.getElementById("price-value").textContent = "R$ " + state.priceMax;
-
-    //identifica quantos produtos foram encontrados após os filtros serem habilitados e adiciona no contador de produtos filtrados
-    document.getElementById("filter-count").textContent =
-      produtos.length + " " + (produtos.length === 1 ? "sabor encontrado" : "sabores encontrados");
-
-    //pega todos os botões de tamanho e verifica se estão selecionados para o controle da classe "active"
-    document.querySelectorAll(".size-btn").forEach(b => {
-      b.classList.toggle("active", state.sizes.includes(b.dataset.size));
-    });
-  }
-
-  //Renderiza o painel de filtros
+  // 2. Painel de filtros — renderiza ANTES de usar classList.toggle("open")
   document.getElementById("filters-panel").innerHTML = `
     <div class="filters-grid">
       <div>
-        <div class="filter-row">
-          <p class="filter-l">Preço máx.</p>
-          <span class="filter-v" id="price-value">R$ ${PRICE_MAX}</span>
+        <p class="filter-l">Sabores</p>
+        <div class="size-btns">
+          ${window.SABORES.map(s =>
+            `<button class="size-btn ${state.sabor === s.id ? "active" : ""}" data-sabor="${s.id}">${s.sabor}</button>`
+          ).join("")}
         </div>
-        <input type="range" class="range" id="range-price" min="${PRICE_MIN}" max="${PRICE_MAX}" step="1" value="${PRICE_MAX}">
-        <div class="filter-minmax"><span>R$ ${PRICE_MIN}</span><span>R$ ${PRICE_MAX}</span></div>
       </div>
       <div>
         <p class="filter-l">Tamanho</p>
         <div class="size-btns">
-          ${window.SIZES.map(s => `<button class="size-btn" data-size="${s}">${s}</button>`).join("")}
+          ${window.SIZES.map(s =>
+            `<button class="size-btn ${state.size === s.id ? "active" : ""}" data-size="${s.id}">${s.tamanho}</button>`
+          ).join("")}
         </div>
         <p class="filter-minmax" style="margin-top:12px">P · 90ml · M · 180ml · G · 320ml</p>
       </div>
       <div>
-        <p class="filter-l">Promoção</p>
-        <label class="promo-toggle">
-          <input type="checkbox" id="only-promo">
-          <span class="promo-switch"><span class="track"></span><span class="knob"></span></span>
-          <span style="font-size:14px">Só itens em promoção</span>
-        </label>
-        <p class="filter-minmax" style="margin-top:12px">Descontos aplicados diariamente nos sabores da estação.</p>
+        <p class="filter-l">Tags</p>
+        <div class="size-btns">
+          ${window.TAGS.map(t =>
+            `<button class="size-btn ${state.tag === t.id ? "active" : ""}" data-tag="${t.id}">${t.tag}</button>`
+          ).join("")}
+        </div>
       </div>
     </div>
     <div class="filters-foot">
@@ -141,63 +137,108 @@
     </div>
   `;
 
-  //Trigga os eventos acionados nos elementos de categoria, pesquisa, painel de filtro, range de preço, tamanho do sorvete,   
-  //apenas produtos em promoção, resetar filtros e ver mais
-    //DEPOIS NO LUGAR DE CHAMAR O RENDER NO FINAL, CHAMAR O HANDLER QUE FAZ A REQUISIÇÃO DE FILTROS
+  // 3. Agora que o painel existe no DOM, aplica a classe open
+  document.getElementById("filters-panel").classList.toggle("open", state.showFilters);
 
-  document.getElementById("categoria-catalogo").addEventListener("click", e => {
-    const b = e.target.closest("[data-cat]");
-    if (!b) return;
-    state.cat = b.dataset.cat; 
-    state.visible = PAGE_SIZE; 
-    render();
-  });
-  
-  document.getElementById("catalog-search").addEventListener("input", e => {
-    state.query = e.target.value; 
-    state.visible = PAGE_SIZE; 
-    render();
-  });
+  // 4. Re-registra listeners do painel (innerHTML substituiu os anteriores)
+  bindFilterListeners();
 
-  document.getElementById("filters-btn").addEventListener("click", () => {
-    state.showFilters = !state.showFilters; 
-    render();
-  });
+  // 5. Busca produtos filtrados na API
+  const produtos = await fetchProdutosFiltrados();
 
-  document.getElementById("range-price").addEventListener("input", e => {
-    state.priceMax = Number(e.target.value); 
-    state.visible = PAGE_SIZE; 
-    render();
-  });
+  // 6. Grid de produtos
+  const shown = produtos.slice(0, state.visible);
+  const grid = document.getElementById("catalog-grid");
 
-  document.querySelectorAll(".size-btn").forEach(b => {
+  grid.innerHTML = shown.length === 0
+    ? `<div class="empty" style="grid-column:1/-1"><div class="icon">🍨</div><p>Nenhum sabor encontrado.</p></div>`
+    : shown.map((produto, i) => productCardHtml(produto, i)).join("");
+
+  // 7. Botão ver mais
+  document.getElementById("see-more").style.display =
+    state.visible < produtos.length ? "flex" : "none";
+
+  // 8. Badge de filtros ativos
+  const activeCount =
+    (state.cat !== "Todos" ? 1 : 0) +
+    (state.query ? 1 : 0) +
+    (state.size !== null ? 1 : 0) +
+    (state.sabor !== null ? 1 : 0) +
+    (state.tag !== null ? 1 : 0);
+
+  document.getElementById("filters-btn").classList.toggle("active", state.showFilters);
+  document.getElementById("filters-badge").innerHTML = activeCount > 0 ? activeCount : "";
+  document.getElementById("filters-badge").style.display = activeCount > 0 ? "inline-grid" : "none";
+
+  // 9. Contagem — agora o elemento já existe no DOM (criado acima no innerHTML)
+  document.getElementById("filter-count").textContent =
+    produtos.length + " " + (produtos.length === 1 ? "sabor encontrado" : "sabores encontrados");
+};
+
+// ─── Listeners do painel (re-registrados a cada render) ─────────────────────
+
+const bindFilterListeners = () => {
+ document.querySelectorAll("[data-sabor]").forEach(b => {
     b.addEventListener("click", () => {
-      const s = b.dataset.size;
-      state.sizes = state.sizes.includes(s) ? state.sizes.filter(x => x !== s) : [...state.sizes, s];
-      state.visible = PAGE_SIZE; 
+      const s = Number(b.dataset.sabor);
+      state.sabor = state.sabor === s ? null : s;
+      state.visible = PAGE_SIZE;
       render();
     });
   });
 
-  document.getElementById("only-promo").addEventListener("change", e => {
-    state.onlyPromo = e.target.checked; 
-    state.visible = PAGE_SIZE; 
-    render();
+  document.querySelectorAll("[data-size]").forEach(b => {
+    b.addEventListener("click", () => {
+      const s = Number(b.dataset.size);
+      state.size = state.size === s ? null : s;
+      state.visible = PAGE_SIZE;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-tag]").forEach(b => {
+    b.addEventListener("click", () => {
+      const t = Number(b.dataset.tag);
+      state.tag = state.tag === t ? null : t;
+      state.visible = PAGE_SIZE;
+      render();
+    });
   });
 
   document.getElementById("reset-filters").addEventListener("click", () => {
-    state.cat = "Todos"; state.query = ""; state.priceMax = PRICE_MAX;
-    state.sizes = []; state.onlyPromo = false; state.visible = PAGE_SIZE;
+    state.cat = "Todos";
+    state.query = "";
+    state.size = null;
+    state.sabor = null;
+    state.tag = null;
+    state.visible = PAGE_SIZE;
     document.getElementById("catalog-search").value = "";
-    document.getElementById("range-price").value = PRICE_MAX;
-    document.getElementById("only-promo").checked = false;
     render();
   });
-  
-  document.getElementById("see-more").addEventListener("click", () => {
-    state.visible += PAGE_SIZE; 
-    render();
-  });
+};
 
+// ─── Listeners estáticos (registrados uma única vez) ─────────────────────────
+
+document.getElementById("categoria-catalogo").addEventListener("click", e => {
+  const b = e.target.closest("[data-cat]");
+  if (!b) return;
+  state.cat = b.dataset.cat; // "Todos" ou id numérico como string
+  state.visible = PAGE_SIZE;
   render();
-})();
+});
+
+document.getElementById("catalog-search").addEventListener("input", e => {
+  state.query = e.target.value;
+  state.visible = PAGE_SIZE;
+  render();
+});
+
+document.getElementById("filters-btn").addEventListener("click", () => {
+  state.showFilters = !state.showFilters;
+  render();
+});
+
+document.getElementById("see-more").addEventListener("click", () => {
+  state.visible += PAGE_SIZE;
+  render();
+});

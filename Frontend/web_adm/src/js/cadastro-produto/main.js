@@ -27,8 +27,6 @@ export const pegarCategorias = async () =>{
 }
 
 export const pegarSabores= async () =>{
-  
-
   const OPTIONS = {
     headers: {
       'x-access-token': token,
