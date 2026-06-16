@@ -2,24 +2,14 @@
 //  editar-produto.js
 //  Carrega produto por ID, pré-preenche todos os campos,
 //  e envia PUT com multipart/form-data ao confirmar.
+//  Chaves da API (singular): categoria, sabor, tag, tamanho, ingrediente
 // ============================================================
 
-const BASE_URL = 'http://localhost:8080/v1/sorvetudos/admin';
+const BASE_URL = '/v1/sorvetudos/admin';
 
 let produtoAtual = null;
 let imagemNova   = null;
 
-let token = localStorage.getItem('token')
-
-const OPTIONS_GET = {
-    headers: {
-            'x-access-token': token,
-    },
-}
-
-// ------------------------------------------------------------
-//  URL helpers
-// ------------------------------------------------------------
 function pegarIdDaUrl() {
   return new URLSearchParams(window.location.search).get('id');
 }
@@ -28,60 +18,54 @@ function pegarIdDaUrl() {
 //  Busca da API
 // ------------------------------------------------------------
 async function pegarProduto(id) {
-  const res = await fetch(`${BASE_URL}/produtos/${id}`, OPTIONS_GET);
+  const res = await fetch(`${BASE_URL}/produtos/${id}`);
   if (!res.ok) throw new Error('Produto não encontrado');
-  let data = await res.json()
-  return data.response.produto[0];
+  return res.json();
 }
 
 async function pegarCategorias() {
-    const res = await fetch(`${BASE_URL}/categorias`, OPTIONS_GET);
-    if (!res.ok) throw new Error('Erro ao buscar categorias');
-    let data = await res.json()
-    return data.response.categoria;
+  const res = await fetch(`${BASE_URL}/categorias`);
+  if (!res.ok) throw new Error('Erro ao buscar categorias');
+  return res.json();
 }
 
 async function pegarIngredientes() {
-    const res = await fetch(`${BASE_URL}/ingredientes`, OPTIONS_GET);
-    if (!res.ok) throw new Error('Erro ao buscar ingredientes');
-    let data = await res.json()
-    return data.response.ingrediente;
+  const res = await fetch(`${BASE_URL}/ingredientes`);
+  if (!res.ok) throw new Error('Erro ao buscar ingredientes');
+  return res.json();
 }
 
 async function pegarTags() {
-    const res = await fetch(`${BASE_URL}/tags`, OPTIONS_GET);
-    if (!res.ok) throw new Error('Erro ao buscar tags');
-    let data = await res.json()
-    return data.response.tag;
+  const res = await fetch(`${BASE_URL}/tags`);
+  if (!res.ok) throw new Error('Erro ao buscar tags');
+  return res.json();
 }
 
 async function pegarTamanhos() {
-    const res = await fetch(`${BASE_URL}/tamanhos`, OPTIONS_GET);
-    if (!res.ok) throw new Error('Erro ao buscar tamanhos');
-    let data = await res.json()
-    return data.response.tamanhos;
+  const res = await fetch(`${BASE_URL}/tamanhos`);
+  if (!res.ok) throw new Error('Erro ao buscar tamanhos');
+  return res.json();
 }
 
 async function pegarSabores() {
-    const res = await fetch(`${BASE_URL}/sabores`, OPTIONS_GET);
-    if (!res.ok) throw new Error('Erro ao buscar sabores');
-    let data = await res.json()
-    return data.response.sabor;
+  const res = await fetch(`${BASE_URL}/sabores`);
+  if (!res.ok) throw new Error('Erro ao buscar sabores');
+  return res.json();
 }
 
 // ------------------------------------------------------------
-//  Cria chip (checkbox ou radio) pré-selecionável
+//  Cria chip interativo (checkbox ou radio) com pré-seleção
 // ------------------------------------------------------------
 function criarChip(id, label, tipo, grupo, selecionado = false) {
   const chip = document.createElement('label');
   chip.className = 'chip';
 
   const input = document.createElement('input');
-  input.type  = tipo;
-  input.value = id;
+  input.type          = tipo;
+  input.value         = id;
   input.dataset.label = label;
   if (tipo === 'radio') input.name = grupo;
-  if (selecionado) input.checked = true;
+  if (selecionado)      input.checked = true;
 
   const toggle = document.createElement('span');
   toggle.className = 'chip-toggle';
@@ -97,7 +81,7 @@ function criarChip(id, label, tipo, grupo, selecionado = false) {
 }
 
 // ------------------------------------------------------------
-//  Renderiza lista de chips com pré-seleção baseada no produto
+//  Renderiza grupo de chips com IDs pré-selecionados
 // ------------------------------------------------------------
 function renderizarChipsEdicao(containerId, itens, chave, idsSelecionados, tipo = 'checkbox', grupo = '') {
   const container = document.getElementById(containerId);
@@ -111,35 +95,33 @@ function renderizarChipsEdicao(containerId, itens, chave, idsSelecionados, tipo 
 }
 
 // ------------------------------------------------------------
-//  Preenche campos de texto e imagem
+//  Preenche campos de texto e imagem com dados do produto
 // ------------------------------------------------------------
 function preencherCampos(produto) {
-    console.log(produto)
   document.querySelector('.pagina-titulo').textContent = `Editar ${produto.nome}`;
   document.title = `Sorvetudos — Editar ${produto.nome}`;
 
-  document.getElementById('campo-nome').value      = produto.nome        ?? '';
-  document.getElementById('campo-sabor').value     = produto.sabores?.[0]?.sabor ?? '';
-  document.getElementById('campo-preco').value     = produto.preco       ?? '';
-  document.getElementById('campo-tag').value       = produto.tags?.[0]?.nome ?? produto.tags?.[0]?.tag ?? '';
-  document.getElementById('campo-descricao').value = produto.descricao   ?? '';
+  document.getElementById('campo-nome').value      = produto.nome      ?? '';
+  document.getElementById('campo-preco').value     = produto.preco     ?? '';
+  document.getElementById('campo-descricao').value = produto.descricao ?? '';
 
-  // Imagem existente como preview de fundo
+  // Imagem atual como fundo do dropzone
   if (produto.img) {
-    const area = document.getElementById('dropzone');
-    area.style.backgroundImage  = `url('${produto.img}')`;
-    area.style.backgroundSize   = 'cover';
-    area.style.backgroundPosition = 'center';
+    const dropzone = document.getElementById('dropzone');
+    dropzone.style.backgroundImage    = `url('${produto.img}')`;
+    dropzone.style.backgroundSize     = 'cover';
+    dropzone.style.backgroundPosition = 'center';
+    document.getElementById('upload-placeholder').style.display = 'none';
   }
 }
 
 // ------------------------------------------------------------
-//  Upload de imagem
+//  Upload de imagem — drag & drop + click
 // ------------------------------------------------------------
 function iniciarUpload() {
-  const dropzone    = document.getElementById('dropzone');
+  const dropzone     = document.getElementById('dropzone');
   const inputArquivo = document.getElementById('input-arquivo');
-  const placeholder = document.getElementById('upload-placeholder');
+  const placeholder  = document.getElementById('upload-placeholder');
 
   dropzone.addEventListener('click', () => inputArquivo.click());
 
@@ -175,58 +157,56 @@ function _processarArquivo(arquivo, placeholder) {
 }
 
 // ------------------------------------------------------------
-//  Pega IDs selecionados nos chips
+//  Coleta IDs marcados em um container de chips
 // ------------------------------------------------------------
 function obterSelecionadosIds(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return [];
-  return Array.from(
-    container.querySelectorAll('input:checked')
-  ).map(cb => Number(cb.value));
+  return Array.from(container.querySelectorAll('input:checked'))
+    .map(cb => Number(cb.value));
 }
 
 // ------------------------------------------------------------
-//  Submit — PUT com FormData
+//  Submit — PUT com multipart/form-data
 // ------------------------------------------------------------
 async function submeterEdicao(id) {
   const nome      = document.getElementById('campo-nome').value.trim();
   const descricao = document.getElementById('campo-descricao').value.trim();
   const preco     = document.getElementById('campo-preco').value.trim();
 
-  const categorias   = obterSelecionadosIds('categorias-chips');
-  const ingredientes = obterSelecionadosIds('ingredientes-chips');
-
   if (!nome || !preco) {
     alert('Nome e Preço são obrigatórios.');
     return;
   }
 
-  // Monta FormData — mesmo contrato do cadastro (multipart/form-data)
+  const categorias   = obterSelecionadosIds('categorias-chips');
+  const sabores      = obterSelecionadosIds('sabores-chips');
+  const tags         = obterSelecionadosIds('tags-chips');
+  const tamanhos     = obterSelecionadosIds('tamanhos-chips');
+  const ingredientes = obterSelecionadosIds('ingredientes-chips');
+
+  // FormData — Content-Type multipart/form-data definido automaticamente pelo fetch
   const formData = new FormData();
   formData.append('nome',        nome);
   formData.append('descricao',   descricao);
   formData.append('preco',       Number(preco));
   formData.append('status',      produtoAtual.status);
   formData.append('categorias',  JSON.stringify(categorias));
-  formData.append('ingredientes', JSON.stringify(ingredientes));
-  formData.append('sabores',     JSON.stringify(produtoAtual.sabores?.map(s => s.id) ?? []));
-  formData.append('tags',        JSON.stringify(produtoAtual.tags?.map(t => t.id) ?? []));
-  formData.append('tamanhos',    JSON.stringify(produtoAtual.tamanhos?.map(t => t.id) ?? []));
+  formData.append('sabores',     JSON.stringify(sabores));
+  formData.append('tags',        JSON.stringify(tags));
+  formData.append('tamanhos',    JSON.stringify(tamanhos));
+  formData.append('ingredientes',JSON.stringify(ingredientes));
   formData.append('promocoes',   JSON.stringify([]));
   formData.append('lote',        JSON.stringify([]));
 
-  // Só envia imagem se o usuário trocou
   if (imagemNova) formData.append('img', imagemNova);
 
   try {
-    const OPTIONS_PUT = {
-        method: 'PUT',
-        headers: {
-            'x-access-token': token,
-        },
-        body: formData
-    }
-    const res = await fetch(`${BASE_URL}/produtos/${id}`, OPTIONS_PUT);
+    // PUT /v1/sorvetudos/admin/produtos/{id}
+    const res = await fetch(`${BASE_URL}/produtos/${id}`, {
+      method: 'PUT',
+      body: formData
+    });
 
     if (!res.ok) throw new Error('Erro ao atualizar produto');
 
@@ -242,36 +222,45 @@ async function submeterEdicao(id) {
 // ------------------------------------------------------------
 async function init() {
   const id = pegarIdDaUrl();
-  if (!id) {
-    window.location.href = 'dashboard_modelo.html';
-    return;
-  }
+  if (!id) { window.location.href = 'dashboard_modelo.html'; return; }
 
   try {
-    const [produto, categorias, ingredientes] = await Promise.all([
+    // Busca tudo em paralelo
+    const [produto, categorias, sabores, tags, tamanhos, ingredientes] = await Promise.all([
       pegarProduto(id),
       pegarCategorias(),
+      pegarSabores(),
+      pegarTags(),
+      pegarTamanhos(),
       pegarIngredientes(),
     ]);
 
     produtoAtual = produto;
-
     preencherCampos(produto);
 
-    // IDs já associados ao produto
-    const idsCategoriasSel   = produto.categorias?.map(c => c.id) ?? [];
-    const idsIngredientesSel = produto.ingredientes?.map(i => i.id) ?? [];
+    // IDs já associados ao produto — usando chaves SINGULARES da API
+    const idsCategorias   = (produto.categoria   ?? []).map(c => c.id);
+    const idsSabores      = (produto.sabor        ?? []).map(s => s.id);
+    const idsTags         = (produto.tag          ?? []).map(t => t.id);
+    const idsTamanhos     = (produto.tamanho      ?? []).map(t => t.id);
+    const idsIngredientes = (produto.ingrediente  ?? []).map(i => i.id);
 
-    renderizarChipsEdicao('categorias-chips',   categorias,   'categoria',   idsCategoriasSel);
-    renderizarChipsEdicao('ingredientes-chips', ingredientes, 'ingrediente', idsIngredientesSel);
+    // Renderiza todos os grupos de chips com pré-seleção
+    renderizarChipsEdicao('categorias-chips',   categorias,   'categoria',   idsCategorias);
+    renderizarChipsEdicao('sabores-chips',      sabores,      'sabor',       idsSabores);
+    renderizarChipsEdicao('tags-chips',         tags,         'tag',         idsTags);
+    renderizarChipsEdicao('tamanhos-chips',     tamanhos,     'tamanho',     idsTamanhos,  'radio', 'tamanho');
+    renderizarChipsEdicao('ingredientes-chips', ingredientes, 'ingrediente', idsIngredientes);
 
     iniciarUpload();
 
-    document.getElementById('btn-confirmar').addEventListener('click', () => submeterEdicao(id));
+    document.getElementById('btn-confirmar')
+      .addEventListener('click', () => submeterEdicao(id));
 
   } catch (err) {
     console.error(err);
     alert('Não foi possível carregar o produto para edição.');
+    window.location.href = 'dashboard_modelo.html';
   }
 }
 

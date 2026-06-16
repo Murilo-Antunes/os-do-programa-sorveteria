@@ -45,7 +45,22 @@
   }
   
 
+/* ============================================================
+   produto.css
+   Estilos das páginas visualizar-produto e editar-produto
+   ============================================================ */
+
 /* ---- Imagem ---------------------------------------------- */
+.imagem-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F3F4F6;
+  border-radius: 12px;
+}
+
 .imagem-wrapper {
   position: relative;
   border-radius: 12px;
@@ -73,8 +88,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: border-color .18s ease, background .18s ease;
   background-size: cover;
   background-position: center;
+}
+
+.dropzone:hover,
+.dropzone.drag-sobre {
+  border-color: #1A1A2E;
+  background-color: #f9f9f9;
 }
 
 .upload-placeholder {
@@ -120,6 +142,7 @@
   color: #1A1A2E;
   outline: none;
   width: 100%;
+  transition: border-color .18s ease;
 }
 
 .campo-input[readonly],
@@ -159,8 +182,10 @@
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
+  transition: color .15s ease;
 }
 
+.link-promocao:hover { color: #1A1A2E; }
 
 /* ---- Seções de chips ------------------------------------- */
 .secao {
@@ -224,6 +249,7 @@
   cursor: pointer;
   font-size: 13px;
   color: #1A1A2E;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
   user-select: none;
 }
 
@@ -244,6 +270,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: background .18s ease, border-color .18s ease;
   position: relative;
 }
 
@@ -254,6 +281,7 @@
   border-radius: 50%;
   background: #fff;
   opacity: 0;
+  transition: opacity .18s ease;
 }
 
 .chip:has(input:checked) {
@@ -289,7 +317,14 @@
   justify-content: center;
   padding: 0;
   flex-shrink: 0;
+  transition: opacity .18s ease, transform .18s ease;
 }
+.btn-acao-chip:hover { opacity: .8; transform: scale(1.08); }
+.btn-acao-chip--deletar   { background: #8B1A1A; }
+.btn-acao-chip--adicionar { background: transparent; color: #6B7280; font-size: 20px; font-weight: 300; line-height: 1; }
+.btn-acao-chip--adicionar:hover { color: #1A1A2E; }
+.btn-acao-chip--editar    { background: transparent; color: #6B7280; }
+.btn-acao-chip--editar:hover { color: #2563EB; }
 
 /* ---- Descrição ------------------------------------------- */
 .secao-descricao { margin-bottom: 40px; }
@@ -312,7 +347,11 @@
   letter-spacing: 1px;
   text-transform: lowercase;
   cursor: pointer;
+  transition: background .18s ease, transform .18s ease;
 }
+
+.btn-produto:hover  { transform: translateY(-1px); }
+.btn-produto:active { transform: translateY(0); }
 
 .btn-deletar-produto {
   background: #8B1A1A;
@@ -324,6 +363,7 @@
   background: #3730A3;
   color: #fff;
 }
+.btn-editar-produto:hover { background: #2e28891; }
 
 .btn-confirmar-edicao {
   width: 100%;
@@ -338,9 +378,11 @@
   letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
+  transition: background .18s ease, transform .18s ease;
   margin-top: 8px;
 }
-
+.btn-confirmar-edicao:hover  { background: #2C2C3A; transform: translateY(-1px); }
+.btn-confirmar-edicao:active { transform: translateY(0); }
 
 /* ---- Modal ----------------------------------------------- */
 .modal-overlay {
@@ -370,7 +412,11 @@
   max-width: 92vw;
   position: relative;
   box-shadow: 0 8px 32px rgba(0,0,0,.18);
+  transform: translateY(10px);
+  transition: transform .2s ease;
 }
+
+.modal-overlay.ativo .modal-caixa { transform: translateY(0); }
 
 .modal-fechar {
   position: absolute;
@@ -382,8 +428,10 @@
   color: #6B7280;
   padding: 2px 6px;
   border-radius: 4px;
+  transition: color .18s ease, background .18s ease;
   cursor: pointer;
 }
+.modal-fechar:hover { color: #1A1A2E; background: #F3F4F6; }
 
 .modal-titulo {
   font-family: 'Fraunces', 'Playfair Display', Georgia, serif;
@@ -421,4 +469,20 @@
   text-transform: lowercase;
   cursor: pointer;
   min-width: 100px;
+  transition: background .18s ease, transform .18s ease;
+}
+.btn-modal:hover  { transform: translateY(-1px); }
+.btn-modal:active { transform: translateY(0); }
+
+.btn-modal-deletar  { background: #8B1A1A; color: #fff; }
+.btn-modal-deletar:hover { background: #6B1313; }
+
+.btn-modal-voltar   { background: #4B5563; color: #fff; }
+.btn-modal-voltar:hover { background: #374151; }
+
+/* ---- Responsivo ------------------------------------------ */
+@media (max-width: 680px) {
+  .campos-linha      { grid-template-columns: 1fr; }
+  .produto-acoes     { grid-template-columns: 1fr; }
+  .chips-wrapper--grade { grid-template-columns: repeat(2, 1fr); }
 }

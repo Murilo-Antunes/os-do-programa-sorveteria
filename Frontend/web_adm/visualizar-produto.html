@@ -17,7 +17,6 @@
 </head>
 <body>
 
-  <!-- ASIDE (mesma estrutura do dashboard) -->
   <aside class="aside">
     <div class="sidebar-titulo">
       <img class="logo-sorvetudos" src="./src/img/Sorvetudos.png" alt="Sorvetudos" />
@@ -68,7 +67,7 @@
     <section class="secao">
       <span class="secao-label">Imagem</span>
       <div class="imagem-wrapper">
-        <div id="imagem-placeholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+        <div id="imagem-placeholder" class="imagem-placeholder">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF"
                stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
@@ -79,20 +78,12 @@
       </div>
     </section>
 
-    <!-- NOME + SABOR -->
+    <!-- NOME + PREÇO -->
     <div class="campos-linha">
       <div class="campo-grupo">
         <label class="campo-label">Nome do Produto</label>
         <input id="campo-nome" class="campo-input" type="text" readonly />
       </div>
-      <div class="campo-grupo">
-        <label class="campo-label">Sabor</label>
-        <input id="campo-sabor" class="campo-input" type="text" readonly />
-      </div>
-    </div>
-
-    <!-- PREÇO + TAG -->
-    <div class="campos-linha">
       <div class="campo-grupo">
         <label class="campo-label">Preço &lt;R$&gt;</label>
         <div class="campo-preco-wrapper">
@@ -100,16 +91,30 @@
           <span class="link-promocao">Adicionar Promoção</span>
         </div>
       </div>
-      <div class="campo-grupo">
-        <label class="campo-label">Tag &lt;opcional&gt;</label>
-        <input id="campo-tag" class="campo-input" type="text" readonly />
-      </div>
+    </div>
+
+    <!-- SABOR -->
+    <div class="secao">
+      <span class="secao-label">Sabor</span>
+      <div class="chips-leitura" id="sabores-lista"></div>
+    </div>
+
+    <!-- TAG -->
+    <div class="secao">
+      <span class="secao-label">Tag</span>
+      <div class="chips-leitura" id="tags-lista"></div>
     </div>
 
     <!-- CATEGORIAS -->
     <div class="secao">
       <span class="secao-label">Categorias</span>
       <div class="chips-leitura" id="categorias-lista"></div>
+    </div>
+
+    <!-- TAMANHO -->
+    <div class="secao">
+      <span class="secao-label">Tamanho</span>
+      <div class="chips-leitura" id="tamanhos-lista"></div>
     </div>
 
     <!-- INGREDIENTES -->
@@ -138,7 +143,7 @@
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal-caixa">
       <button class="modal-fechar" id="modal-fechar" aria-label="Fechar">✕</button>
-      <h2 class="modal-titulo" id="modal-titulo">Deletar Produto</h2>
+      <h2 class="modal-titulo">Deletar Produto</h2>
       <div class="modal-corpo">
         <p class="modal-mensagem" id="modal-mensagem"></p>
       </div>

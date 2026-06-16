@@ -134,13 +134,12 @@ async function toggleStatus(id, lista) {
 const criarFormData = (produto, novoStatus) =>{
   const formData = new FormData();
   let preco = produto.preco
+  let img = produto.img
   let sabor = produto.sabor.map(s => s.id)
   let categoria = produto.categoria.map(c => c.id) 
   let ingrediente = produto.ingrediente.map(i => i.id) 
   let tamanho = produto.tamanho.map(t => t.id)
   let tag = produto.tag.map(t => t.id) 
-
-  console.log(sabor, categoria, ingrediente, tamanho, tag)
 
   formData.append("nome",      produto.nome);
   formData.append("descricao", produto.descricao);

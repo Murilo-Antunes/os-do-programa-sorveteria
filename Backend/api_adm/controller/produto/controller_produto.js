@@ -111,11 +111,15 @@ const atualizarProduto = async (produto, id, foto, contentType) => {
     let message = JSON.parse(JSON.stringify(config_message))
 
     try {
-         let urlFoto = await UPLOAD.uploadFiles(foto)
-
-        if(!urlFoto){
-            message.ERROR_BAD_REQUEST.field = '[FOTO] INVÁLIDO'
-            return message.ERROR_BAD_REQUEST // 400
+        let urlFoto;
+        if (foto.file) {
+            urlFoto = await uploadFiles(foto.file);
+            if(!urlFoto){
+                message.ERROR_BAD_REQUEST.field = '[FOTO] INVÁLIDO'
+                return message.ERROR_BAD_REQUEST // 400
+            }
+        } else {
+            urlFoto = foto.body.img;
         }
 
         produto.img = urlFoto

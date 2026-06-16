@@ -71,7 +71,7 @@ router.get('/:id', async (req,res) => {
 router.put('/:id', bodyParserJSON, upload.single('img'), async (req,res) => {
     let id = req.params.id
     let dados = await formatarJson(req.body)
-    let img = req.file
+    let img = req
     let contentType = req.headers['content-type']
 
     let result = await atualizarProduto(dados, id, img, contentType)
