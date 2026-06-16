@@ -9,11 +9,11 @@ module.exports = {
     development: {
       client: 'mysql2',
       connection: {
-        host: 'localhost',
+        host: 'thomas.proxy.rlwy.net',
         user: 'root', // Substitua pelo seu usuário
-        password: 'Antunes178987123', // Substitua pela sua senha
+        password: 'RSpNFqYicdCfeAuvQtPwwzJRczOStIqC', // Substitua pela sua senha
         database: 'db_sorvetudos_2026',
-        port: 3306, // Porta padrão do MySQL
+        port: 52051, // Porta padrão do MySQL
        
         // Opcional: Define charset (recomendado para UTF8)
         charset: 'utf8mb4'
@@ -22,7 +22,7 @@ module.exports = {
       // Configurações de Migração
       migrations: {
         tableName: 'knex_migrations', // Nome da tabela de migrações
-        directory: './db/migrations'
+        directory: './src/db/migrations'
       },
       seeds: {
         directory: './db/seeds'

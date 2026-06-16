@@ -4,9 +4,9 @@ const PAGE_SIZE = 6;
 const state = {
   cat: "Todos",
   query: "",
-  sizes: [],
-  sabores: [],
-  tags: [],
+  size: null,    
+  sabor: null,    
+  tag: null,      
   visible: PAGE_SIZE,
   showFilters: false
 };
@@ -14,22 +14,31 @@ const state = {
 // ─── Card HTML ────────────────────────────────────────────────────────────────
 
 function productCardHtml(produto, i) {
+  const nome      = produto.nome                          ?? "Sem nome";
+  const img       = produto.img 
+    ? (produto.img.startsWith("http") ? produto.img : "./src" + produto.img)
+    : "/src/img/placeholder.jpg";
+  const preco     = produto.preco                         ?? "—";
+  const categoria = produto.categoria?.[0]?.categoria     ?? "Sem categoria";
+  const sabor     = produto.sabor?.[0]?.sabor             ?? "Sem sabor";
+  const tags      = produto.tag?.length
+    ? produto.tag.map(tag => `<span class="product-tag">${escapeHtml(tag.tag)}</span>`).join("")
+    : "";
+
   return `<a href="./src/pages/product.html?id=${produto.id}" class="product-card" style="animation-delay:${i * 50}ms">
   <div class="product-img">
-    <img src="${'./src' + produto.img}" alt="${escapeHtml(produto.nome)}" loading="lazy">
-    ${produto.tag?.length
-      ? produto.tag.map(tag => `<span class="product-tag">${escapeHtml(tag.tag)}</span>`).join("")
-      : ""}
+    <img src="${img}" alt="${escapeHtml(nome)}" loading="lazy">
+    ${tags}
   </div>
   <div class="product-info">
-    <div class="meta"><span>${escapeHtml(produto.categoria[0].categoria)}</span></div>
-    <h3>${escapeHtml(produto.nome)}</h3>
-    <p>${escapeHtml(produto.sabor[0].sabor)}</p>
+    <div class="meta"><span>${escapeHtml(categoria)}</span></div>
+    <h3>${escapeHtml(nome)}</h3>
+    <p>${escapeHtml(sabor)}</p>
   </div>
   <div class="product-price">
-    <span>${produto.preco}</span>
+    <span>${preco}</span>
   </div>
-  <div class="product-price-mobile">${produto.preco}</div>
+  <div class="product-price-mobile">${preco}</div>
 </a>`;
 }
 
@@ -39,7 +48,6 @@ async function fetchProdutosFiltrados() {
   try {
     // Se há query de texto, usa o endpoint de pesquisa
     if (state.query.trim()) {
-      console.log('a')
       const res = await fetch(
         `${BASE_URL}/produtos/pesquisa?nome=${encodeURIComponent(state.query.trim())}`
       );
@@ -50,19 +58,20 @@ async function fetchProdutosFiltrados() {
     // Monta os query params para o endpoint de filtro
     const params = new URLSearchParams();
 
-    if (state.cat !== "Todos")  params.append("categoria", state.cat);
-    state.sizes.forEach(s =>    params.append("tamanho", s));
-    state.sabores.forEach(s =>  params.append("sabor", s));
-    state.tags.forEach(t =>     params.append("tag", t));
+    if (state.cat !== "Todos")  params.append("id_categoria", state.cat);
+    if (state.size !== null)    params.append("id_tamanho", state.size);
+    if (state.sabor !== null)   params.append("id_sabor", state.sabor);
+    if (state.tag !== null)     params.append("id_tag", state.tag);
 
     // Se não há nenhum filtro ativo, usa /produtos direto (evita 500 no /filtro?)
     if (params.toString() === "") {
       return window.PRODUTOS;
     }
-
     console.log(params.toString())
 
     const res = await fetch(`${BASE_URL}/produtos/filtro?${params.toString()}`);
+
+    
 
     if (!res.ok) {
       console.error(`Erro ${res.status} no filtro — mostrando todos os produtos`);
@@ -70,7 +79,11 @@ async function fetchProdutosFiltrados() {
     }
 
     const data = await res.json();
-    return data.response.produto ?? [];
+    const produtos = data.response.filtro.map(item => item.produto[0]);
+
+    console.log(produtos)
+    
+    return produtos
 
   } catch (err) {
     console.error("Erro ao buscar produtos:", err);
@@ -81,11 +94,11 @@ async function fetchProdutosFiltrados() {
 // ─── Render ───────────────────────────────────────────────────────────────────
 
 export const render = async () => {
-  // 1. Categorias
+  // 1. Categorias — data-cat guarda o id (exceto "Todos" que é sentinela)
   document.getElementById("categoria-catalogo").innerHTML = [
     `<button class="cat-pill ${state.cat === "Todos" ? "active" : ""}" data-cat="Todos">Todos</button>`,
     ...window.categorias.map(categoria =>
-      `<button class="cat-pill ${state.cat === categoria.categoria ? "active" : ""}" data-cat="${categoria.categoria}">${categoria.categoria}</button>`
+      `<button class="cat-pill ${state.cat === String(categoria.id) ? "active" : ""}" data-cat="${categoria.id}">${categoria.categoria}</button>`
     )
   ].join("");
 
@@ -96,7 +109,7 @@ export const render = async () => {
         <p class="filter-l">Sabores</p>
         <div class="size-btns">
           ${window.SABORES.map(s =>
-            `<button class="size-btn ${state.sabores.includes(s.sabor) ? "active" : ""}" data-sabor="${s.sabor}">${s.sabor}</button>`
+            `<button class="size-btn ${state.sabor === s.id ? "active" : ""}" data-sabor="${s.id}">${s.sabor}</button>`
           ).join("")}
         </div>
       </div>
@@ -104,8 +117,7 @@ export const render = async () => {
         <p class="filter-l">Tamanho</p>
         <div class="size-btns">
           ${window.SIZES.map(s =>
-            // CORREÇÃO: s é objeto {id, tamanho}, não string
-            `<button class="size-btn ${state.sizes.includes(s.tamanho) ? "active" : ""}" data-size="${s.tamanho}">${s.tamanho}</button>`
+            `<button class="size-btn ${state.size === s.id ? "active" : ""}" data-size="${s.id}">${s.tamanho}</button>`
           ).join("")}
         </div>
         <p class="filter-minmax" style="margin-top:12px">P · 90ml · M · 180ml · G · 320ml</p>
@@ -114,7 +126,7 @@ export const render = async () => {
         <p class="filter-l">Tags</p>
         <div class="size-btns">
           ${window.TAGS.map(t =>
-            `<button class="size-btn ${state.tags.includes(t.tag) ? "active" : ""}" data-tag="${t.tag}">${t.tag}</button>`
+            `<button class="size-btn ${state.tag === t.id ? "active" : ""}" data-tag="${t.id}">${t.tag}</button>`
           ).join("")}
         </div>
       </div>
@@ -150,9 +162,9 @@ export const render = async () => {
   const activeCount =
     (state.cat !== "Todos" ? 1 : 0) +
     (state.query ? 1 : 0) +
-    (state.sizes.length > 0 ? 1 : 0) +
-    (state.sabores.length > 0 ? 1 : 0) +
-    (state.tags.length > 0 ? 1 : 0);
+    (state.size !== null ? 1 : 0) +
+    (state.sabor !== null ? 1 : 0) +
+    (state.tag !== null ? 1 : 0);
 
   document.getElementById("filters-btn").classList.toggle("active", state.showFilters);
   document.getElementById("filters-badge").innerHTML = activeCount > 0 ? activeCount : "";
@@ -166,12 +178,10 @@ export const render = async () => {
 // ─── Listeners do painel (re-registrados a cada render) ─────────────────────
 
 const bindFilterListeners = () => {
-  document.querySelectorAll("[data-sabor]").forEach(b => {
+ document.querySelectorAll("[data-sabor]").forEach(b => {
     b.addEventListener("click", () => {
-      const s = b.dataset.sabor;
-      state.sabores = state.sabores.includes(s)
-        ? state.sabores.filter(x => x !== s)
-        : [...state.sabores, s];
+      const s = Number(b.dataset.sabor);
+      state.sabor = state.sabor === s ? null : s;
       state.visible = PAGE_SIZE;
       render();
     });
@@ -179,10 +189,8 @@ const bindFilterListeners = () => {
 
   document.querySelectorAll("[data-size]").forEach(b => {
     b.addEventListener("click", () => {
-      const s = b.dataset.size;
-      state.sizes = state.sizes.includes(s)
-        ? state.sizes.filter(x => x !== s)
-        : [...state.sizes, s];
+      const s = Number(b.dataset.size);
+      state.size = state.size === s ? null : s;
       state.visible = PAGE_SIZE;
       render();
     });
@@ -190,10 +198,8 @@ const bindFilterListeners = () => {
 
   document.querySelectorAll("[data-tag]").forEach(b => {
     b.addEventListener("click", () => {
-      const t = b.dataset.tag;
-      state.tags = state.tags.includes(t)
-        ? state.tags.filter(x => x !== t)
-        : [...state.tags, t];
+      const t = Number(b.dataset.tag);
+      state.tag = state.tag === t ? null : t;
       state.visible = PAGE_SIZE;
       render();
     });
@@ -202,9 +208,9 @@ const bindFilterListeners = () => {
   document.getElementById("reset-filters").addEventListener("click", () => {
     state.cat = "Todos";
     state.query = "";
-    state.sizes = [];
-    state.sabores = [];
-    state.tags = [];
+    state.size = null;
+    state.sabor = null;
+    state.tag = null;
     state.visible = PAGE_SIZE;
     document.getElementById("catalog-search").value = "";
     render();
@@ -216,7 +222,7 @@ const bindFilterListeners = () => {
 document.getElementById("categoria-catalogo").addEventListener("click", e => {
   const b = e.target.closest("[data-cat]");
   if (!b) return;
-  state.cat = b.dataset.cat;
+  state.cat = b.dataset.cat; // "Todos" ou id numérico como string
   state.visible = PAGE_SIZE;
   render();
 });
