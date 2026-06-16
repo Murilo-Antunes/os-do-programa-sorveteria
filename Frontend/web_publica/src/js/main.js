@@ -64,7 +64,14 @@ export const alimentarAtributos = async () => {
 window.getProduct = async (id) => {
   const response = await fetch(`${BASE_URL}/produtos/${id}`)
   const data = await response.json()
-  return data.response.produto
+  console.log(data)
+  return data.response.produto[0]
+}
+
+export const pegarProdutoRelacionados = async (id) => {
+  const response = await fetch(`${BASE_URL}/produtos`)
+  const data = await response.json()
+  return data.response.produto.filter(p => p.id !== id).slice(0, 4)
 }
 
 // Sanitização XSS

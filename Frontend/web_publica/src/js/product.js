@@ -1,9 +1,10 @@
+import { pegarProdutoRelacionados } from "./main.js";
 (async function () {
   const id = new URLSearchParams(location.search).get("id");
   const idFormatado = Number(id);
   const root = document.getElementById("pd-root");
 
-  // CORREÇÃO: getProduct agora é async (busca na API por /produtos/{id})
+  
   const produto = await window.getProduct(idFormatado);
 
   if (!produto) {
@@ -13,15 +14,16 @@
 
   document.title = `${produto.nome} — Sorvetudos`;
 
-  // CORREÇÃO: era x.id !== produto.nome, deve comparar id com id
-  const related = window.PRODUTOS.filter(x => x.id !== produto.id).slice(0, 4);
+  //Related Temporário
+  const related = [produto]
+  console.log(related)
 
   root.innerHTML = `
     <div class="container">
       <a href="../../index.html" class="back">← Voltar</a>
       <div class="pd-grid">
         <div class="pd-img surgir">
-          <img src="${'..' + produto.img}" alt="${escapeHtml(produto.nome)}">
+          <img src="${produto.img}" alt="${escapeHtml(produto.nome)}">
         </div>
         <div class="pd-info surgir" style="animation-delay:100ms">
           <!-- CORREÇÃO: era produto.categorias[0].nome → produto.categoria[0].categoria -->
@@ -42,10 +44,11 @@
       <section class="related">
         <h2 class="serif">Você também vai amar</h2>
         <div class="grid-2">
-          ${related.map((r, i) => `
+          ${related.map((r, i) => 
+            `
             <a href="product.html?id=${r.id}" class="product-card" style="animation-delay:${i * 50}ms">
               <div class="product-img">
-                <img src="${'..' + r.img}" alt="${escapeHtml(r.nome)}" loading="lazy">
+                <img src="${r.img}" alt="${escapeHtml(r.nome)}" loading="lazy">
                 ${r.tag?.length
                   ? r.tag.map(t => `<span class="product-tag">${escapeHtml(t.tag)}</span>`).join("")
                   : ""}
