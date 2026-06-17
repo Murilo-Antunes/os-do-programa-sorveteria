@@ -63,7 +63,6 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--color-sidebar-active-text);
-
   border-bottom: 1px solid rgba(255,255,255,0.07);
   margin-bottom: 8px;
   display: flex;
@@ -100,7 +99,7 @@
   color: #fff;
 }
 
-.sidebar-nave li.active a {
+.sidebar-nave li a.active {
   background: var(--color-sidebar-active-bg);
   color: var(--color-sidebar-active-text);
   font-weight: 600;
@@ -129,4 +128,3 @@
 .sidebar-exit a:hover {
   color: #fff;
 }
-

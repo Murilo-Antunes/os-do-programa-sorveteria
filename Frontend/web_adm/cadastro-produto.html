@@ -24,6 +24,7 @@
   <!--JAVASCRIPT-->
     <script src="src/js/cadastro-produto/app.js" defer type="module"  ></script>
     <script src="src/js/cadastro-produto/modal.js" defer type="module"></script>
+    <script src="src/js/aside.js" defer></script>
 </head>
 <body>
 
@@ -34,7 +35,8 @@
     <div class="sidebar-titulo"> <img class="logo-sorvetudos" src="./src/img/Sorvetudos.png" alt=""> Sorvetudos</div>
     <ul class="sidebar-nave">
       <li><a href="dashboard_modelo.html"><i class="nave-icone"><img class="logo-dashboard" src="./src/img/Dashboard.png" alt=""></i> Dashboard</a></li>
-      <li class="active"><a href="cadastro-produto.html"><i class="nave-icone"><img class="logo-novo-produto" src="./src/img/Novo Produto.png" alt=""></i> Novo Produto</a></li>
+      <li><a href="usuarios.html"><i class="nave-icone"><img class="logo-usuarios" src="./src/img/Usuarios.png" alt=""></i> Usuários</a></li>
+      <li><a href="cadastro-produto.html"><i class="nave-icone"><img class="logo-novo-produto" src="./src/img/Novo Produto.png" alt=""></i> Novo Produto</a></li>
       <li><a href="#"><i class="nave-icone"><img class="logo-promocoes" src="./src/img/Promoções.png" alt=""></i> Promoções</a></li>
       <li><a href="#"><i class="nave-icone"><img class="logo-lotes" src="./src/img/Lotes.png" alt=""></i> Lotes</a></li>
     </ul>
@@ -49,19 +51,20 @@
 
     <div class="secao">
       <span class="secao-label">Imagem</span>
-
-      <div class="dropzone" id="dropzone" title="Clique ou arraste uma imagem aqui">
-        <input type="file" id="input-arquivo" accept="image/*" style="display:none" />
-
-        <div class="upload-placeholder" id="upload-placeholder">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2">
+      
+        <div class="dropzone" id="dropzone" title="Clique ou arraste uma imagem aqui">
+          <div class="fora">
+          <input type="file" id="input-arquivo" accept="image/*" style="display:none" />
+          
+          <div class="upload-placeholder" id="upload-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
             <circle cx="12" cy="13" r="4"/>
           </svg>
           <span>Carregue a imagem aqui</span>
         </div>
-
+      </div>
         <img id="imagem-preview" class="imagem-preview" alt="Preview do produto" />
 
         <button class="btn-remover-imagem" id="btn-remover-imagem" title="Remover imagem" aria-label="Remover imagem">✕</button>
