@@ -16,42 +16,42 @@ function pegarIdDaUrl() {
 //  Busca da API
 // ------------------------------------------------------------
 async function pegarProduto(id) {
-  const res = await fetch(`${BASE_URL}/produtos/${id}`);
-  if (!res.ok) throw new Error('Produto não encontrado');
+  const res = await fetch(`${BASE_URL}/produtos/${id}`, OPTIONS_GET);
+  if (!res.ok) throw new Error('Produto não encontrado',);
   let data = await res.json()
-  return data.response.produto;
+  return data.response.produto[0];
 }
 
 async function pegarCategorias() {
-  const res = await fetch(`${BASE_URL}/categorias`);
+  const res = await fetch(`${BASE_URL}/categorias`, OPTIONS_GET);
   if (!res.ok) throw new Error('Erro ao buscar categorias');
   let data = await res.json()
   return data.response.categoria;
 }
 
 async function pegarIngredientes() {
-  const res = await fetch(`${BASE_URL}/ingredientes`);
+  const res = await fetch(`${BASE_URL}/ingredientes`, OPTIONS_GET);
   if (!res.ok) throw new Error('Erro ao buscar ingredientes');
   let data = await res.json()
   return data.response.ingrediente;
 }
 
 async function pegarTags() {
-  const res = await fetch(`${BASE_URL}/tags`);
+  const res = await fetch(`${BASE_URL}/tags`, OPTIONS_GET);
   if (!res.ok) throw new Error('Erro ao buscar tags');
   let data = await res.json()
   return data.response.tag;
 }
 
 async function pegarTamanhos() {
-  const res = await fetch(`${BASE_URL}/tamanhos`);
+  const res = await fetch(`${BASE_URL}/tamanhos`, OPTIONS_GET);
   if (!res.ok) throw new Error('Erro ao buscar tamanhos');
   let data = await res.json()
   return data.response.tamanho;
 }
 
 async function pegarSabores() {
-  const res = await fetch(`${BASE_URL}/sabores`);
+  const res = await fetch(`${BASE_URL}/sabores`, OPTIONS_GET);
   if (!res.ok) throw new Error('Erro ao buscar sabores');
   let data = await res.json()
   return data.response.sabor;
@@ -170,10 +170,42 @@ function obterSelecionadosIds(containerId) {
     .map(cb => Number(cb.value));
 }
 
-// ------------------------------------------------------------
-//  Submit — PUT com multipart/form-data
-// ------------------------------------------------------------
+const validarProduto = () => {
+  // --- Campos de texto ---
+  const nome      = document.getElementById('campo-nome').value.trim();
+  const descricao = document.getElementById('campo-descricao').value.trim();
+  const preco     = document.getElementById('campo-preco').value.trim();
+
+  // --- Seleções ---
+  const categorias  = obterSelecionadosIds("categorias-chips");
+  const sabores     = obterSelecionadosIds("sabores-chips");
+  const ingredientes = obterSelecionadosIds("ingredientes-chips");
+  const tags        = obterSelecionadosIds("tags-chips");
+  const tamanhos    = obterSelecionadosIds("tamanhos-chips"); // radio → máx 1
+
+
+
+  const erros = [];
+  if (!nome)              erros.push("Nome do produto é obrigatório.");
+  if (!descricao)         erros.push("Descrição é obrigatória.");
+  if (!preco || isNaN(Number(preco))) erros.push("Preço válido é obrigatório.");
+  if (categorias.length === 0)  erros.push("Selecione ao menos uma categoria.");
+  if (sabores.length === 0)     erros.push("Selecione ao menos um sabor.");
+  if (ingredientes.length === 0) erros.push("Selecione ao menos um ingrediente.");
+  if (tamanhos.length === 0)    erros.push("Selecione um tamanho.");
+
+  if (erros.length > 0) {
+    alert("Corrija os seguintes campos:\n\n" + erros.map((e) => `• ${e}`).join("\n"));
+    return false;
+  }
+  return true
+}
+
+
 async function submeterEdicao(id) {
+  let validacao = validarProduto()
+  if(!validacao) return;
+
   const nome      = document.getElementById('campo-nome').value.trim();
   const descricao = document.getElementById('campo-descricao').value.trim();
   const preco     = document.getElementById('campo-preco').value.trim();
@@ -189,21 +221,27 @@ async function submeterEdicao(id) {
   const tamanhos     = obterSelecionadosIds('tamanhos-chips');
   const ingredientes = obterSelecionadosIds('ingredientes-chips');
 
+
   // FormData — Content-Type multipart/form-data definido automaticamente pelo fetch
   const formData = new FormData();
-  formData.append('nome',        nome);
-  formData.append('descricao',   descricao);
-  formData.append('preco',       Number(preco));
-  formData.append('status',      produtoAtual.status);
-  formData.append('categorias',  JSON.stringify(categorias));
-  formData.append('sabores',     JSON.stringify(sabores));
-  formData.append('tags',        JSON.stringify(tags));
-  formData.append('tamanhos',    JSON.stringify(tamanhos));
-  formData.append('ingredientes',JSON.stringify(ingredientes));
-  formData.append('promocoes',   JSON.stringify([]));
-  formData.append('lote',        JSON.stringify([]));
+  formData.append('nome',         nome);
+  formData.append('descricao',    descricao);
+  formData.append('preco',        Number(preco));
+  formData.append('status',       Number(produtoAtual.status));
+  formData.append('categoria',    JSON.stringify(categorias.map(id => ({id}))));
+  formData.append('sabor',       JSON.stringify(sabores.map(id => ({id}))));
+  formData.append('tag',          JSON.stringify(tags.map(id => ({id}))));
+  formData.append('tamanho',      JSON.stringify(tamanhos.map(id => ({id}))));
+  formData.append('ingrediente',  JSON.stringify(ingredientes.map(id => ({id}))));
+  formData.append('promocao',     JSON.stringify([{ id: 1 }]));
+  formData.append('lote',         JSON.stringify([{ id: 1 }]));
 
-  if (imagemNova) formData.append('img', imagemNova);
+  if (imagemNova) {
+    formData.append('img', imagemNova);
+  }  else{
+    formData.append('img', produtoAtual.img);
+  }
+  console.log(formData.get('status'))
 
   try {
     // PUT /v1/sorvetudos/admin/produtos/{id}
@@ -245,6 +283,7 @@ async function init() {
     produtoAtual = produto;
     preencherCampos(produto);
 
+
     // IDs já associados ao produto — usando chaves SINGULARES da API
     const idsCategorias   = (produto.categoria   ?? []).map(c => c.id);
     const idsSabores      = (produto.sabor        ?? []).map(s => s.id);
@@ -267,7 +306,6 @@ async function init() {
   } catch (err) {
     console.error(err);
     alert('Não foi possível carregar o produto para edição.');
-    window.location.href = 'dashboard_modelo.html';
   }
 }
 

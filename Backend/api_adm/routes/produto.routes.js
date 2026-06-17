@@ -29,6 +29,7 @@ const {
 } = require('../controller/produto/controller_produto.js')
 
 const formatarJson = async (dados) => {
+    console.log(dados)
     const produto = {
         nome        : dados.nome,
         descricao   : dados.descricao,
