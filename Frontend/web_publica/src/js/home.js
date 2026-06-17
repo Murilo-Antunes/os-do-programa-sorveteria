@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080/v1/sorvetudos/catalogo';
+const BASE_URL = 'https://backend-catalogo-sorvetudos.onrender.com/v1/sorvetudos/catalogo';
 const PAGE_SIZE = 6;
 
 const state = {

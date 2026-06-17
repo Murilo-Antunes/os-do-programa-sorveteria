@@ -1,5 +1,5 @@
 
-const BASE_URL = 'http://localhost:8080/v1/sorvetudos/admin';
+const BASE_URL = 'https://backend-adm-sorvetudos.onrender.com/v1/sorvetudos/admin';
 let token = localStorage.getItem('token')
 
 

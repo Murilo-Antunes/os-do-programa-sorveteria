@@ -10,7 +10,7 @@ const login = async (nome, email, senha) => {
         body: JSON.stringify({ nome, email, senha })
     }
 
-    const response = await fetch("http://localhost:8080/v1/sorvetudos/admin/auth/login", OPTIONS)
+    const response = await fetch("https://backend-adm-sorvetudos.onrender.com/v1/sorvetudos/admin/auth/login", OPTIONS)
     const data = await response.json()
 
     return { response, data }
