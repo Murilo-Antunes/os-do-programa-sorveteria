@@ -345,7 +345,7 @@ async function init() {
 function verificar401(res) {
   if (res.status == 401) {
     localStorage.removeItem('token')
-    window.location.href = 'login.html'
+    window.location.href = 'index.html'
     throw new Error('Não autorizado')
   }
 }

@@ -1,36 +1,55 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciamento Sorvetudos</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="src/css/login.css">
+
+    <!--FONTE-->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet" />
+
+    <!--JAVASCRIPT-->
+    <script src="src/js/login.js" defer></script>
     
-    <!--FONT-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <!--LOGO-->
-    <link rel="icon" href="src/img/logo/">
-
-    <!--CSS-->
-    <link rel="stylesheet" href="src/css/style.css">
-
 </head>
 <body>
-   <!--O ASIDE VEM AQUI-->
+
+    <!--O ASIDE VEM AQUI-->
   <aside class="aside">
     <div class="sidebar-titulo"> <img class="logo-sorvetudos" src="./src/img/Sorvetudos.png" alt=""> Sorvetudos</div>
-    <ul class="sidebar-nave">
-      <li><a href="dashboard_modelo.html"><i class="nave-icone"><img class="logo-dashboard" src="./src/img/Dashboard.png" alt=""></i> Dashboard</a></li>
-      <li class="active"><a href="cadastro-produto.html"><i class="nave-icone"><img class="logo-novo-produto" src="./src/img/Novo Produto.png" alt=""></i> Novo Produto</a></li>
-      <li><a href="#"><i class="nave-icone"><img class="logo-promocoes" src="./src/img/Promoções.png" alt=""></i> Promoções</a></li>
-      <li><a href="#"><i class="nave-icone"><img class="logo-lotes" src="./src/img/Lotes.png" alt=""></i> Lotes</a></li>
-    </ul>
-    <div class="sidebar-space"></div>
-    <div class="sidebar-exit">
-      <a href="login.html"><i class="nave-icone"><img class="logo-sair" src="./src/img/Sair.png" alt=""></i> Sair</a>
-    </div>
   </aside>
-    
+    <main class="main" id="main-content">
+        <header class="page-header">
+            <h1 class="page-title">Login</h1>
+        </header>
+
+        <form method="post">
+            <label for="nome">
+                Nome:
+                <input type="text" name="nome" id="nome">
+            </label>
+            
+            
+            
+            <label for="email">
+                Email:
+                <input type="email" name="email" id="email">
+            </label>
+            
+            
+            <label for="senha">
+                Senha:
+                <input type="password" name="senha" id="senha">
+            </label>
+
+            <a href="#" id="dashboard"><input type="button" value="Entrar" id="entrar"></a>
+        </form>
+    </main>
+
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+    </div>
+
 </body>
 </html>

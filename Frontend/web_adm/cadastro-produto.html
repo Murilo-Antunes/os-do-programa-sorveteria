@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="src/css/cadastro-produto/upload.css" />
     <link rel="stylesheet" href="src/css/cadastro-produto/modal.css"  />
     <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="./src/css/skeleton-loading.css">
 
   <!--JAVASCRIPT-->
     <script src="src/js/cadastro-produto/app.js" defer type="module"  ></script>
@@ -34,7 +35,7 @@
   <aside class="aside">
     <div class="sidebar-titulo"> <img class="logo-sorvetudos" src="./src/img/Sorvetudos.png" alt=""> Sorvetudos</div>
     <ul class="sidebar-nave">
-      <li><a href="dashboard_modelo.html"><i class="nave-icone"><img class="logo-dashboard" src="./src/img/Dashboard.png" alt=""></i> Dashboard</a></li>
+      <li><a href="dashboard.html"><i class="nave-icone"><img class="logo-dashboard" src="./src/img/Dashboard.png" alt=""></i> Dashboard</a></li>
       <li><a href="usuarios.html"><i class="nave-icone"><img class="logo-usuarios" src="./src/img/Usuarios.png" alt=""></i> Usuários</a></li>
       <li><a href="cadastro-produto.html"><i class="nave-icone"><img class="logo-novo-produto" src="./src/img/Novo Produto.png" alt=""></i> Novo Produto</a></li>
       <li><a href="#"><i class="nave-icone"><img class="logo-promocoes" src="./src/img/Promoções.png" alt=""></i> Promoções</a></li>
@@ -42,7 +43,7 @@
     </ul>
     <div class="sidebar-space"></div>
     <div class="sidebar-exit">
-      <a href="login.html"><i class="nave-icone"><img class="logo-sair" src="./src/img/Sair.png" alt=""></i> Sair</a>
+      <a href="index.html"><i class="nave-icone"><img class="logo-sair" src="./src/img/Sair.png" alt=""></i> Sair</a>
     </div>
   </aside>
 
@@ -87,7 +88,11 @@
 
     <div class="secao">
       <span class="secao-label">Categoria</span>
-      <div class="chips-wrapper" id="categorias-chips"></div>
+      <div class="chips-wrapper" id="categorias-chips">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
       <div class="chips-acoes">
         <button class="btn-acao-chip btn-acao-chip--deletar" aria-label="Deletar categoria">
 
@@ -120,7 +125,11 @@
 
     <div class="secao">
       <span class="secao-label">Sabor</span>
-      <div class="chips-wrapper" id="sabores-chips"></div>
+      <div class="chips-wrapper" id="sabores-chips">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
       <div class="chips-acoes">
         <button class="btn-acao-chip btn-acao-chip--deletar" aria-label="Deletar sabor">
 
@@ -153,7 +162,11 @@
     <!-- === TAG ============================================ -->
     <div class="secao">
       <span class="secao-label">Tag</span>
-      <div class="chips-wrapper" id="tags-chips"></div>
+      <div class="chips-wrapper" id="tags-chips">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
       <div class="chips-acoes">
         <button class="btn-acao-chip btn-acao-chip--deletar"  aria-label="Deletar tag">
 
@@ -186,7 +199,11 @@
     <!-- === TAMANHO (radio — seleção única) ================ -->
     <div class="secao">
       <span class="secao-label">Tamanho</span>
-      <div class="chips-wrapper" id="tamanhos-chips"></div>
+      <div class="chips-wrapper" id="tamanhos-chips">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
       <div class="chips-acoes">
         <button class="btn-acao-chip btn-acao-chip--deletar"  aria-label="Deletar tamanho">
 
@@ -219,7 +236,11 @@
     <!-- === INGREDIENTES =================================== -->
     <div class="secao">
       <span class="secao-label">Ingredientes</span>
-      <div class="chips-wrapper chips-wrapper--grade" id="ingredientes-chips"></div>
+      <div class="chips-wrapper chips-wrapper--grade" id="ingredientes-chips">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
       <div class="chips-acoes">
         <button class="btn-acao-chip btn-acao-chip--deletar" aria-label="Deletar ingrediente">
 

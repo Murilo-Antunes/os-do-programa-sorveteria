@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="src/css/style.css" />
   <link rel="stylesheet" href="src/css/dashboard.css" />
   <link rel="stylesheet" href="src/css/produto.css" />
+  <link rel="stylesheet" href="./src/css/skeleton-loading.css">
 
   <script src="src/js/visualizar-produto.js" defer></script>
 </head>
@@ -24,7 +25,7 @@
     </div>
     <ul class="sidebar-nave">
       <li class="active">
-        <a href="dashboard_modelo.html">
+        <a href="dashboard.html">
           <i class="nave-icone"><img class="logo-dashboard" src="./src/img/Dashboard.png" alt="" /></i>
           Dashboard
         </a>
@@ -50,7 +51,7 @@
     </ul>
     <div class="sidebar-space"></div>
     <div class="sidebar-exit">
-      <a href="login.html">
+      <a href="index.html">
         <i class="nave-icone"><img class="logo-sair" src="./src/img/Sair.png" alt="" /></i>
         Sair
       </a>
@@ -93,34 +94,61 @@
       </div>
     </div>
 
-    <!-- SABOR -->
-    <div class="secao">
-      <span class="secao-label">Sabor</span>
-      <div class="chips-leitura" id="sabores-lista"></div>
-    </div>
-
-    <!-- TAG -->
-    <div class="secao">
-      <span class="secao-label">Tag</span>
-      <div class="chips-leitura" id="tags-lista"></div>
-    </div>
-
-    <!-- CATEGORIAS -->
+      <!-- CATEGORIAS -->
     <div class="secao">
       <span class="secao-label">Categorias</span>
-      <div class="chips-leitura" id="categorias-lista"></div>
+      <div class="chips-wrapper" id="categorias-lista">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
     </div>
 
-    <!-- TAMANHO -->
+    <!-- SABORES -->
+    <div class="secao">
+      <span class="secao-label">Sabor</span>
+      <div class="chips-wrapper" id="sabores-lista">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
+    </div>
+
+    <!-- TAGS -->
+    <div class="secao">
+      <span class="secao-label">Tag</span>
+      <div class="chips-wrapper" id="tags-lista">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
+    </div>
+
+    <!-- TAMANHOS -->
     <div class="secao">
       <span class="secao-label">Tamanho</span>
-      <div class="chips-leitura" id="tamanhos-lista"></div>
+      <div class="chips-wrapper" id="tamanhos-lista">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
     </div>
 
     <!-- INGREDIENTES -->
     <div class="secao">
       <span class="secao-label">Ingredientes</span>
-      <div class="chips-leitura" id="ingredientes-lista"></div>
+      <div class="chips-wrapper chips-wrapper--grade" id="ingredientes-lista">
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+        <div class="skeleton-chip"></div>
+      </div>
     </div>
 
     <!-- DESCRIÇÃO -->

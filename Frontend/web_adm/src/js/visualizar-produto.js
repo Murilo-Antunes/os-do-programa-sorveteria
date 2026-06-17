@@ -30,6 +30,7 @@ function renderizarChipsLeitura(containerId, itens, chave) {
   const container = document.getElementById(containerId);
   if (!container) return;
   container.innerHTML = '';
+  console.log(container.innerHTML)
 
   if (!itens || itens.length === 0) {
     container.innerHTML = '<span class="sem-dados">—</span>';
@@ -96,7 +97,7 @@ async function confirmarDeletar(id) {
     }
     const res = await fetch(`${BASE_URL}/produtos/${id}`, OPTIONS);
     if (!res.ok) throw new Error('Erro ao deletar produto');
-    window.location.href = 'dashboard_modelo.html';
+    window.location.href = 'dashboard.html';
   } catch (err) {
     console.error(err);
     alert('Erro ao deletar o produto. Tente novamente.');
@@ -105,7 +106,7 @@ async function confirmarDeletar(id) {
 
 async function init() {
   const id = pegarIdDaUrl();
-  if (!id) { window.location.href = 'dashboard_modelo.html'; return; }
+  if (!id) { window.location.href = 'dashboard.html'; return; }
 
   try {
     const produto = await pegarProduto(id);

@@ -70,7 +70,7 @@ const fazerLogin = async () => {
                 data.response.auth[0].token
             )
 
-            window.location.href = 'dashboard_modelo.html'
+            window.location.href = 'dashboard.html'
         } else {
             alert('Usuário ou senha inválidos')
             console.error('Login inválido:', data)

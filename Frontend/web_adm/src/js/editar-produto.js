@@ -165,13 +165,27 @@ const validarProduto = () => {
   const tamanhos    = obterSelecionadosIds("tamanhos-chips"); 
 
   const erros = [];
-  if (!nome)              erros.push("Nome do produto é obrigatório.");
-  if (!descricao)         erros.push("Descrição é obrigatória.");
-  if (!preco || isNaN(Number(preco))) erros.push("Preço válido é obrigatório.");
-  if (categorias.length === 0)  erros.push("Selecione ao menos uma categoria.");
-  if (sabores.length === 0)     erros.push("Selecione ao menos um sabor.");
-  if (ingredientes.length === 0) erros.push("Selecione ao menos um ingrediente.");
-  if (tamanhos.length === 0)    erros.push("Selecione um tamanho.");
+  if (!nome || nome == undefined || nome == null || !isNaN(nome) || nome.length > 255) 
+    erros.push("Nome do produto é obrigatório.")
+
+  if (!descricao || descricao == undefined || descricao == null || !isNaN(descricao) || descricao.length > 255)
+    erros.push("Descrição é obrigatória.")
+
+  if (!preco || isNaN(Number(preco)) || preco == undefined || preco == null || String(preco).length > 6) 
+    erros.push("Preço válido é obrigatório.")
+
+  if (categorias.length === 0)  
+    erros.push("Selecione ao menos uma categoria.")
+
+  if (sabores.length === 0)     
+    erros.push("Selecione ao menos um sabor.")
+
+  if (ingredientes.length === 0) 
+    erros.push("Selecione ao menos um ingrediente.")
+
+  if (tamanhos.length === 0)    
+    erros.push("Selecione um tamanho.")
+
 
   if (erros.length > 0) {
     alert("Corrija os seguintes campos:\n\n" + erros.map((e) => `• ${e}`).join("\n"));
@@ -240,7 +254,7 @@ async function submeterEdicao(id) {
 
 async function init() {
   const id = pegarIdDaUrl();
-  if (!id) { window.location.href = 'dashboard_modelo.html'; return; }
+  if (!id) { window.location.href = 'dashboard.html'; return; }
 
   try {
     const [produto, categorias, sabores, tags, tamanhos, ingredientes] = await Promise.all([
