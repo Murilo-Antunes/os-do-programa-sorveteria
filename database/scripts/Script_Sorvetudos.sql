@@ -8,7 +8,7 @@ USE db_sorvetudos_2026;
 CREATE TABLE IF NOT EXISTS tbl_produto (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    descricao VARCHAR(255) NOT NULL,
+    descricao TEXT NOT NULL,
     preco DECIMAL(5,2) NOT NULL,
     status TINYINT NOT NULL,
     img VARCHAR(255) NOT NULL

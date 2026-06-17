@@ -2,21 +2,15 @@ USE db_sorvetudos_2026;
 
 -- Usuario adm
 INSERT INTO tbl_usuario (nome, email, senha, nivel_de_acesso) VALUES
-('admin', 'admin@gmail.com','$2b$10$XBa9TqJuC15BAjlcU/47ge9csV8VuLAfWKj4Z0FCjI0yJpTuYr.be',2);
+('admin', 'admin@gmail.com','$2b$10$XBa9TqJuC15BAjlcU/47ge9csV8VuLAfWKj4Z0FCjI0yJpTuYr.be',1);
 -- senha: 'admin'
 
 -- PRODUTOS
 INSERT INTO tbl_produto (nome, descricao, preco, status, img) VALUES
-('Chocolate ao Leite', 'Sorvete sabor chocolate ao leite', 12.90, 1, 'chocolate.jpg'),
-('Morango', 'Sorvete sabor morango', 11.50, 1, 'morango.jpg'),
-('Baunilha', 'Sorvete sabor baunilha', 10.90, 1, 'baunilha.jpg'),
-('Flocos', 'Sorvete sabor flocos', 13.50, 1, 'flocos.jpg'),
-('Napolitano', 'Sorvete napolitano tradicional', 15.90, 1, 'napolitano.jpg'),
-('Cookies', 'Sorvete sabor cookies', 16.50, 1, 'cookies.jpg'),
-('Chocolate Branco', 'Sorvete sabor chocolate branco', 14.90, 1, 'choc_branco.jpg'),
-('Pistache', 'Sorvete sabor pistache', 19.90, 1, 'pistache.jpg'),
-('Limão', 'Sorvete sabor limão', 9.90, 1, 'limao.jpg'),
-('Açaí', 'Açaí tradicional', 18.90, 1, 'acai.jpg');
+('Pote Avelã Sorvetudos', 'Pote de sorvete de avelã cremoso para adoçar sua manhã', 30.99, 1, 'https://uploadsorvetudos.blob.core.windows.net/uploadsorvetudos/178169712102020-avela.jpg'),
+('Sorvete Café Sorvetudos', 'Descubra o equilíbrio perfeito entre cremosidade e o sabor marcante do café em nosso Pote de Sorvete de Café.', 20.98, 1, 'https://uploadsorvetudos.blob.core.windows.net/uploadsorvetudos/178169890222026-cafe-espresso.jpg'),
+('Brownie Cobertura Baunilha Sorvetudos', 'O contraste perfeito entre sabores e texturas transforma cada pedaço em uma experiência deliciosa e cheia de sabor.',25.90 , 1, 'https://uploadsorvetudos.blob.core.windows.net/uploadsorvetudos/178169978194433-brownie-quente.jpg'),
+('Milkshake Ovolmatine Sorvetudos', 'Cada gole entrega o equilíbrio ideal entre doçura e aquele toque maltado que conquistou gerações.', 35.99, 1, 'https://uploadsorvetudos.blob.core.windows.net/uploadsorvetudos/178170007915537-milkshake-ovomaltine.jpg');
 
 -- CATEGORIAS
 INSERT INTO tbl_categoria (categoria) VALUES
@@ -24,7 +18,8 @@ INSERT INTO tbl_categoria (categoria) VALUES
 ('Açaí'),
 ('Picolé'),
 ('Milkshake'),
-('Sobremesa');
+('Sobremesa'),
+('Cremosos');
 
 -- SABORES
 INSERT INTO tbl_sabor (sabor) VALUES
@@ -34,7 +29,9 @@ INSERT INTO tbl_sabor (sabor) VALUES
 ('Flocos'),
 ('Pistache'),
 ('Limão'),
-('Cookies');
+('Cookies'),
+('Avelã'),
+('Café');
 
 -- PROMOÇÕES
 INSERT INTO tbl_promocao (valor_atual, valor_promocao, status) VALUES
@@ -66,7 +63,11 @@ INSERT INTO tbl_ingrediente (ingrediente) VALUES
 ('Baunilha'),
 ('Açúcar'),
 ('Pistache'),
-('Limão');
+('Limão'),
+('castanha'),
+('Essência de baunilha'),
+('Creme de leite'),
+('Café');
 
 -- TAGS
 INSERT INTO tbl_tag (tag) VALUES
@@ -76,65 +77,115 @@ INSERT INTO tbl_tag (tag) VALUES
 ('Promoção'),
 ('Novo');
 
--- PRODUTO CATEGORIA
+-- PRODUTO x CATEGORIA
 INSERT INTO tbl_produto_categoria (id_categoria, id_produto) VALUES
-(1,1),(1,2),(1,3),(1,4),(1,5),
-(1,6),(1,7),(1,8),(1,9),(2,10);
+(1,1), -- Sorvete
+(6,1), -- Cremosos
 
--- PRODUTO SABOR
+(1,2), -- Sorvete
+(6,2), -- Cremosos
+
+(5,3), -- Sobremesa
+
+(4,4), -- Milkshake
+(6,4); -- Cremosos
+
+
+-- PRODUTO x SABOR
 INSERT INTO tbl_produto_sabor (id_sabor, id_produto) VALUES
-(1,1),(2,2),(3,3),(4,4),(1,5),
-(7,6),(1,7),(5,8),(6,9),(2,10);
+(8,1), -- Avelã
+(3,1), -- Baunilha
 
--- PRODUTO PROMOÇÃO
+(9,2), -- Café
+
+(1,3), -- Chocolate
+(3,3), -- Baunilha
+
+(1,4), -- Chocolate
+(7,4); -- Cookies
+
+
+-- PRODUTO x PROMOCAO
 INSERT INTO tbl_produto_promocao (id_promocao, id_produto) VALUES
-(1,1),
-(2,5),
-(3,8);
-
--- PRODUTO TAMANHO
-INSERT INTO tbl_produto_tamanho (id_tamanho, id_produto) VALUES
-(1,1),(2,1),(3,1),
-(2,2),(3,2),
-(1,3),(2,3),
-(3,4),
-(2,5),
-(3,6),
-(1,7),
-(2,8),
-(1,9),
-(3,10);
-
--- PRODUTO LOTE
-INSERT INTO tbl_produto_lote (id_lote, id_produto) VALUES
 (1,1),
 (2,2),
 (3,3),
+(2,4);
+
+
+-- PRODUTO x TAMANHO
+INSERT INTO tbl_produto_tamanho (id_tamanho, id_produto) VALUES
+(2,1), -- M
+(3,1), -- G
+
+(1,2), -- P
+(2,2), -- M
+
+(2,3), -- M
+(3,3), -- G
+
+(2,4), -- M
+(3,4); -- G
+
+
+-- PRODUTO x LOTE
+INSERT INTO tbl_produto_lote (id_lote, id_produto) VALUES
+(1,1),
+(2,1),
+
+(2,2),
+(3,2),
+
+(3,3),
+(4,3),
+
 (4,4),
-(5,5),
-(1,6),
-(2,7),
-(3,8),
-(4,9),
-(5,10);
+(5,4);
 
--- PRODUTO INGREDIENTE
+
+-- PRODUTO x INGREDIENTE
 INSERT INTO tbl_produto_ingrediente (id_ingrediente, id_produto) VALUES
-(1,1),(2,1),
-(1,2),(3,2),
-(1,3),(4,3),
-(1,4),
-(1,5),(2,5),(3,5),
-(1,6),
-(1,7),(2,7),
-(1,8),(6,8),
-(1,9),(7,9),
-(1,10);
+-- Pote Avelã
+(1,1),  -- Leite
+(5,1),  -- Açúcar
+(8,1),  -- Castanha
+(10,1), -- Creme de leite
 
--- PRODUTO TAG
+-- Sorvete Café
+(1,2),  -- Leite
+(5,2),  -- Açúcar
+(11,2), -- Café
+(10,2), -- Creme de leite
+
+-- Brownie Baunilha
+(1,3),  -- Leite
+(2,3),  -- Chocolate
+(4,3),  -- Baunilha
+(9,3),  -- Essência de baunilha
+(10,3), -- Creme de leite
+
+-- Milkshake Ovomaltine
+(1,4),  -- Leite
+(2,4),  -- Chocolate
+(5,4),  -- Açúcar
+(10,4); -- Creme de leite
+
+
+-- PRODUTO x TAG
 INSERT INTO tbl_produto_tag (id_tag, id_produto) VALUES
-(3,1),
-(4,5),
-(1,8),
-(5,10),
-(2,9);
+-- Pote Avelã
+(1,1), -- Premium
+(5,1), -- Novo
+
+-- Sorvete Café
+(3,2), -- Mais Vendido
+(1,2), -- Premium
+
+-- Brownie
+(4,3), -- Promoção
+(5,3), -- Novo
+
+-- Milkshake
+(1,4), -- Premium
+(3,4), -- Mais Vendido
+(4,4); -- Promoção
