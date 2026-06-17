@@ -87,9 +87,6 @@ function renderizarTabela(lista) {
   lista.forEach(p => tbody.appendChild(criarLinhaProdutos(p)));
 }
 
-// ------------------------------------------------------------
-//  Toggle de status — PUT na API
-// ------------------------------------------------------------
 async function toggleStatus(id, lista) {
   const produto = lista.find(p => p.id === id);
   if (!produto) return;
@@ -101,8 +98,8 @@ async function toggleStatus(id, lista) {
 
   try {
     let formData = criarFormData(produto, novoStatus)
-    
-
+    console.log(formData.get('img'))
+  
     const OPTIONS = {
       method: 'PUT',
       headers: {
@@ -134,19 +131,24 @@ async function toggleStatus(id, lista) {
 const criarFormData = (produto, novoStatus) =>{
   const formData = new FormData();
   let preco = produto.preco
-  console.log(produto)
+  let img = produto.img
+  let sabor = produto.sabor.map(s => s.id)
+  let categoria = produto.categoria.map(c => c.id) 
+  let ingrediente = produto.ingrediente.map(i => i.id) 
+  let tamanho = produto.tamanho.map(t => t.id)
+  let tag = produto.tag.map(t => t.id) 
 
   formData.append("nome",      produto.nome);
   formData.append("descricao", produto.descricao);
   formData.append("preco",     Number(preco));
   formData.append("img",       produto.img);
-  formData.append('status', novoStatus);
+  formData.append('status',   Number(novoStatus));
 
-  formData.append("categoria",   JSON.stringify(produto.categoria.map(id => ( id.id ))));
-  formData.append("sabor",       JSON.stringify(produto.sabor.map(id => ({ id }))));
-  formData.append("ingrediente", JSON.stringify(produto.ingrediente.map(id => ({ id }))));
-  formData.append("tag",         JSON.stringify(produto.tag.map(id => ({ id }))));
-  formData.append("tamanho",     JSON.stringify(produto.tamanho.map(id => ({ id }))));
+  formData.append("sabor",       JSON.stringify(sabor.map(id => ({ id }))));
+  formData.append("categoria",   JSON.stringify(categoria.map(id =>( {id}  ))));
+  formData.append("ingrediente", JSON.stringify(ingrediente.map(id => ({ id }))));
+  formData.append("tag",         JSON.stringify(tag.map(id => ({ id }))));
+  formData.append("tamanho",     JSON.stringify(tamanho.map(id => ({ id }))));
   formData.append("promocao",    JSON.stringify([{ id: 1 }]));
   formData.append("lote",        JSON.stringify([{ id: 1 }]));
 

@@ -29,6 +29,7 @@ const {
 } = require('../controller/produto/controller_produto.js')
 
 const formatarJson = async (dados) => {
+    console.log(dados)
     const produto = {
         nome        : dados.nome,
         descricao   : dados.descricao,
@@ -49,7 +50,7 @@ const formatarJson = async (dados) => {
 // Produtos
 router.post('/', bodyParserJSON, upload.single('img'), async (req,res) => {
     let dados = await formatarJson(req.body)
-    let img = req.file
+    let img = req
     let contentType = req.headers['content-type']
 
     let result = await inserirNovoProduto(dados, img, contentType)
@@ -71,7 +72,7 @@ router.get('/:id', async (req,res) => {
 router.put('/:id', bodyParserJSON, upload.single('img'), async (req,res) => {
     let id = req.params.id
     let dados = await formatarJson(req.body)
-    let img = req.file
+    let img = req
     let contentType = req.headers['content-type']
 
     let result = await atualizarProduto(dados, id, img, contentType)

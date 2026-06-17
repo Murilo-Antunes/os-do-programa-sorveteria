@@ -1,8 +1,3 @@
-// ============================================================
-//  upload.js
-//  Gerencia o upload de imagem: drag & drop, click e preview.
-// ============================================================
-
 let imagemSelecionada = null;
 
 export function iniciarUpload() {
