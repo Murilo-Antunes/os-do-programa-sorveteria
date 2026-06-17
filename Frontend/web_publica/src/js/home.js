@@ -21,14 +21,12 @@ function productCardHtml(produto, i) {
   const preco     = produto.preco                         ?? "—";
   const categoria = produto.categoria?.[0]?.categoria     ?? "Sem categoria";
   const sabor     = produto.sabor?.[0]?.sabor             ?? "Sem sabor";
-  const tags      = produto.tag?.length
-    ? produto.tag.map(tag => `<span class="product-tag">${escapeHtml(tag.tag)}</span>`).join("")
-    : "";
+  const tags      = produto.tag?.[0]?.tag                 ?? "";
 
   return `<a href="./src/pages/product.html?id=${produto.id}" class="product-card" style="animation-delay:${i * 50}ms">
   <div class="product-img">
     <img src="${img}" alt="${escapeHtml(nome)}" loading="lazy">
-    ${tags}
+    <span class="product-tag">${escapeHtml(tags)}</span>
   </div>
   <div class="product-info">
     <div class="meta"><span>${escapeHtml(categoria)}</span></div>
@@ -235,7 +233,8 @@ document.getElementById("catalog-search").addEventListener("input", e => {
 
 document.getElementById("filters-btn").addEventListener("click", () => {
   state.showFilters = !state.showFilters;
-  render();
+  document.getElementById("filters-panel").classList.toggle("open", state.showFilters);
+  document.getElementById("filters-btn").classList.toggle("active", state.showFilters);
 });
 
 document.getElementById("see-more").addEventListener("click", () => {
