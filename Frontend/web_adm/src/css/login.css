@@ -1,0 +1,38 @@
+:root {
+    --serif:"Fraunces", Georgia, serif;
+    --color-sidebar-bg: #2A2F32;
+    --color-sidebar-active-text: #ffffff;
+    
+    --sidebar-width: 180px;
+    --content-max-width: 860px;   /* largura do formulário em telas grandes */
+    --radius-input: 6px;
+    --radius-chip: 20px;
+    --radius-btn: 6px;
+    position: absolute;
+}
+
+.aside {
+    width: var(--sidebar-width);
+    min-height: 100vh;
+    background: var(--color-sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 24px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+}
+.sidebar-titulo {
+    padding: 22px 15px 14px;
+    font-size: 18px;
+    color: var(--color-sidebar-active-text);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-family: var(--serif);
+    font-weight: 400;
+    letter-spacing: -0.45px;
+  }
