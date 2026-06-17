@@ -78,8 +78,6 @@ async function fetchProdutosFiltrados() {
 
     const data = await res.json();
     const produtos = data.response.filtro.map(item => item.produto[0]);
-
-    console.log(produtos)
     
     return produtos
 

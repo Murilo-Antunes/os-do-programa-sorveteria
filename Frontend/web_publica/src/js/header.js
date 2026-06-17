@@ -4,28 +4,17 @@
     const inPagesFolder = window.location.pathname.includes("/src/pages/");
     const basePath = inPagesFolder ? "../../" : "./";
 
-  //Esse array carrega todas as informações dos links na nav
-    //href = indica para onde o link vai ao ser clicado
-    //label = texto que está sendo escrito no menu
-    //icon = imagem do link de navegação
-    //anchor = define se o link tem uma ancora específica 
   const NAV = [
-    { href: `${basePath}index.html`, label: "Início", icon: `<img src='${basePath}src/img/icons/home.svg'>`, anchor: null },
-    { href: `${basePath}index.html#sabores`, label: "Sabores", icon: `<img src='${basePath}src/img/icons/sabores.svg'>`, anchor: "sabores" },
+    { href: `${basePath}index.html#home`, label: "Início", icon: `<img src='${basePath}src/img/icons/home.svg'>`, anchor: "home" },
     { href: `${basePath}index.html#destaques`, label: "Destaques", icon: `<img src='${basePath}src/img/icons/destaques.svg'>`, anchor: "destaques" },
+    { href: `${basePath}index.html#sabores`, label: "Sabores", icon: `<img src='${basePath}src/img/icons/sabores.svg'>`, anchor: "sabores" },
     { href: `${basePath}index.html#milkshakes`, label: "Milkshakes", icon: `<img src='${basePath}src/img/icons/milkshakes.svg'>`, anchor: "milkshakes" },
     { href: `${basePath}index.html#contato`, label: "Contato", icon: `<img src='${basePath}src/img/icons/contato.svg'>`, anchor: "contato" }
   ];
 
-  //Pega o nome da pagina atual de acordo com a url
-    //o .split() transforma a string em um array usando "/" como separador
-    //o .pop() pega o ultimo elemento do array
   const path = location.pathname.split("/").pop() || "index.html";
 
-  
-  //Função que retorna a logo do sorvetudos no header
   function logoHtml(size) {
-    //utiliza operador ternário para identificar a classe que a logo vai ter (logo-lg ou logo)
     const classe = size === "lg" ? "logo logo-lg" : "logo";
     return `<a href="${basePath}index.html" class="${classe}" aria-label="Sorvetudos">
       <img src="${basePath}src/img/logo/sorvetudos-logo.png" alt="Sorvetudos">
@@ -33,16 +22,22 @@
     </a>`;
   }
 
-  
-  //função que retorna a lista de menus de navegação colocando o index como ativo (corrigir depois para que ele identifique os outros menus como ativo também)
+  function getCurrentAnchor() {
+    return location.hash ? location.hash.slice(1) : "home";
+  }
+
+  function isActive(n) {
+    if (n.anchor) return getCurrentAnchor() === n.anchor;
+    return './' + path === n.href;
+  }
+
   function navList() {
     return NAV.map(n => {
-      const active = !n.anchor && './'+path === n.href ? "active" : "";
-      return `<a href="${n.href}" class="${active}"><span>${n.icon}</span>${n.label}</a>`;
+      const active = isActive(n) ? "active" : "";
+      return `<a href="${n.href}" class="${active}" data-anchor="${n.anchor || ""}"><span>${n.icon}</span>${n.label}</a>`;
     }).join("");
   }
 
-  //variavel que cria o html do header 
   const html = `
     <!-- Mobile topbar -->
     <div class="topbar">
@@ -80,26 +75,60 @@
   const toggle = document.getElementById("menu-toggle");
   const menu = document.getElementById("topbar-menu");
 
-  //adiciona a classe open ao menu de mobile ao clicar nele
   if (toggle && menu) toggle.addEventListener("click", () => menu.classList.toggle("open"));
 
-  //
+  // --- Ativação do link (clique e hash) ---
+  const navLinks = document.querySelectorAll(".topbar-menu nav a, .sidebar-nav a");
+
+  function setActiveLink(anchor) {
+    navLinks.forEach(a => {
+      a.classList.toggle("active", a.dataset.anchor === anchor);
+    });
+  }
+
+  navLinks.forEach(a => {
+    a.addEventListener("click", () => {
+      const anchor = a.dataset.anchor;
+      if (!anchor) return;
+      setActiveLink(anchor);
+      if (menu) menu.classList.remove("open");
+    });
+  });
+
+  window.addEventListener("hashchange", () => setActiveLink(getCurrentAnchor()));
+
+  // --- Ativação do link conforme o scroll (scroll spy) ---
+  function initScrollSpy() {
+    //Busca as seções correspondentes a cada ancora do NAV, ignorando as que não existem nessa página
+    const sections = NAV
+      .filter(n => n.anchor)
+      .map(n => document.getElementById(n.anchor))
+      .filter(Boolean);
+
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        //só ativa quando a seção está cruzando a faixa central da tela
+        if (entry.isIntersecting) setActiveLink(entry.target.id);
+      });
+    }, {
+      rootMargin: "-40% 0px -55% 0px", //faixa "gatilho" no centro da viewport
+      threshold: 0
+    });
+
+    sections.forEach(sec => observer.observe(sec));
+  }
+
+  initScrollSpy();
+
   ["sidebar-search", "topbar-search"].forEach(id => {
-    //tenta achar os ids "sidebar-search" ou "topbar-search" no document
     const form = document.getElementById(id);
     if (!form) return;
 
-    //se achar o formulario ele adiciona um evento de submit
     form.addEventListener("submit", event => {
-      //evita a pagina reiniciar
       event.preventDefault();
-
-      //cria uma variavel que pega o valor da pesquisa
-        //o new FormData pega a variavel formulario e retorna os dados dela
-        //o .get pega o valor referenciado ao nome do input
       const valorPesquisa = new FormData(form).get("pesquisa") || "";
-
-      //manda para pagina de pesquisa enviando o valorPesquisa na url codificada, de forma que não quebre a url
       location.href = `${basePath}src/pages/search.html?pesquisa=` + encodeURIComponent(valorPesquisa);
     });
   });

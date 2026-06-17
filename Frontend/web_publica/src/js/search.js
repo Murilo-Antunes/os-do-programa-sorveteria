@@ -20,7 +20,7 @@ function cardHtml(produto, i) {
   const img       = produto.img
     ? (produto.img.startsWith("http") ? produto.img : "../img" + produto.img)
     : "";
-  const preco     = produto.preco ?? "—";
+  const preco     = Number(produto.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) ?? "—";
   const categoria = Array.isArray(produto.categoria) && produto.categoria.length
     ? produto.categoria[0].categoria : "Sem categoria";
   const sabor     = Array.isArray(produto.sabor) && produto.sabor.length
