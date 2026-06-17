@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", async () =>{
         const categoriaDestaque = Array.isArray(destaque.categoria) && destaque.categoria.length
         ? destaque.categoria[0].categoria : "";
 
+        //Hero stats
+        document.getElementById('numero-sabores').innerHTML = `<dd>${window.PRODUTOS.length}<em>+</em></dd>`
+
         // Hero caption
         document.querySelector(".hero-img-caption .big").textContent = destaque.nome;
         document.querySelector(".hero-img-wrap img").src = imgDestaque;
@@ -21,10 +24,11 @@ document.addEventListener("DOMContentLoaded", async () =>{
         document.querySelector(".featured-meta").textContent = categoriaDestaque;
         document.querySelector(".featured-card h3").textContent = destaque.nome;
         document.querySelector(".featured-card .desc").textContent = destaque.descricao ?? "";
-        document.querySelector(".featured-price-v").textContent = destaque.preco ?? "—";
-    }
+        document.querySelector(".featured-price-v").textContent = Number(destaque.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) ?? "—";
+    }   
 
-    const milkshakes = window.PRODUTOS .filter(p => Array.isArray(p.categoria) && p.categoria.some(c => c.id === 11)).slice(0, 2);
+    const milkshakes = window.PRODUTOS.filter(p => Array.isArray(p.categoria) && p.categoria.some(c => c.id === 4)).slice(0, 2);
+    
 
     milkshakes.forEach((milkshake, i) => {
         const seletor = i === 0 ? "#milkshakes" : "#sundaes";
@@ -34,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () =>{
         document.querySelector(`${seletor} img`).src = imgMilkshake;
         document.querySelector(`${seletor} h3`).textContent = milkshake.nome;
         document.querySelector(`${seletor} .desc`).textContent = milkshake.descricao ?? "";
-        document.querySelector(`${seletor} .price`).textContent = milkshake.preco ?? "—";
+        document.querySelector(`${seletor} .price`).textContent = Number(milkshake.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) ?? "—";
     });
     render()
 })

@@ -22,6 +22,7 @@ export const pegarCategorias = async () =>{
   if(!response.ok) throw new Error('Erro ao pegar categorias')
 
   let data = await response.json()
+  console.log(data)
 
   return data
 }

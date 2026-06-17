@@ -23,25 +23,26 @@
 
   <!--JAVASCRIPT-->
   <script src="src/js/app.js" defer type="module"></script>
-  <script src="src/js/header.js" defer></script>
   <script src="src/js/footer.js" defer></script>
+  <script src="src/js/header.js" defer></script>
+  
 </head>
 
 
 <body>
   <div id="header-container"></div>
   <main class="main">
-    <section class="hero hero-bg">
+    <section id="home" class="hero hero-bg">
       <div class="hero-grid">
         <div class="surgir">
-          <div class="hero-eyebrow">Coleção verão · 2026</div>
+          <div  class="hero-eyebrow">Coleção verão · 2026</div>
           <h1>Sorvete <em>artesanal</em><br>que derrete<br>devagar.</h1>
           <p class="lead">Receitas feitas todos os dias com leite fresco da fazenda e ingredientes selecionados ao redor do mundo. Sem corantes, sem pressa.</p>
           <div class="hero-actions">
             <a href="#sabores" class="btn-dark">Explorar sabores <span class="circle">→</span></a>
           </div>
           <dl class="hero-stats">
-            <div><dt>Sabores</dt><dd>67<em>+</em></dd></div>
+            <div ><dt>Sabores</dt><dd id="numero-sabores">--<em>+</em></dd></div>
             <div><dt>Aprovação</dt><dd>98<em>%</em></dd></div>
             <div><dt>Top</dt><dd>10<em>Mundial</em></dd></div>
           </dl>
@@ -51,8 +52,8 @@
           <div class="hero-img-wrap">
             <img src="src/img/logo/sorvetudos-logo.png" alt="">
             <div class="hero-img-caption">
-              <p class="small"></p>
-              <p class="big"></p>
+              <p class="small">Edição especial</p>
+              <p class="big">----</p>
             </div>
           </div>
           <div class="hero-pill pill-top surgir" style="animation-delay:150ms">

@@ -18,17 +18,15 @@ function productCardHtml(produto, i) {
   const img       = produto.img 
     ? (produto.img.startsWith("http") ? produto.img : "./src" + produto.img)
     : "/src/img/placeholder.jpg";
-  const preco     = produto.preco                         ?? "—";
+  const preco     = Number(produto.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })  ?? "—";
   const categoria = produto.categoria?.[0]?.categoria     ?? "Sem categoria";
   const sabor     = produto.sabor?.[0]?.sabor             ?? "Sem sabor";
-  const tags      = produto.tag?.length
-    ? produto.tag.map(tag => `<span class="product-tag">${escapeHtml(tag.tag)}</span>`).join("")
-    : "";
+  const tags      = produto.tag?.[0]?.tag                 ?? "";
 
   return `<a href="./src/pages/product.html?id=${produto.id}" class="product-card" style="animation-delay:${i * 50}ms">
   <div class="product-img">
     <img src="${img}" alt="${escapeHtml(nome)}" loading="lazy">
-    ${tags}
+    <span class="product-tag">${escapeHtml(tags)}</span>
   </div>
   <div class="product-info">
     <div class="meta"><span>${escapeHtml(categoria)}</span></div>
@@ -80,8 +78,6 @@ async function fetchProdutosFiltrados() {
 
     const data = await res.json();
     const produtos = data.response.filtro.map(item => item.produto[0]);
-
-    console.log(produtos)
     
     return produtos
 
@@ -235,7 +231,8 @@ document.getElementById("catalog-search").addEventListener("input", e => {
 
 document.getElementById("filters-btn").addEventListener("click", () => {
   state.showFilters = !state.showFilters;
-  render();
+  document.getElementById("filters-panel").classList.toggle("open", state.showFilters);
+  document.getElementById("filters-btn").classList.toggle("active", state.showFilters);
 });
 
 document.getElementById("see-more").addEventListener("click", () => {

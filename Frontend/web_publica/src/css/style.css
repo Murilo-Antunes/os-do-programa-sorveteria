@@ -196,6 +196,7 @@
 
 .hero-img-caption .small {
   font-size: 10px;
+  color: rgba(0, 0, 0, 0.7);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   opacity: 0.8;
@@ -203,6 +204,7 @@
 
 .hero-img-caption .big {
   font-family: var(--serif);
+  color: rgba(0, 0, 0, 0.8);
   font-size: 24px;
   margin-top: 4px;
 }
