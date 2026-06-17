@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", async () =>{
         const categoriaDestaque = Array.isArray(destaque.categoria) && destaque.categoria.length
         ? destaque.categoria[0].categoria : "";
 
+        //Hero stats
+        document.getElementById('numero-sabores').innerHTML = `<dd>${window.PRODUTOS.length}<em>+</em></dd>`
+
         // Hero caption
         document.querySelector(".hero-img-caption .big").textContent = destaque.nome;
         document.querySelector(".hero-img-wrap img").src = imgDestaque;
