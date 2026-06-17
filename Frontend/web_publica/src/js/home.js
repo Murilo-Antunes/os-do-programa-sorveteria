@@ -18,7 +18,7 @@ function productCardHtml(produto, i) {
   const img       = produto.img 
     ? (produto.img.startsWith("http") ? produto.img : "./src" + produto.img)
     : "/src/img/placeholder.jpg";
-  const preco     = produto.preco                         ?? "—";
+  const preco     = Number(produto.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })  ?? "—";
   const categoria = produto.categoria?.[0]?.categoria     ?? "Sem categoria";
   const sabor     = produto.sabor?.[0]?.sabor             ?? "Sem sabor";
   const tags      = produto.tag?.[0]?.tag                 ?? "";

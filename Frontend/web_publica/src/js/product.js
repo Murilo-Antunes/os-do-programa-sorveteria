@@ -15,7 +15,7 @@ import { pegarProdutoRelacionados } from "./main.js";
   document.title = `${produto.nome} — Sorvetudos`;
 
   //Related Temporário
-  const related = [produto]
+  const related = await pegarProdutoRelacionados(produto.id)
   console.log(related)
 
   root.innerHTML = `
@@ -37,7 +37,7 @@ import { pegarProdutoRelacionados } from "./main.js";
           <div class="pd-ings">${produto.ingrediente.map(i => `<span>${escapeHtml(i.ingrediente)}</span>`).join("")}</div>
           <div class="pd-price">
             <div class="l">A partir de</div>
-            <div class="v">${escapeHtml(String(produto.preco))}</div>
+            <div class="v">${escapeHtml(Number(produto.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))}</div>
           </div>
         </div>
       </div>
@@ -58,8 +58,8 @@ import { pegarProdutoRelacionados } from "./main.js";
                 <h3>${escapeHtml(r.nome)}</h3>
                 <p>${escapeHtml(r.sabor[0].sabor)}</p>
               </div>
-              <div class="product-price"><span>${escapeHtml(String(r.preco))}</span></div>
-              <div class="product-price-mobile">${escapeHtml(String(r.preco))}</div>
+              <div class="product-price"><span>${escapeHtml(Number(r.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))}</span></div>
+              <div class="product-price-mobile">${escapeHtml(Number(r.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))}</div>
             </a>`).join("")}
         </div>
       </section>
