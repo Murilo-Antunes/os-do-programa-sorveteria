@@ -11,7 +11,7 @@ function verificar401(res) {
   if (!res) return
   if (res.status == 401) {
     localStorage.removeItem('token')
-    window.location.href = 'index.html'
+    window.location.href = '../../index.html'
     throw new Error('Não autorizado')
   }
 }
@@ -146,6 +146,7 @@ export const cadastrarProduto = async (formData) =>{
     verificar401(response)
 
     let data = await response.json()
+    window.location.href = 'dashboard.html'
     return data
   } catch (err) {
     console.error('Erro ao cadastrar produto:', err)
