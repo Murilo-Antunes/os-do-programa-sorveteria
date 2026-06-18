@@ -88,6 +88,8 @@ export const deleteByIdUsuario = async (id) => {
   try {
     let response = await fetch(`${BASE_URL}/usuarios/${id}`, OPTIONS)
     verificar401(response)
+    
+    if (!response.ok) throw new Error('Erro ao deletar usuário')
     return await response.json()
   } catch (err) {
     console.error('Erro ao deletar usuário:', err)

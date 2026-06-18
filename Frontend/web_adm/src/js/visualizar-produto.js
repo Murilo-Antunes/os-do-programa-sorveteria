@@ -10,6 +10,20 @@ function verificar401(res) {
   }
 }
 
+function iniciarLoadingBotao(button, textoLoading) {
+  if (!button) return
+  button.disabled = true
+  button.classList.add('btn-loading')
+  if (textoLoading) button.textContent = textoLoading
+}
+
+function finalizarLoadingBotao(button, textoPadrao) {
+  if (!button) return
+  button.disabled = false
+  button.classList.remove('btn-loading')
+  if (textoPadrao) button.textContent = textoPadrao
+}
+
 function pegarIdDaUrl() {
   return new URLSearchParams(window.location.search).get('id');
 }
@@ -98,6 +112,9 @@ function fecharModal() {
 }
 
 async function confirmarDeletar(id) {
+  const botaoDeletar = document.getElementById('modal-btn-deletar')
+  iniciarLoadingBotao(botaoDeletar, 'Removendo...')
+
   try {
     const OPTIONS = {
       method: 'DELETE',
@@ -112,6 +129,8 @@ async function confirmarDeletar(id) {
   } catch (err) {
     console.error(err);
     alert('Erro ao deletar o produto. Tente novamente.');
+  } finally {
+    finalizarLoadingBotao(botaoDeletar, 'deletar')
   }
 }
 

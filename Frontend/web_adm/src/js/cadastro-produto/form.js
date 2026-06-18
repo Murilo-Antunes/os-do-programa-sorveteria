@@ -1,6 +1,18 @@
 import { obterImagem } from "./upload.js"
 import { cadastrarProduto } from "./main.js"
 
+// Validação de preço em tempo real - permite apenas números e ponto
+const validarInputPreco = (event) => {
+  const input = event.target
+  input.value = input.value.replace(/[^\d.]/g, '')
+  
+  // Evita múltiplos pontos
+  const partes = input.value.split('.')
+  if (partes.length > 2) {
+    input.value = partes[0] + '.' + partes.slice(1).join('')
+  }
+}
+
 const btnCadastrar = document.getElementById("btn-cadastrar")
 
 function iniciarLoadingBotao() {
@@ -113,8 +125,6 @@ const _submeterProduto = ()  =>{
   formData.append("ingrediente", JSON.stringify(ingredientes.map(id => ({ id }))))
   formData.append("tag",         JSON.stringify(tags.map(id => ({ id }))))
   formData.append("tamanho",     JSON.stringify(tamanhos.map(id => ({ id }))))
-  formData.append("promocao",    JSON.stringify([{ id: 1 }]))
-  formData.append("lote",        JSON.stringify([{ id: 1 }]))
 
   return formData
 }
@@ -133,4 +143,10 @@ const chamarCadastro = async () => {
   } finally {
     finalizarLoadingBotao()
   }
+}
+
+// Adiciona validação de preço em tempo real
+const inputPreco = document.getElementById('input-preco')
+if (inputPreco) {
+  inputPreco.addEventListener('input', validarInputPreco)
 }

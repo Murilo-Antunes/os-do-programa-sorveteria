@@ -6,179 +6,331 @@ import {
   deleteByIdUsuario,
 } from './usuarios.js'
 
-// ── Utilitários de modal ─────────────────────────────────────────────────────
-function abrirModal(id)  { document.getElementById(id).classList.add('aberto') }
-function fecharModal(id) { document.getElementById(id).classList.remove('aberto') }
+// Busca elemento pelo ID
+const getById = (id) => document.getElementById(id)
 
-// Fecha ao clicar no overlay (fora da caixa)
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) fecharModal(overlay.id)
+// Lê valor de input e remove espaços
+const getInputValue = (id) => getById(id)?.value.trim() ?? ''
+
+// Verifica se texto é válido
+const isValidText = (value) =>
+  typeof value === 'string' && value.trim() !== '' && isNaN(value) && value.length <= 255
+
+// Valida formato de email simples
+const isValidEmail = (email) =>
+  typeof email === 'string' && email.trim() !== '' && email.includes('@') && email.length <= 255
+
+// Verifica tamanho mínimo e máximo da senha
+const isValidPassword = (password) =>
+  typeof password === 'string' && password.length >= 5 && password.length <= 255
+
+// Verifica se nível de acesso é um número positivo
+const isValidAccessLevel = (level) => {
+  const value = Number(level)
+  return Number.isFinite(value) && value > 0
+}
+
+// Valida input numérico em tempo real - remove caracteres não numéricos
+const validarInputNumerico = (event) => {
+  const input = event.target
+  input.value = input.value.replace(/[^\d]/g, '')
+}
+
+// Valida campos de usuário
+const validarUsuario = ({ nome, email, senha, nivel }, senhaObrigatoria = true) => {
+  const erros = []
+
+  if (!isValidText(nome)) erros.push('Nome inválido.')
+  if (!isValidEmail(email)) erros.push('Email inválido.')
+  if (senhaObrigatoria) {
+    if (!isValidPassword(senha)) erros.push('Senha deve ter entre 5 e 255 caracteres.')
+  } else if (senha && !isValidPassword(senha)) {
+    erros.push('Senha deve ter entre 5 e 255 caracteres.')
+  }
+  if (!isValidAccessLevel(nivel)) erros.push('Nível de acesso inválido.')
+
+  if (erros.length > 0) {
+    alert(`Corrija os seguintes campos:\n\n${erros.map((mensagem) => `• ${mensagem}`).join('\n')}`)
+    return false
+  }
+
+  return true
+}
+
+const iniciarLoadingBotao = (button, textoLoading) => {
+  if (!button) return
+  button.disabled = true
+  button.classList.add('btn-loading')
+  if (textoLoading) button.textContent = textoLoading
+}
+
+const finalizarLoadingBotao = (button, textoPadrao) => {
+  if (!button) return
+  button.disabled = false
+  button.classList.remove('btn-loading')
+  if (textoPadrao) button.textContent = textoPadrao
+}
+
+// Abre o modal informado
+const abrirModal = (id) => {
+  const modal = getById(id)
+  if (!modal) return
+  modal.classList.add('aberto')
+}
+
+// Fecha o modal informado
+const fecharModal = (id) => {
+  const modal = getById(id)
+  if (!modal) return
+  modal.classList.remove('aberto')
+}
+
+document.querySelectorAll('.modal-overlay').forEach((overlay) => {
+  overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) fecharModal(overlay.id)
   })
 })
 
-// ── Guarda o id do usuário alvo (editar / remover) ───────────────────────────
-let usuarioAlvoId = null
+let usuarioSelecionadoId = null
 
-// ── Renderização da tabela ───────────────────────────────────────────────────
-function criarLinhaUsuarios(usuario) {
+// Cria linha da tabela para um usuário
+const criarLinhaUsuarios = (usuario) => {
   const tr = document.createElement('tr')
   tr.dataset.id = usuario.id
+
+  const mostrarAcoes = usuario.nivel_de_acesso <= 1
+  const acoesHtml = mostrarAcoes
+    ? `
+      <div class="button-container">
+        <button class="btn-remover" aria-label="Excluir usuário: ${usuario.nome}" data-id="${usuario.id}">remover</button>
+        <button class="btn-editar" aria-label="Editar usuário: ${usuario.nome}" data-id="${usuario.id}">editar</button>
+      </div>
+    `
+    : `<div class="button-container usuario-protegido">🔒 Administrador</div>`
 
   tr.innerHTML = `
     <td>${usuario.nome}</td>
     <td>${usuario.email}</td>
     <td>${usuario.nivel_de_acesso}</td>
-    <td>
-      <div class="button-container">
-        <button
-          class="btn-remover"
-          aria-label="Excluir usuário: ${usuario.nome}"
-          data-id="${usuario.id}"
-        >remover</button>
-        <button
-          class="btn-editar"
-          aria-label="Editar usuário: ${usuario.nome}"
-          data-id="${usuario.id}"
-        >editar</button>
-      </div>
-    </td>
+    <td>${acoesHtml}</td>
   `
 
-  // Botão remover → abre modal de confirmação
-  tr.querySelector('.btn-remover').addEventListener('click', () => {
-    usuarioAlvoId = usuario.id
-    document.getElementById('remover-mensagem').textContent =
-      `Deseja remover o usuário (${usuario.nome})?`
-    abrirModal('modal-remover')
-  })
+  if (mostrarAcoes) {
+    tr.querySelector('.btn-remover').addEventListener('click', () => {
+      usuarioSelecionadoId = usuario.id
+      const mensagemRemover = getById('remover-mensagem')
+      if (mensagemRemover) {
+        mensagemRemover.textContent = `Deseja remover o usuário (${usuario.nome})?`
+      }
+      abrirModal('modal-remover')
+    })
 
-  // Botão editar → busca dados atuais e abre modal de edição
-  tr.querySelector('.btn-editar').addEventListener('click', async () => {
-    try {
-      const res = await getByIdUsuario(usuario.id)
-      const u   = res.response?.usuario?.[0] ?? res.response ?? usuario
+    tr.querySelector('.btn-editar').addEventListener('click', async () => {
+      try {
+        const res = await getByIdUsuario(usuario.id)
+        const usuarioAtual = res.response?.usuario?.[0] ?? res.response ?? usuario
 
-      usuarioAlvoId = u.id
-      document.getElementById('editar-titulo').textContent = `Editar usuário: ${u.nome}`
-      document.getElementById('editar-nome').value  = u.nome             ?? ''
-      document.getElementById('editar-email').value = u.email            ?? ''
-      document.getElementById('editar-senha').value = ''
-      document.getElementById('editar-nivel').value = u.nivel_de_acesso  ?? ''
-      abrirModal('modal-editar')
-    } catch {
-      alert('Não foi possível carregar os dados do usuário.')
-    }
-  })
+        usuarioSelecionadoId = usuarioAtual.id
+        getById('editar-titulo').textContent = `Editar usuário: ${usuarioAtual.nome}`
+        getById('editar-nome').value = usuarioAtual.nome ?? ''
+        getById('editar-email').value = usuarioAtual.email ?? ''
+        getById('editar-senha').value = ''
+        getById('editar-nivel').value = usuarioAtual.nivel_de_acesso ?? ''
+        abrirModal('modal-editar')
+      } catch {
+        alert('Não foi possível carregar os dados do usuário.')
+      }
+    })
+  }
 
   return tr
 }
 
-function renderTable(lista) {
-  const tbody      = document.getElementById('users-tbody')
-  const emptyState = document.getElementById('empty-state')
+// Renderiza a lista de usuários na tabela
+const renderTable = (usuarios) => {
+  const tbody = getById('users-tbody')
+  const emptyState = getById('empty-state')
 
+  if (!tbody) return
   tbody.innerHTML = ''
 
-  if (!lista || lista.length === 0) {
-    emptyState.hidden = false
+  if (!Array.isArray(usuarios) || usuarios.length === 0) {
+    if (emptyState) emptyState.hidden = false
     return
   }
 
-  emptyState.hidden = true
-  lista.forEach(u => tbody.appendChild(criarLinhaUsuarios(u)))
+  if (emptyState) emptyState.hidden = true
+  usuarios.forEach((usuario) => tbody.appendChild(criarLinhaUsuarios(usuario)))
 }
 
-async function carregarUsuarios() {
-  const data = await getAllUsuarios()
-  renderTable(data.response.usuario)
+// Busca todos os usuários e atualiza a tabela
+const carregarUsuarios = async () => {
+  const response = await getAllUsuarios()
+  renderTable(response.response?.usuario)
 }
 
-// Modal: Inserir 
-document.getElementById('btn-abrir-inserir').addEventListener('click', () => {
-  ;['inserir-nome', 'inserir-email', 'inserir-senha', 'inserir-nivel']
-    .forEach(id => (document.getElementById(id).value = ''))
-  abrirModal('modal-inserir')
+// Limpa o valor de vários campos
+const limparCampos = (...ids) => ids.forEach((id) => {
+  const element = getById(id)
+  if (element) element.value = ''
 })
 
-document.getElementById('fechar-inserir').addEventListener('click',       () => fecharModal('modal-inserir'))
-document.getElementById('btn-cancelar-inserir').addEventListener('click', () => fecharModal('modal-inserir'))
+// Abre modal de inserir usuário e limpa campos
+const abrirModalInserir = () => {
+  limparCampos('inserir-nome', 'inserir-email', 'inserir-senha', 'inserir-nivel')
+  abrirModal('modal-inserir')
+}
 
-document.getElementById('btn-confirmar-inserir').addEventListener('click', async () => {
-  const nome  = document.getElementById('inserir-nome').value.trim()
-  const email = document.getElementById('inserir-email').value.trim()
-  const senha = document.getElementById('inserir-senha').value.trim()
-  const nivel = document.getElementById('inserir-nivel').value.trim()
+// Fecha os modais de inserir, editar e remover
+const fecharModalInserir = () => fecharModal('modal-inserir')
+const fecharModalEditar = () => fecharModal('modal-editar')
+const fecharModalRemover = () => fecharModal('modal-remover')
 
-  if (!nome || !email || !senha || !nivel) {
-    alert('Preencha todos os campos.')
-    return
+// Fecha o modal e mostra a mensagem de erro
+const exibirErro = (mensagem, modalId) => {
+  if (modalId) fecharModal(modalId)
+  alert(mensagem)
+}
+
+// Trata a submissão de novo usuário
+const confirmarInserirUsuario = async () => {
+  const usuario = {
+    nome: getInputValue('inserir-nome'),
+    email: getInputValue('inserir-email'),
+    senha: getInputValue('inserir-senha'),
+    nivel: getInputValue('inserir-nivel'),
   }
 
+  if (!validarUsuario(usuario, true)) return
+
+  const botaoInserir = getById('btn-confirmar-inserir')
   try {
-    const res = await postUsuario({ nome, email, senha, nivel_de_acesso: Number(nivel) })
+    iniciarLoadingBotao(botaoInserir, 'Inserindo...')
+    const res = await postUsuario({
+      nome: usuario.nome,
+      email: usuario.email,
+      senha: usuario.senha,
+      nivel_de_acesso: Number(usuario.nivel),
+    })
 
     if (res.status === 201 || res.status === 200 || res.status === true) {
-      fecharModal('modal-inserir')
-      await carregarUsuarios()   // atualiza a tabela automaticamente
-    } else {
-      alert(res.message ?? 'Erro ao inserir usuário.')
+      fecharModalInserir()
+      await carregarUsuarios()
+      return
     }
+
+    exibirErro(res.message ?? 'Erro ao inserir usuário.', 'modal-inserir')
   } catch {
-    alert('Erro ao inserir usuário. Tente novamente.')
+    exibirErro('Erro ao inserir usuário. Tente novamente.', 'modal-inserir')
+  } finally {
+    finalizarLoadingBotao(botaoInserir, 'Inserir Usuário')
   }
-})
+}
 
-//  Modal: Editar 
-document.getElementById('fechar-editar').addEventListener('click',       () => fecharModal('modal-editar'))
-document.getElementById('btn-cancelar-editar').addEventListener('click', () => fecharModal('modal-editar'))
-
-document.getElementById('btn-confirmar-editar').addEventListener('click', async () => {
-  const nome  = document.getElementById('editar-nome').value.trim()
-  const email = document.getElementById('editar-email').value.trim()
-  const senha = document.getElementById('editar-senha').value.trim()
-  const nivel = document.getElementById('editar-nivel').value.trim()
-
-  if (!nome || !email || !nivel) {
-    alert('Preencha pelo menos nome, email e nível de acesso.')
+// Trata a atualização de usuário existente
+const confirmarEditarUsuario = async () => {
+  if (!usuarioSelecionadoId) {
+    alert('Nenhum usuário selecionado para edição.')
     return
   }
 
-  const payload = { id: usuarioAlvoId, nome, email, nivel_de_acesso: Number(nivel) }
-  if (senha) payload.senha = senha   // só envia senha se o campo foi preenchido
+  const usuario = {
+    nome: getInputValue('editar-nome'),
+    email: getInputValue('editar-email'),
+    senha: getInputValue('editar-senha'),
+    nivel: getInputValue('editar-nivel'),
+  }
 
+  if (!validarUsuario(usuario, false)) return
+
+  const payload = {
+    id: usuarioSelecionadoId,
+    nome: usuario.nome,
+    email: usuario.email,
+    nivel_de_acesso: Number(usuario.nivel),
+  }
+  if (usuario.senha) payload.senha = usuario.senha
+
+  const botaoEditar = getById('btn-confirmar-editar')
   try {
+    iniciarLoadingBotao(botaoEditar, 'Salvando...')
     const res = await putByIdUsuario(payload)
 
     if (res.status === 200 || res.status === true) {
-      fecharModal('modal-editar')
+      fecharModalEditar()
       await carregarUsuarios()
-    } else {
-      alert(res.message ?? 'Erro ao editar usuário.')
+      return
     }
+
+    exibirErro(res.message ?? 'Erro ao editar usuário.', 'modal-editar')
   } catch {
-    alert('Erro ao editar usuário. Tente novamente.')
+    exibirErro('Erro ao editar usuário. Tente novamente.', 'modal-editar')
+  } finally {
+    finalizarLoadingBotao(botaoEditar, 'Confirmar Alteração')
   }
-})
+}
 
-// Modal: Remover 
-document.getElementById('fechar-remover').addEventListener('click',       () => fecharModal('modal-remover'))
-document.getElementById('btn-cancelar-remover').addEventListener('click', () => fecharModal('modal-remover'))
+// Trata a remoção de usuário selecionado
+const confirmarRemoverUsuario = async () => {
+  if (!usuarioSelecionadoId) {
+    alert('Nenhum usuário selecionado para remoção.')
+    return
+  }
 
-document.getElementById('btn-confirmar-remover').addEventListener('click', async () => {
+  const botaoRemover = getById('btn-confirmar-remover')
   try {
-    const res = await deleteByIdUsuario(usuarioAlvoId)
+    iniciarLoadingBotao(botaoRemover, 'Removendo...')
+    const res = await deleteByIdUsuario(usuarioSelecionadoId)
 
     if (res.status === 200 || res.status === true) {
-      fecharModal('modal-remover')
+      fecharModalRemover()
       await carregarUsuarios()
-    } else {
-      alert(res.message ?? 'Erro ao remover usuário.')
+      return
     }
-  } catch {
-    alert('Erro ao remover usuário. Tente novamente.')
-  }
-})
 
-//  Inicialização 
+    if (res.status === 401) {
+      alert('Você não tem permissão para remover este usuário.')
+      fecharModalRemover()
+      return
+    }
+    exibirErro(res.message ?? 'Erro ao remover usuário.', 'modal-remover')
+  } catch {
+    exibirErro('Erro ao remover usuário. Tente novamente.', 'modal-remover')
+  } finally {
+    finalizarLoadingBotao(botaoRemover, 'remover')
+  }
+}
+
+// Adiciona listener de click se o elemento existir
+const addClickListener = (id, callback) => {
+  const element = getById(id)
+  if (!element) return
+  element.addEventListener('click', callback)
+}
+
+addClickListener('btn-abrir-inserir', abrirModalInserir)
+addClickListener('fechar-inserir', fecharModalInserir)
+addClickListener('btn-cancelar-inserir', fecharModalInserir)
+addClickListener('btn-confirmar-inserir', confirmarInserirUsuario)
+
+addClickListener('fechar-editar', fecharModalEditar)
+addClickListener('btn-cancelar-editar', fecharModalEditar)
+addClickListener('btn-confirmar-editar', confirmarEditarUsuario)
+
+addClickListener('fechar-remover', fecharModalRemover)
+addClickListener('btn-cancelar-remover', fecharModalRemover)
+addClickListener('btn-confirmar-remover', confirmarRemoverUsuario)
+
+// Validação de input numérico em tempo real
+const inputInserirNivel = getById('inserir-nivel')
+const inputEditarNivel = getById('editar-nivel')
+
+if (inputInserirNivel) {
+  inputInserirNivel.addEventListener('input', validarInputNumerico)
+}
+
+if (inputEditarNivel) {
+  inputEditarNivel.addEventListener('input', validarInputNumerico)
+}
+
 document.addEventListener('DOMContentLoaded', carregarUsuarios)

@@ -140,6 +140,10 @@ body {
   white-space: nowrap;
 }
 
+.users-table th:last-child {
+  text-align: center;
+}
+
 /* Linhas */
 .users-table tbody tr {
   border-bottom: 1px solid var(--color-borda);
@@ -154,6 +158,10 @@ body {
   font-size: 0.9rem;
   color: var(--color-texto);
   vertical-align: middle;
+}
+
+.users-table td:last-child {
+  text-align: center;
 }
 
 /* Botão insert */
@@ -177,22 +185,67 @@ body {
 }
 
 .button-container button{
-  width: 80px;
-  border: 1px solid var(--color-texto);
+  flex: 1;
+  border: none;
   cursor: pointer;
-  padding: 0.5rem;
-  color: var(--color-texto);
+  padding: 0.6rem 1rem;
+  color: #fff;
   border-radius: 6px;
-  text-align: center;
-  transition: color 0.2s, background 0.2s;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: lowercase;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.button-container button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.usuario-protegido {
+  color: #6b7280;
+  font-weight: 600;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-loading::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .btn-remover{
-  background-color: var(--color-desativado);
+  background-color: #8B1A1A;
+}
+
+.btn-remover:hover {
+  background-color: #6B1313;
 }
 
 .btn-editar{
-  background-color: var(--color-ativado);
+  background-color: #3730A3;
+}
+
+.btn-editar:hover {
+  background-color: #2B2480;
 }
 
 /* MODAIS */

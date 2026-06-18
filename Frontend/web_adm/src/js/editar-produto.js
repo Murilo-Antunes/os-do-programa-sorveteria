@@ -8,6 +8,18 @@ const OPTIONS_GET = {
     },
 }
 
+// Validação de preço em tempo real - permite apenas números e ponto
+const validarInputPreco = (event) => {
+  const input = event.target
+  input.value = input.value.replace(/[^\d.]/g, '')
+  
+  // Evita múltiplos pontos
+  const partes = input.value.split('.')
+  if (partes.length > 2) {
+    input.value = partes[0] + '.' + partes.slice(1).join('')
+  }
+}
+
 function verificar401(res) {
   if (!res) return
   if (res.status == 401) {
@@ -288,8 +300,6 @@ async function submeterEdicao(id) {
     formData.append('tag',          JSON.stringify(tags.map(id => ({id}))));
     formData.append('tamanho',      JSON.stringify(tamanhos.map(id => ({id}))));
     formData.append('ingrediente',  JSON.stringify(ingredientes.map(id => ({id}))));
-    formData.append('promocao',     JSON.stringify([{ id: 1 }]));
-    formData.append('lote',         JSON.stringify([{ id: 1 }]));
 
   if (imagemNova) {
     formData.append('img', imagemNova);
@@ -358,6 +368,12 @@ async function init() {
     console.error(err);
     alert('Não foi possível carregar o produto para edição.');
   }
+}
+
+// Adiciona validação de preço em tempo real
+const inputCampoPreco = document.getElementById('campo-preco')
+if (inputCampoPreco) {
+  inputCampoPreco.addEventListener('input', validarInputPreco)
 }
 
 document.addEventListener('DOMContentLoaded', init);
