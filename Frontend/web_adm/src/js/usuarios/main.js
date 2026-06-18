@@ -241,7 +241,7 @@ const confirmarEditarUsuario = async () => {
     nivel: getInputValue('editar-nivel'),
   }
 
-  if (!validarUsuario(usuario, false)) return
+  if (!validarUsuario(usuario, true)) return
 
   const payload = {
     id: usuarioSelecionadoId,
