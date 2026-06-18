@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="src/css/style.css">
   <link rel="stylesheet" href="src/css/footer.css">
   <link rel="stylesheet" href="src/css/aside.css">
+  <link rel="stylesheet" href="src/css/skeleton-loading.css">
 
   <!--JAVASCRIPT-->
   <script src="src/js/app.js" defer type="module"></script>
@@ -34,7 +35,7 @@
   <main class="main">
     <section id="home" class="hero hero-bg">
       <div class="hero-grid">
-        <div class="surgir">
+        <div id="surgir-grid" class="">
           <div  class="hero-eyebrow">Coleção verão · 2026</div>
           <h1>Sorvete <em>artesanal</em><br>que derrete<br>devagar.</h1>
           <p class="lead">Receitas feitas todos os dias com leite fresco da fazenda e ingredientes selecionados ao redor do mundo. Sem corantes, sem pressa.</p>
@@ -42,21 +43,21 @@
             <a href="#sabores" class="btn-dark">Explorar sabores <span class="circle">→</span></a>
           </div>
           <dl class="hero-stats">
-            <div ><dt>Sabores</dt><dd id="numero-sabores">--<em>+</em></dd></div>
-            <div><dt>Aprovação</dt><dd>98<em>%</em></dd></div>
-            <div><dt>Top</dt><dd>10<em>Mundial</em></dd></div>
+            <div ><dt>Sabores</dt><dd id="numero-sabores" class="skeleton skeleton-text"><em></em></dd></div>
+            <div><dt>Aprovação</dt><dd id="numero-aprovacao" class="skeleton skeleton-text"><em></em></dd></div>
+            <div><dt>Top</dt><dd id="numero-top" class="skeleton skeleton-text"><em></em></dd></div>
           </dl>
         </div>
 
         <div class="hero-card">
-          <div class="hero-img-wrap">
-            <img src="src/img/logo/sorvetudos-logo.png" alt="">
+          <div class="hero-img-wrap skeleton skeleton-box">
+            <img src="" alt="">
             <div class="hero-img-caption">
-              <p class="small">Edição especial</p>
-              <p class="big">----</p>
+              <p class="small"></p>
+              <p class="big"></p>
             </div>
           </div>
-          <div class="hero-pill pill-top surgir" style="animation-delay:150ms">
+          <div id="surgir-pill" class="hero-pill pill-top" style="animation-delay:150ms">
             <div class="ic" style="background:var(--mint)">🌿</div>
             <div><div class="t">100% natural</div><div class="s">Sem corantes</div></div>
           </div>
@@ -73,16 +74,16 @@
         <a href="#" class="featured-link">Ver produto ↗</a>
       </div>
       <a href="#" class="featured-card">
-        <div class="featured-img">
-          <img src="src/img/logo/sorvetudos-logo.png" alt="Chocolate Supremo">
+        <div class="featured-img skeleton skeleton-box">
+          <img src="" alt="Chocolate Supremo">
           <span class="featured-tag">Em Alta</span>
         </div>
         <div>
           <div class="featured-meta"></div>
-          <h3>Sorvetudos</h3>
+          <h3 class="skeleton skeleton-text"></h3>
           <p class="desc"></p>
           <div class="featured-foot">
-            <div><p class="featured-price-l">A partir de</p><p class="featured-price-v">R$ ----</p></div>
+            <div><p class="featured-price-l skeleton skeleton-text"></p><p class="featured-price-v"></p></div>
             <span class="featured-cta">Provar agora →</span>
           </div>
         </div>
@@ -127,7 +128,10 @@
       </div>
       <div id="categoria-catalogo" class="categoria-catalogo"></div>
       <div id="filters-panel" class="filters-panel"></div>
-      <div id="catalog-grid" class="grid-2"></div>
+      <div id="catalog-grid" class="grid-2 ">
+        
+
+      </div>
       <div id="see-more" class="see-more" style="display:none">
         <button>Ver mais sabores <span class="circle">→</span></button>
       </div>
@@ -135,29 +139,29 @@
 
     <section class="section" style="padding-top:0;padding-bottom:0">
       <div class="spotlight">
-        <a href="#" id="milkshakes">
-          <img src="./src/img/logo/sorvetudos-logo.png" alt="Milkshake de Ovomaltine">
+        <a href="#" id="milkshakes" class="skeleton skeleton-box">
+          <img src="" alt="Milkshake de Ovomaltine">
           <div class="overlay"></div>
           <div class="content">
             <p class="cat"></p>
-            <h3>Sorvetudos</h3>
+            <h3 class="skeleton skeleton-text"></h3>
             <p class="desc"></p>
             <div class="foot">
-              <span class="price">R$ ----</span>
-              <span class="more">Provar ↗</span>
+              <span class="price skeleton skeleton-text"></span>
+              <span class="more skeleton skeleton-text"></span>
             </div>
           </div>
         </a>
-        <a href="#" id="sundaes">
-          <img src="./src/img/logo/sorvetudos-logo.png" alt="Sundae Caramelo">
+        <a href="#" id="sundaes" class="skeleton skeleton-box">
+          <img src="" alt="Sundae Caramelo">
           <div class="overlay"></div>
           <div class="content">
             <p class="cat"></p>
-            <h3>Sorvetudos</h3>
+            <h3 class="skeleton skeleton-text"></h3>
             <p class="desc"></p>
             <div class="foot">
-              <span class="price">R$ ----</span>
-              <span class="more">Provar ↗</span>
+              <span class="price skeleton skeleton-text"></span>
+              <span class="more skeleton skeleton-text"></span>
             </div>
           </div>
         </a>
