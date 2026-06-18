@@ -23,10 +23,6 @@
   --aside-width: 180px; 
 }
 
-html, body {
-  height: 100%;
-}
-
 body {
   font-family: var(--font-body);
   background-color: var(--color-bg);

@@ -1,8 +1,3 @@
-/* ============================================================
-   upload.css
-   Dropzone de imagem e preview
-   ============================================================ */
-
 .fora {
   width: 750px;
   height: 400px;
@@ -11,9 +6,7 @@
   border: 1.5px dashed var(--cor-borda);
   border-radius: var(--raio-md);
   background: var(--cor-superficie);
-  
-  height: 400px;
-  width: fit-content;
+  height: 600px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,8 +41,9 @@
 /* Preview da imagem */
 .imagem-preview {
   width: fit-content;
+  width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: none;
   border-radius: var(--raio-md);
 
