@@ -1,15 +1,13 @@
 :root {
-    --serif:"Fraunces", Georgia, serif;
+    --serif: "Fraunces", Georgia, serif;
     --color-sidebar-bg: #2A2F32;
     --color-sidebar-active-text: #ffffff;
-    
     --sidebar-width: 180px;
-    --content-max-width: 860px;   /* largura do formulário em telas grandes */
-    --radius-input: 6px;
-    --radius-chip: 20px;
+    --radius-input: 10px;
     --radius-btn: 6px;
-    position: absolute;
 }
+
+/* ===== ASIDE ===== */
 
 .aside {
     width: var(--sidebar-width);
@@ -24,6 +22,7 @@
     bottom: 0;
     z-index: 100;
 }
+
 .sidebar-titulo {
     padding: 22px 15px 14px;
     font-size: 18px;
@@ -35,9 +34,91 @@
     font-family: var(--serif);
     font-weight: 400;
     letter-spacing: -0.45px;
-  }
+}
 
-  .loading {
+/* ===== MAIN / LOGIN ===== */
+
+body {
+    background: #EFEFEF;
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.main {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+}
+
+.page-title {
+    font-size: 50px;
+    color: #1a2233;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 100%;
+    gap: 16px;
+}
+
+
+label input[type="text"],
+label input[type="email"],
+label input[type="password"] {
+    width: 400px;
+    height: 27px;
+    padding: 14px 16px;
+    border: 1.5px solid #d0d0d0;
+    border-radius: var(--radius-input);
+    background: #ffffff;
+    font-size: 20px;
+    color: #333;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+label input[type="text"]::placeholder,
+label input[type="email"]::placeholder,
+label input[type="password"]::placeholder {
+    color: #aaa;
+}
+
+label input[type="text"]:focus,
+label input[type="email"]:focus,
+label input[type="password"]:focus {
+    border-color: #888;
+}
+
+#entrar {
+    width: 400px;
+    padding: 13px;
+    background: #3d3d3d;
+    color: #ffffff;
+    border-radius: var(--radius-btn);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+
+/* ===== LOADING ===== */
+
+.loading {
     position: fixed;
     inset: 0;
     background: rgba(255,255,255,.7);
@@ -60,8 +141,3 @@
     animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
