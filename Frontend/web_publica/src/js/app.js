@@ -6,16 +6,23 @@ document.addEventListener("DOMContentLoaded", async () =>{
     await alimentarAtributos()
     const destaque = window.PRODUTOS[0];
     if (destaque) {
+
         const imgDestaque = destaque.img?.startsWith("http") ? destaque.img : "./src" + destaque.img;
         const categoriaDestaque = Array.isArray(destaque.categoria) && destaque.categoria.length
         ? destaque.categoria[0].categoria : "";
 
+        document.querySelectorAll('.skeleton, .skeleton-box, .skeleton-text').forEach(elemento => {
+            elemento.classList.remove('skeleton', 'skeleton-box', 'skeleton-text')
+        })
         //Hero stats
-        document.getElementById('numero-sabores').innerHTML = `<dd>${window.PRODUTOS.length}<em>+</em></dd>`
+        document.getElementById('numero-sabores').innerHTML = `<dd class = 'surgir'>${window.PRODUTOS.length}<em>+</em></dd>`
+        document.getElementById('numero-aprovacao').innerHTML = `<dd class = 'surgir style="animation-delay:50ms"'>98<em>%</em></dd>`
+        document.getElementById('numero-top').innerHTML = `<dd class = 'surgir' style="animation-delay:100ms">10<em>Mundial</em></dd>`
 
         // Hero caption
         document.querySelector(".hero-img-caption .big").textContent = destaque.nome;
         document.querySelector(".hero-img-wrap img").src = imgDestaque;
+        document.querySelector('.small').textContent = 'Edição especial'
 
         // Seção destaque
         document.querySelector(".featured-card").href = `./src/pages/product.html?id=${destaque.id}`;
@@ -27,7 +34,13 @@ document.addEventListener("DOMContentLoaded", async () =>{
         document.querySelector(".featured-price-v").textContent = Number(destaque.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) ?? "—";
     }   
 
+    //milkshake
+    document.querySelectorAll('.more').forEach(elemento => {
+        elemento.textContent = 'Provar ↗'
+    })
+
     const milkshakes = window.PRODUTOS.filter(p => Array.isArray(p.categoria) && p.categoria.some(c => c.id === 4)).slice(0, 2);
+
     
 
     milkshakes.forEach((milkshake, i) => {
