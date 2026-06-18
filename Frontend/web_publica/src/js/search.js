@@ -75,9 +75,7 @@ async function buscar(query) {
     try {
         const res  = await fetch(`${BASE_URL}/produtos/pesquisa?nome_produto=${encodeURIComponent(q)}`);
         const data = await res.json();
-        console.log(data)
         const produtos = Array.isArray(data.response?.pesquisa) ? data.response.pesquisa.map(item => item.produto[0]).filter(Boolean) : [];
-        console.log(produtos)
 
         sub.textContent = produtos.length
         ? `${produtos.length} ${produtos.length === 1 ? "resultado encontrado" : "resultados encontrados"}`

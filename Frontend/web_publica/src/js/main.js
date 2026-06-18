@@ -64,7 +64,6 @@ export const alimentarAtributos = async () => {
 window.getProduct = async (id) => {
   const response = await fetch(`${BASE_URL}/produtos/${id}`)
   const data = await response.json()
-  console.log(data)
   return data.response.produto[0]
 }
 

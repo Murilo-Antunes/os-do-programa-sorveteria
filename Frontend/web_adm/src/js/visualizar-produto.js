@@ -5,7 +5,7 @@ function verificar401(res) {
   if (!res) return
   if (res.status == 401) {
     localStorage.removeItem('token')
-    window.location.href = 'index.html'
+    window.location.href = '../../index.html'
     throw new Error('Não autorizado')
   }
 }
@@ -54,7 +54,6 @@ function renderizarChipsLeitura(containerId, itens, chave) {
   const container = document.getElementById(containerId);
   if (!container) return;
   container.innerHTML = '';
-  console.log(container.innerHTML)
 
   if (!itens || itens.length === 0) {
     container.innerHTML = '<span class="sem-dados">—</span>';
@@ -65,7 +64,6 @@ function renderizarChipsLeitura(containerId, itens, chave) {
 }
 function preencherPagina(produtoArray) {
   let produto = produtoArray[0]
-  console.log(produto)
   // Título
   document.querySelector('.pagina-titulo').textContent = produto.nome;
   document.title = `Sorvetudos — ${produto.nome}`;

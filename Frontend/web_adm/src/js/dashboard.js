@@ -59,11 +59,12 @@ function criarTags(tags) {
 }
 
 function criarLinhaProdutos(produto) {
+  console.log(produto.status == 1)
   const tr = document.createElement('tr')
   tr.dataset.id = produto.id
 
-  const statusLabel = produto.status ? 'Ativo' : 'Inativo'
-  const statusClass = produto.status ? 'ativo' : 'inativo'
+  const statusLabel = produto.status == 1 ? 'Ativo' : 'Inativo'
+  const statusClass = produto.status == 1 ? 'ativo' : 'inativo'
 
   tr.innerHTML = `
     <td>
@@ -122,16 +123,11 @@ async function toggleStatus(id, lista) {
 
   if (!produto) return
 
-  let novoStatus = 1
-
-  if (produto.status === 1) {
-    novoStatus = '0'
-  }
+  // sempre number, nunca string — evita bug de truthiness e de comparação
+  const novoStatus = Number(produto.status) === 1 ? 0 : 1
 
   try {
     let formData = criarFormData(produto, novoStatus)
-
-    console.log(formData.get('img'))
 
     const OPTIONS = {
       method: 'PUT',
@@ -141,15 +137,11 @@ async function toggleStatus(id, lista) {
       body: formData
     }
 
-    console.log(formData.get('status'))
-
     let res = await fetch(`${BASE_URL}/produtos/${id}`, OPTIONS)
-    
-    verificar401(res)
-    
-    let data = await res.json()
 
-    console.log(data)
+    verificar401(res)
+
+    let data = await res.json()
 
     produto.status = novoStatus
 
@@ -157,8 +149,8 @@ async function toggleStatus(id, lista) {
     const badge = tr?.querySelector('.status-badge')
 
     if (badge) {
-      badge.textContent = novoStatus ? 'Ativo' : 'Inativo'
-      badge.className = `status-badge ${novoStatus ? 'ativo' : 'inativo'}`
+      badge.textContent = novoStatus === 1 ? 'Ativo' : 'Inativo'
+      badge.className = `status-badge ${novoStatus === 1 ? 'ativo' : 'inativo'}`
     }
   } catch (err) {
     console.error('Erro ao alterar status:', err)
@@ -355,7 +347,7 @@ async function init() {
 function verificar401(res) {
   if (res.status == 401) {
     localStorage.removeItem('token')
-    window.location.href = 'index.html'
+    window.location.href = '../../index.html'
     throw new Error('Não autorizado')
   }
 }

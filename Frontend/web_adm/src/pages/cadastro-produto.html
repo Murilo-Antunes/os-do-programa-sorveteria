@@ -14,19 +14,19 @@
   />
 
   <!-- CSS separado por responsabilidade -->
-    <link rel="stylesheet" href="src/css/cadastro-produto/reset.css"  />
-    <link rel="stylesheet" href="src/css/cadastro-produto/layout.css" />
-    <link rel="stylesheet" href="src/css/cadastro-produto/chips.css"  />
-    <link rel="stylesheet" href="src/css/cadastro-produto/upload.css" />
-    <link rel="stylesheet" href="src/css/cadastro-produto/modal.css"  />
-    <link rel="stylesheet" href="src/css/cadastro-produto/produto.css" />
-    <link rel="stylesheet" href="src/css/style.css">
-    <link rel="stylesheet" href="./src/css/skeleton-loading.css">
+    <link rel="stylesheet" href="../css/cadastro-produto/reset.css"  />
+    <link rel="stylesheet" href="../css/cadastro-produto/layout.css" />
+    <link rel="stylesheet" href="../css/cadastro-produto/chips.css"  />
+    <link rel="stylesheet" href="../css/cadastro-produto/upload.css" />
+    <link rel="stylesheet" href="../css/cadastro-produto/modal.css"  />
+    <link rel="stylesheet" href="../css/cadastro-produto/produto.css" />
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/skeleton-loading.css">
 
   <!--JAVASCRIPT-->
-    <script src="src/js/cadastro-produto/app.js" defer type="module"  ></script>
-    <script src="src/js/cadastro-produto/modal.js" defer type="module"></script>
-    <script src="src/js/aside.js" defer></script>
+    <script src="../js/cadastro-produto/app.js" defer type="module"  ></script>
+    <script src="../js/cadastro-produto/modal.js" defer type="module"></script>
+    <script src="../js/aside.js" defer></script>
 </head>
 <body>
 
@@ -35,21 +35,21 @@
     <!--ASIDE VEM AQUI-->
   <aside class="aside">
     <div class="sidebar-titulo">
-      <img class="logo-sorvetudos" src="./src/img/Sorvetudos.png" alt="">
+      <img class="logo-sorvetudos" src="../img/Sorvetudos.png" alt="">
       Sorvetudos
     </div>
 
     <ul class="sidebar-nave">
-      <li><a href="dashboard.html"><i class="nave-icone"><img class="logo-dashboard" src="./src/img/Dashboard.png" alt=""></i> Dashboard</a></li>
-      <li><a href="usuarios.html"><i class="nave-icone"><img class="logo-usuarios" src="./src/img/Usuarios.png" alt=""></i> Usuários</a></li>
-      <li><a href="cadastro-produto.html"><i class="nave-icone"><img class="logo-novo-produto" src="./src/img/Novo Produto.png" alt=""></i> Novo Produto</a></li>
+      <li><a href="dashboard.html"><i class="nave-icone"><img class="logo-dashboard" src="../img/Dashboard.png" alt=""></i> Dashboard</a></li>
+      <li><a href="usuarios.html"><i class="nave-icone"><img class="logo-usuarios" src="../img/Usuarios.png" alt=""></i> Usuários</a></li>
+      <li><a href="cadastro-produto.html"><i class="nave-icone"><img class="logo-novo-produto" src="../img/Novo Produto.png" alt=""></i> Novo Produto</a></li>
     </ul>
 
     <div class="sidebar-space"></div>
 
     <div class="sidebar-exit">
-      <a href="index.html">
-        <i class="nave-icone"><img class="logo-sair" src="./src/img/Sair.png" alt=""></i>
+      <a href="../../index.html">
+        <i class="nave-icone"><img class="logo-sair" src="../img/Sair.png" alt=""></i>
         Sair
       </a>
     </div>
@@ -62,7 +62,6 @@
       <span class="secao-label">Imagem</span>
       
         <div class="dropzone" id="dropzone" title="Clique ou arraste uma imagem aqui">
-          <div class="fora">
           <input type="file" id="input-arquivo" accept="image/*" style="display:none" />
           
           <div class="upload-placeholder" id="upload-placeholder">
@@ -73,7 +72,6 @@
           </svg>
           <span>Carregue a imagem aqui</span>
         </div>
-      </div>
         <img id="imagem-preview" class="imagem-preview" alt="Preview do produto" />
 
         <button class="btn-remover-imagem" id="btn-remover-imagem" title="Remover imagem" aria-label="Remover imagem">✕</button>

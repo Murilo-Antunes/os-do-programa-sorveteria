@@ -65,7 +65,6 @@ async function fetchProdutosFiltrados() {
     if (params.toString() === "") {
       return window.PRODUTOS;
     }
-    console.log(params.toString())
 
     const res = await fetch(`${BASE_URL}/produtos/filtro?${params.toString()}`);
 
