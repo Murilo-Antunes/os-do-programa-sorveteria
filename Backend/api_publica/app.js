@@ -35,7 +35,6 @@ app.use(cors(corsOptions))
 const categoriaRouter = require('./routes/categoria.routes.js')
 const ingredienteRouter = require('./routes/ingrediente.routes.js')
 const produtoRouter = require('./routes/produto.routes.js')
-const promocaoRouter = require('./routes/promocao.routes.js')
 const saborRouter = require('./routes/sabor.routes.js')
 const tagRouter = require('./routes/tag.routes.js')
 const tamanhoRouter = require('./routes/tamanho.routes.js')
@@ -57,9 +56,6 @@ app.use('/v1/sorvetudos/catalogo/ingredientes', cors(),  ingredienteRouter)
 // produto
 app.use('/v1/sorvetudos/catalogo/produtos', cors(),  produtoRouter)
 
-// promocao
-app.use('/v1/sorvetudos/catalogo/promocoes', cors(),  promocaoRouter)
-
 // sabor
 app.use('/v1/sorvetudos/catalogo/sabores', cors(),  saborRouter)
 
@@ -68,7 +64,6 @@ app.use('/v1/sorvetudos/catalogo/tags', cors(),  tagRouter)
 
 // tamanho
 app.use('/v1/sorvetudos/catalogo/tamanhos', cors(),   tamanhoRouter)
-
 
 // Iniciando o Servidor
 app.listen(port, () => {

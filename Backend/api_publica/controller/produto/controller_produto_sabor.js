@@ -8,47 +8,6 @@
 const config_message = require('../module/configMessages.js')
 const produtoSaborDAO = require('../../model/DAO/produto_sabor/produto_sabor.js')
 
-// inserir novo produtoSabor
-const inserirNovoProdutoSabor = async (produtoSabor, contentType) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-    try {
-
-        let validar = await validarDados(produtoSabor, contentType)
-        if(validar) return validar
-
-        let result = await produtoSaborDAO.insertProdutoSabor(produtoSabor)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL
-
-        produtoSabor.id = result
-        return await montarMensagem(message, message.SUCESS_CREATED_ITEM, produtoSabor)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER
-}
-
-// atualizar produtoSabor
-const atualizarProdutoSabor = async (produtoSabor, id, contentType) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    try {
-        let validar = await validarDados(produtoSabor, contentType)
-        if(validar) return validar
-
-        let resultBuscarId = await buscarProdutoSabor(id)
-        if(!resultBuscarId.status) return resultBuscarId // 400 e 404
-
-        produtoSabor.id = Number(id)
-        let result = await produtoSaborDAO.updateProdutoSabor(produtoSabor)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL // 500
-
-        return await montarMensagem(message, message.SUCESS_UPDATE_ITEM, produtoSabor)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
-}
-
 // listar todas produtoSabores
 const listarProdutoSabor = async () => {
     let message = JSON.parse(JSON.stringify(config_message))
@@ -86,25 +45,6 @@ const buscarProdutoSabor = async (id) => {
         if(result.length < 1) return config_message.ERROR_NOT_FOUND
 
         return await montarMensagem(message, message.SUCESS_RESPONSE, result)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
-}
-
-// excluir produtoSabor pelo id
-const excluirProdutoSabor = async (id) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    try {
-
-        let resultBuscarId = await buscarProdutoSabor(id)
-        if(!resultBuscarId.status) return resultBuscarId // 400 e 404
-
-        let result = await produtoSaborDAO.deleteProdutoSabor(id)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL // 500
-
-        return await montarMensagem(message, message.SUCESS_DELETE_ITEM)
 
     } catch (error) {console.log(error)}
     return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
@@ -152,45 +92,11 @@ const buscarSaboresIdProduto = async (idProduto) => {
     return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
 }
 
-// excluir sabores relacionados ao produto
-const excluirSaboresIdProduto = async (idProduto) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    try {
-        let result = await produtoSaborDAO.deleteSaboresByIdProduto(idProduto)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL // 500
-
-        return await montarMensagem(message, message.SUCESS_DELETE_ITEM)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
-}
-
 const validarId = async (id) => {
     let message = JSON.parse(JSON.stringify(config_message))
     
     if(id == undefined || id == '' || id == null || id <= 0 || isNaN(id)){
         message.ERROR_BAD_REQUEST.field = '[ID] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST // 400
-    }
-
-    return false
-}
-
-const validarDados = async (produtoSabor, contentType) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-     // Valida se o formato de dados é JSON
-    if(String(contentType).toLowerCase() != 'application/json') return message.ERROR_CONTENT_TYPE // Status code 415
-    
-    if(produtoSabor.id_produto == undefined || produtoSabor.id_produto == '' || produtoSabor.id_produto == null || produtoSabor.id_produto <= 0 || isNaN(produtoSabor.id_produto)){
-        message.ERROR_BAD_REQUEST.field = '[ID_PRODUTO] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST // 400
-    }
-
-    if(produtoSabor.id_sabor == undefined || produtoSabor.id_sabor == '' || produtoSabor.id_sabor == null || produtoSabor.id_sabor <= 0 || isNaN(produtoSabor.id_sabor)){
-        message.ERROR_BAD_REQUEST.field = '[ID_SABOR] INVÁLIDO'
         return message.ERROR_BAD_REQUEST // 400
     }
 
@@ -208,12 +114,8 @@ const montarMensagem = async (base,status,response = null) => {
 }
 
 module.exports = {
-    inserirNovoProdutoSabor,
-    atualizarProdutoSabor,
     listarProdutoSabor,
     buscarProdutoSabor,
-    excluirProdutoSabor,
     buscarProdutosIdSabor,
-    buscarSaboresIdProduto,
-    excluirSaboresIdProduto
+    buscarSaboresIdProduto
 }

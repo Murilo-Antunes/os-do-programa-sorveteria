@@ -9,37 +9,6 @@ const knex = require('knex')
 const knexConfig = require('../../database_config_knex/knexFile.js')
 const knexConex = knex(knexConfig.development)
 
-// insert de produtoCategoria
-const insertProdutoCategoria = async (produtoCategoria) => {
-    let sql = `INSERT INTO tbl_produto_categoria (id_produto, id_categoria)
-               VALUES (${produtoCategoria.id_produto}, ${produtoCategoria.id_categoria})`
-
-    try {
-        let response = await knexConex.raw(sql)
-
-        if(response) return response[0].insertId 
-
-    } catch (error) {}
-
-    return false
-}
-
-// update de produtoCategoria
-const updateProdutoCategoria = async (produtoCategoria) => {
-    let sql = `UPDATE tbl_produto_categoria
-               SET id_produto  = ${produtoCategoria.id_produto},
-                   id_categoria = ${produtoCategoria.id_categoria}
-               WHERE id = ${produtoCategoria.id}`
-    try {
-        let response = await knexConex.raw(sql)
-
-        if(response) return response
-
-    } catch (error) {}
-
-    return false
-}
-
 // select de todas produtoCategorias
 const selectAllProdutoCategoria = async () => {
     let sql = `SELECT * FROM tbl_produto_categoria ORDER BY id DESC`
@@ -62,20 +31,6 @@ const selectByIdProdutoCategoria = async (id) => {
 
         if(response) return response[0]
         
-    } catch (error) {}
-
-    return false
-}
-
-// delete de produtoCategoria
-const deleteProdutoCategoria = async (id) => {
-    let sql = `DELETE FROM tbl_produto_categoria
-               WHERE id = ${id}`
-    try {
-        let response = await knexConex.raw(sql)
-
-        if(response) return response
- 
     } catch (error) {}
 
     return false
@@ -119,27 +74,9 @@ const selectCategoriasByIdProduto = async (idProduto) => {
     return false
 }
 
-// função para excluir os categoriaes filtrando pelos Id do produto
-const deleteCategoriasByIdProduto = async (idProduto) => {
-    let sql = `DELETE FROM tbl_produto_categoria
-               WHERE id_produto = ${idProduto}`
-    try {
-        let response = await knexConex.raw(sql)
-
-        if(response) return response
- 
-    } catch (error) {console.log(error)}
-
-    return false
-}
-
 module.exports = {
-    insertProdutoCategoria,
-    updateProdutoCategoria,
     selectAllProdutoCategoria,
     selectByIdProdutoCategoria,
-    deleteProdutoCategoria,
     selectProdutosByIdCategoria,
-    selectCategoriasByIdProduto,
-    deleteCategoriasByIdProduto
+    selectCategoriasByIdProduto
 }

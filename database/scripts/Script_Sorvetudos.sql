@@ -39,30 +39,11 @@ CREATE TABLE IF NOT EXISTS tbl_sabor (
     sabor VARCHAR(50) NOT NULL
 );
 
-# ------------------- PROMOCAO --------------------
-# cria tabela tbl_promocao
-CREATE TABLE IF NOT EXISTS tbl_promocao (
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    valor_atual DECIMAL(5,2) NOT NULL,
-    valor_promocao DECIMAL(5,2) NOT NULL,
-    status TINYINT NOT NULL
-);
-
 # ------------------- TAMANHO --------------------
 # cria tabela tbl_tamanho
 CREATE TABLE IF NOT EXISTS tbl_tamanho (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     tamanho VARCHAR(10) NOT NULL
-);
-
-# ------------------- LOTE --------------------
-# cria tabela tbl_lote
-CREATE TABLE IF NOT EXISTS tbl_lote (
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    numero INT NOT NULL,
-    data_fabricacao DATE NOT NULL,
-    data_validade DATE NOT NULL,
-    quantidade INT NOT NULL
 );
 
 # ------------------- INGREDIENTE --------------------
@@ -115,24 +96,6 @@ CREATE TABLE IF NOT EXISTS tbl_produto_sabor (
     ON DELETE CASCADE
 );
 
-# ------------------- PRODUTO PROMOCAO --------------------
-# cria tabela tbl_produto_promocao
-CREATE TABLE IF NOT EXISTS tbl_produto_promocao (
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    id_promocao INT NOT NULL,
-    id_produto INT NOT NULL,
-
-    CONSTRAINT FK_PROMOCAO_PRODUTOPROMOCAO
-    FOREIGN KEY (id_promocao)
-    REFERENCES tbl_promocao (id)
-    ON DELETE CASCADE,
-
-    CONSTRAINT FK_PRODUTO_PRODUTOPROMOCAO
-    FOREIGN KEY (id_produto)
-    REFERENCES tbl_produto (id)
-    ON DELETE CASCADE
-);
-
 # ------------------- PRODUTO TAMANHO --------------------
 # cria tabela tbl_produto_tamanho
 CREATE TABLE IF NOT EXISTS tbl_produto_tamanho (
@@ -146,25 +109,6 @@ CREATE TABLE IF NOT EXISTS tbl_produto_tamanho (
     ON DELETE CASCADE,
 
     CONSTRAINT FK_PRODUTO_PRODUTOTAMANHO
-    FOREIGN KEY (id_produto)
-    REFERENCES tbl_produto (id)
-    ON DELETE CASCADE
-);
-
-
-# ------------------- PRODUTO LOTE --------------------
-# cria tabela tbl_produto_lote
-CREATE TABLE IF NOT EXISTS tbl_produto_lote (
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    id_lote INT NOT NULL,
-    id_produto INT NOT NULL,
-
-    CONSTRAINT FK_LOTE_PRODUTOLOTE
-    FOREIGN KEY (id_lote)
-    REFERENCES tbl_lote (id)
-    ON DELETE CASCADE,
-
-    CONSTRAINT FK_PRODUTO_PRODUTOLOTE
     FOREIGN KEY (id_produto)
     REFERENCES tbl_produto (id)
     ON DELETE CASCADE
@@ -205,51 +149,3 @@ CREATE TABLE IF NOT EXISTS tbl_produto_tag (
     REFERENCES tbl_produto (id)
     ON DELETE CASCADE
 );
-
-SELECT *
-FROM tbl_produto_tag;
-
-SELECT *
-FROM tbl_produto_ingrediente;
-
-SELECT *
-FROM tbl_produto_lote;
-
-SELECT *
-FROM tbl_produto_tamanho;
-
-SELECT *
-FROM tbl_produto_promocao;
-
-SELECT *
-FROM tbl_produto_sabor;
-
-SELECT *
-FROM tbl_produto_categoria;
-
-SELECT *
-FROM tbl_tag;
-
-SELECT *
-FROM tbl_ingrediente;
-
-SELECT *
-FROM tbl_lote;
-
-SELECT *
-FROM tbl_tamanho;
-
-SELECT *
-FROM tbl_promocao;
-
-SELECT *
-FROM tbl_sabor;
-
-SELECT *
-FROM tbl_categoria;
-
-SELECT *
-FROM tbl_usuario;
-
-SELECT *
-FROM tbl_produto;

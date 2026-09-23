@@ -1,4 +1,4 @@
-const BASE_URL = 'https://backend-adm-sorvetudos.onrender.com/v1/sorvetudos/admin'
+const BASE_URL = 'http://localhost:8080/v1/sorvetudos/admin'
 let token = localStorage.getItem('token')
 
 function formatarBRL(valor) {
@@ -126,7 +126,10 @@ async function toggleStatus(id, lista) {
   // sempre number, nunca string — evita bug de truthiness e de comparação
   const novoStatus = Number(produto.status) === 1 ? 0 : 1
 
+  const buttonInicio = document.querySelector(`button[data-id="${produto.id}"]`)
   try {
+    iniciarLoadingBotao(buttonInicio)
+
     let formData = criarFormData(produto, novoStatus)
 
     const OPTIONS = {
@@ -140,6 +143,8 @@ async function toggleStatus(id, lista) {
     let res = await fetch(`${BASE_URL}/produtos/${id}`, OPTIONS)
 
     verificar401(res)
+
+    finalizarLoadingBotao(buttonInicio)
 
     let data = await res.json()
 
@@ -155,6 +160,18 @@ async function toggleStatus(id, lista) {
   } catch (err) {
     console.error('Erro ao alterar status:', err)
   }
+}
+
+const iniciarLoadingBotao = (button) => {
+  if (!button) return
+  button.disabled = true
+  button.classList.add('btn-loading')
+}
+
+const finalizarLoadingBotao = (button) => {
+  if (!button) return
+  button.disabled = false
+  button.classList.remove('btn-loading')
 }
 
 const criarFormData = (produto, novoStatus) => {

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://backend-adm-sorvetudos.onrender.com/v1/sorvetudos/admin'
+export const BASE_URL = 'http://localhost:8080/v1/sorvetudos/admin'
 
 export let SABORES = [];
 export let CATEGORIAS = [];
@@ -146,7 +146,7 @@ export const cadastrarProduto = async (formData) =>{
     verificar401(response)
 
     let data = await response.json()
-    window.location.href = 'dashboard.html'
+
     return data
   } catch (err) {
     console.error('Erro ao cadastrar produto:', err)

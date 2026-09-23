@@ -11,8 +11,6 @@ const UPLOAD = require('../upload/controller_upload_azure.js')
 // import das controllers
 const controllerProdutoCategoria = require('./controller_produto_categoria.js')
 const controllerProdutoIngrediente = require('./controller_produto_ingrediente.js')
-const controllerProdutoLote = require('./controller_produto_lote.js')
-const controllerProdutoPromocao = require('./controller_produto_promocao.js')
 const controllerProdutoSabor = require('./controller_produto_sabor.js')
 const controllerProdutoTag = require('./controller_produto_tag.js')
 const controllerProdutoTamanho = require('./controller_produto_tamanho.js')
@@ -53,24 +51,6 @@ const inserirNovoProduto = async (produto, foto) => {
             let resultInsertIngrediente = await controllerProdutoIngrediente.inserirNovoProdutoIngrediente(produtoIngrediente, 'application/json')
 
             if(!resultInsertIngrediente.status)  return message.SUCESS_CREATED_ITEM_WARNING // 201
-        }
-
-        // Manipulação de dados para inserir os lotes no produto
-        for(lote of produto.lote){
-            let produtoLote = { "id_produto": produto.id, "id_lote": lote.id}
-
-            let resultInsertLote = await controllerProdutoLote.inserirNovoProdutoLote(produtoLote, 'application/json')
-
-            if(!resultInsertLote.status)  return message.SUCESS_CREATED_ITEM_WARNING // 201
-        }
-
-        // Manipulação de dados para inserir as promoções no produto
-        for(promocao of produto.promocao){
-            let produtoPromocao = { "id_produto": produto.id, "id_promocao": promocao.id}
-
-            let resultInsertPromocao = await controllerProdutoPromocao.inserirNovoProdutoPromocao(produtoPromocao, 'application/json')
-
-            if(!resultInsertPromocao.status)  return message.SUCESS_CREATED_ITEM_WARNING // 201
         }
 
         // Manipulação de dados para inserir os sabores no produto
@@ -157,32 +137,6 @@ const atualizarProduto = async (produto, id, foto, contentType) => {
             }
         }
 
-        // Exclui e recria lotes
-        let resultDeleteLote = await controllerProdutoLote.excluirLotesIdProduto(produto.id)
-
-        if(resultDeleteLote.status){
-            for(lote of produto.lote){
-                let produtoLote = { "id_produto": produto.id, "id_lote": lote.id}
-
-                let resultInsertLote = await controllerProdutoLote.inserirNovoProdutoLote(produtoLote, 'application/json')
-                
-                if(!resultInsertLote.status)  return message.SUCESS_CREATED_ITEM_WARNING
-            }
-        }
-
-        // Exclui e recria promoções
-        let resultDeletePromocao = await controllerProdutoPromocao.excluirPromocoesIdProduto(produto.id)
-
-        if(resultDeletePromocao.status){
-            for(promocao of produto.promocao){
-                let produtoPromocao = { "id_produto": produto.id, "id_promocao": promocao.id}
-
-                let resultInsertPromocao = await controllerProdutoPromocao.inserirNovoProdutoPromocao(produtoPromocao, 'application/json')
-                
-                if(!resultInsertPromocao.status)  return message.SUCESS_CREATED_ITEM_WARNING
-            }
-        }
-
         // Exclui e recria sabores
         let resultDeleteSabor = await controllerProdutoSabor.excluirSaboresIdProduto(produto.id)
 
@@ -252,16 +206,6 @@ const listarProduto = async () => {
                 produto.ingrediente = ingrediente.response.produtoIngrediente
             }
 
-            let lote = await controllerProdutoLote.buscarLotesIdProduto(produto.id)
-            if(lote.status){
-                produto.lote = lote.response.produtoLote
-            }
-
-            let promocao = await controllerProdutoPromocao.buscarPromocoesIdProduto(produto.id)
-            if(promocao.status){
-                produto.promocao = promocao.response.produtoPromocao
-            }
-
             let sabor = await controllerProdutoSabor.buscarSaboresIdProduto(produto.id)
             if(sabor.status){
                 produto.sabor = sabor.response.produtoSabor
@@ -311,16 +255,6 @@ const buscarProduto = async (id) => {
             let ingrediente = await controllerProdutoIngrediente.buscarIngredientesIdProduto(produto.id)
             if(ingrediente.status){
                 produto.ingrediente = ingrediente.response.produtoIngrediente
-            }
-
-            let lote = await controllerProdutoLote.buscarLotesIdProduto(produto.id)
-            if(lote.status){
-                produto.lote = lote.response.produtoLote
-            }
-
-            let promocao = await controllerProdutoPromocao.buscarPromocoesIdProduto(produto.id)
-            if(promocao.status){
-                produto.promocao = promocao.response.produtoPromocao
             }
 
             let sabor = await controllerProdutoSabor.buscarSaboresIdProduto(produto.id)
@@ -399,16 +333,6 @@ const validarDados = async (produto, contentType) => {
 
     if(!Array.isArray(produto.ingrediente)){
         message.ERROR_BAD_REQUEST.field = '[INGREDIENTE] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST // 400
-    }
-
-    if(!Array.isArray(produto.lote)){
-        message.ERROR_BAD_REQUEST.field = '[LOTE] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST // 400
-    }
-
-    if(!Array.isArray(produto.promocao)){
-        message.ERROR_BAD_REQUEST.field = '[PROMOÇÃO] INVÁLIDA'
         return message.ERROR_BAD_REQUEST // 400
     }
 

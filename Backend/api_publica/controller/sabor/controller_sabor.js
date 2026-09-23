@@ -8,46 +8,6 @@
 const config_message = require('../module/configMessages.js')
 const saborDAO = require('../../model/DAO/sabor/sabor.js')
 
-// inserir nova sabor
-const inserirNovoSabor = async (sabor, contentType) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-    try {
-        let validar = await validarDados(sabor, contentType)
-        if(validar) return validar // 400 ou 415
-
-        let result = await saborDAO.insertSabor(sabor)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL
-
-        sabor.id = result
-        return await montarMensagem(message, message.SUCESS_CREATED_ITEM, sabor)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER
-}
-
-// atualizar sabor
-const atualizarSabor = async (sabor, id, contentType) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    try {
-        let validar = await validarDados(sabor, contentType)
-        if(validar) return validar // 400 ou 415
-
-        let resultBuscarId = await buscarSabor(id)
-        if(!resultBuscarId.status) return resultBuscarId // 400 e 404
-
-        sabor.id = Number(id)
-        let result = await saborDAO.updateSabor(sabor)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL // 500
-
-        return await montarMensagem(message, message.SUCESS_UPDATE_ITEM, sabor)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
-}
-
 // listar todas sabors
 const listarSabor = async () => {
     let message = JSON.parse(JSON.stringify(config_message))
@@ -90,39 +50,6 @@ const buscarSabor = async (id) => {
     return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
 }
 
-// excluir sabor pelo id
-const excluirSabor = async (id) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    try {
-
-        let resultBuscarId = await buscarSabor(id)
-        if(!resultBuscarId.status) return resultBuscarId // 400 e 404
-
-        let result = await saborDAO.deleteSabor(id)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL // 500
-
-        return await montarMensagem(message, message.SUCESS_DELETE_ITEM)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
-}
-
-const validarDados = async (sabor, contentType) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    // Valida se o formato de dados é JSON
-    if(String(contentType).toLowerCase() != 'application/json') return message.ERROR_CONTENT_TYPE // Status code 415
-
-    if(sabor.sabor == undefined || sabor.sabor == null || sabor.sabor == '' || sabor.sabor.length > 50 || typeof(sabor.sabor) != 'string'){
-        message.ERROR_BAD_REQUEST.field = '[SABOR] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST // 400
-    }
-
-    return false
-}
-
 const validarId = async (id) => {
     let message = JSON.parse(JSON.stringify(config_message))
     
@@ -146,9 +73,6 @@ const montarMensagem = async (base,status,response = null) => {
 
 
 module.exports = {
-    inserirNovoSabor,
-    atualizarSabor,
     listarSabor,
-    buscarSabor,
-    excluirSabor
+    buscarSabor
 }

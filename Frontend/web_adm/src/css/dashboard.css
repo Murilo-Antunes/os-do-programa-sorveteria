@@ -218,6 +218,14 @@ body {
   align-items: center;
 }
 
+.btn-loading {
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Coluna Categorias*/
 .categoria {
   display: inline-block;

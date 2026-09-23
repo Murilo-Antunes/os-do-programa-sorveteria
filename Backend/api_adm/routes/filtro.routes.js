@@ -29,9 +29,7 @@ router.get('/', async (req,res) => {
         idProduto     : req.query.id_produto || null,
         idCategoria   : req.query.id_categoria || null,
         idSabor       : req.query.id_sabor || null,
-        idPromocao    : req.query.id_promocao || null,
         idTamanho     : req.query.id_tamanho || null,
-        idLote        : req.query.id_lote || null,
         idIngrediente : req.query.id_ingrediente || null,
         idTag         : req.query.id_tag || null
     }

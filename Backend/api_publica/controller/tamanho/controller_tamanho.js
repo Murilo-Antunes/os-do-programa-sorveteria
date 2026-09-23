@@ -8,46 +8,6 @@
 const config_message = require('../module/configMessages.js')
 const tamanhoDAO = require('../../model/DAO/tamanho/tamanho.js')
 
-// inserir nova tamanho
-const inserirNovoTamanho = async (tamanho, contentType) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-    try {
-        let validar = await validarDados(tamanho, contentType)
-        if(validar) return validar // 400 ou 415
-
-        let result = await tamanhoDAO.insertTamanho(tamanho)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL
-
-        tamanho.id = result
-        return await montarMensagem(message, message.SUCESS_CREATED_ITEM, tamanho)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER
-}
-
-// atualizar tamanho
-const atualizarTamanho = async (tamanho, id, contentType) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    try {
-        let validar = await validarDados(tamanho, contentType)
-        if(validar) return validar // 400 ou 415
-
-        let resultBuscarId = await buscarTamanho(id)
-        if(!resultBuscarId.status) return resultBuscarId // 400 e 404
-
-        tamanho.id = Number(id)
-        let result = await tamanhoDAO.updateTamanho(tamanho)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL // 500
-
-        return await montarMensagem(message, message.SUCESS_UPDATE_ITEM, tamanho)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
-}
-
 // listar todas tamanhos
 const listarTamanho = async () => {
     let message = JSON.parse(JSON.stringify(config_message))
@@ -90,39 +50,6 @@ const buscarTamanho = async (id) => {
     return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
 }
 
-// excluir tamanho pelo id
-const excluirTamanho = async (id) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    try {
-
-        let resultBuscarId = await buscarTamanho(id)
-        if(!resultBuscarId.status) return resultBuscarId // 400 e 404
-
-        let result = await tamanhoDAO.deleteTamanho(id)
-
-        if(!result) return message.ERROR_INTERNAL_SERVER_MODEL // 500
-
-        return await montarMensagem(message, message.SUCESS_DELETE_ITEM)
-
-    } catch (error) {console.log(error)}
-    return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
-}
-
-const validarDados = async (tamanho, contentType) => {
-    let message = JSON.parse(JSON.stringify(config_message))
-
-    // Valida se o formato de dados é JSON
-    if(String(contentType).toLowerCase() != 'application/json') return message.ERROR_CONTENT_TYPE // Status code 415
-
-    if(tamanho.tamanho == undefined || tamanho.tamanho == null || tamanho.tamanho == '' || tamanho.tamanho.length > 10 || typeof(tamanho.tamanho) != 'string'){
-        message.ERROR_BAD_REQUEST.field = '[TAMANHO] INVÁLIDO'
-        return message.ERROR_BAD_REQUEST // 400
-    }
-
-    return false
-}
-
 const validarId = async (id) => {
     let message = JSON.parse(JSON.stringify(config_message))
     
@@ -145,9 +72,6 @@ const montarMensagem = async (base,status,response = null) => {
 }
 
 module.exports = {
-    inserirNovoTamanho,
-    atualizarTamanho,
     listarTamanho,
-    buscarTamanho,
-    excluirTamanho
+    buscarTamanho
 }

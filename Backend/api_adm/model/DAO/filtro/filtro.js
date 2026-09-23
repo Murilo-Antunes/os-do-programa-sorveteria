@@ -14,9 +14,7 @@ const selectByFiltro = async (filtro) => {
     let sql = `call filtro( ${filtro.idProduto},
                             ${filtro.idCategoria},
                             ${filtro.idSabor},
-                            ${filtro.idPromocao},
                             ${filtro.idTamanho},
-                            ${filtro.idLote},
                             ${filtro.idIngrediente},
                             ${filtro.idTag})`
     try {

@@ -144,6 +144,7 @@ const chamarCadastro = async () => {
     alert('Erro ao cadastrar produto. Tente novamente.')
   } finally {
     finalizarLoadingBotao()
+    window.location.href = '../../src/pages/dashboard.html'
   }
 }
 
